@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /mnt/d/projects/global_festival -name *.test.* -o -name *.spec.* -o -name jest.config.* -o -name vitest.config.*)"
+    ]
+  }
+}

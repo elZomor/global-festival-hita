@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer base {
+  * {
+    @apply transition-colors duration-300;
+  }
+
+  body {
+    @apply font-sans antialiased;
+  }
+
+  a {
+    @apply transition-colors duration-300;
+  }
+
+  a:hover,
+  a:focus-visible {
+    color: theme('colors.accent.600') !important;
+  }
+
+  .dark a:hover,
+  .dark a:focus-visible {
+    color: theme('colors.accent.400') !important;
+  }
+
+  [dir="rtl"] {
+    font-family: var(--font-arabic), Georgia, serif;
+  }
+}
+
+.seat-map-scroll::-webkit-scrollbar {
+  height: 6px;
+  display: block;
+}
+.seat-map-scroll::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+}
+.seat-map-scroll::-webkit-scrollbar-thumb {
+  background: rgba(251, 191, 36, 0.5);
+  border-radius: 3px;
+}
+.seat-map-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(251, 191, 36, 0.5) rgba(255, 255, 255, 0.05);
+}
+
+@layer utilities {
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fadeIn {
+    animation: fadeIn 0.3s ease-out;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-md font-medium transition-all duration-200;
+  }
+
+  .btn-primary {
+    @apply btn bg-accent-500 text-white font-bold hover:bg-secondary-400;
+  }
+
+  .btn-secondary {
+    @apply btn bg-secondary-600 text-white hover:bg-secondary-700;
+  }
+
+  .btn-accent {
+    @apply btn bg-accent-500 text-white hover:bg-accent-600;
+  }
+
+  .btn-outline {
+    @apply btn border border-primary-600 text-primary-600 hover:bg-primary-50;
+  }
+}

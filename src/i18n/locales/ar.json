@@ -1,0 +1,292 @@
+{
+  "auth": {
+    "signIn": "تسجيل الدخول",
+    "signInWithGoogle": "الدخول بحساب Google",
+    "signOut": "تسجيل الخروج",
+    "signInToReserve": "يرجى تسجيل الدخول بحسابك على Google لإتمام الحجز.",
+    "unsupportedBrowser": "متصفح غير مدعوم",
+    "unsupportedBrowserMsg": "تسجيل الدخول عبر Google لا يعمل داخل المتصفح المدمج. يرجى فتح الصفحة في متصفح الجهاز.",
+    "openInBrowser": "فتح في المتصفح"
+  },
+  "nav": {
+    "home": "الرئيسية",
+    "editions": "دورات المهرجان",
+    "articles": "المقالات",
+    "creativity": "إبداع الطلاب",
+    "about": "عن المهرجان"
+  },
+  "home": {
+    "title": "المهرجان العربي",
+    "subtitle": "المعهد العالي للفنون المسرحية",
+    "tagline": "أرشيف نقدي وتوثيقي شامل للمهرجان العربي عبر السنوات",
+    "currentEdition": "اذهب إلى دورة هذا العام",
+    "browseArticles": "تصفح المقالات",
+    "editionsTitle": "دورات المهرجان",
+    "latestArticles": "آخر المقالات",
+    "creativityTitle": "إبداع الطلاب",
+    "creativityText": "مساحة مفتوحة لإبداعات الطلاب خلال المهرجان من قصص ومقالات نقدية وقصائد",
+    "exploreCreativity": "استكشف الإبداعات"
+  },
+  "festival": {
+    "info": "معلومات",
+    "shows": "العروض",
+    "articles": "المقالات",
+    "symposia": "الندوات",
+    "creativity": "إبداع الطلاب",
+    "numberOfShows": "عرض",
+    "numberOfArticles": "مقال",
+    "filterByDate": "تصفية حسب التاريخ",
+    "filterByVenue": "تصفية حسب المكان",
+    "filterByCountry": "تصفية حسب الدولة",
+    "allDates": "كل التواريخ",
+    "allVenues": "كل الأماكن",
+    "allCountries": "كل الدول",
+    "todayShow": "عرض اليوم",
+    "basicInfo": "المعلومات الأساسية",
+    "organizer": "الجهة المنظمة",
+    "startDate": "تاريخ البداية",
+    "endDate": "تاريخ النهاية",
+    "organizingTeam": "هيكل المهرجان",
+    "juryList": "لجنة التحكيم",
+    "awards": "الجوائز",
+    "additionalInfo": "معلومات إضافية",
+    "poster": "ملصق المهرجان",
+    "additionalSections": "أقسام المعلومات الإضافية",
+    "noAdditionalInfo": "لا توجد معلومات إضافية متاحة لهذه الدورة من المهرجان."
+  },
+  "show": {
+    "reserve_waiting_list": "حجز في قائمة الانتظار",
+    "complete": "اكتمل الحجز",
+    "bookTicket": "احجز تذكرتك",
+    "director": "المخرج",
+    "for_director": "للمخرج",
+    "dramaturg": "الدراماتورج",
+    "cast": "التمثيل",
+    "group": "الفرقة",
+    "country": "الدولة",
+    "dateTime": "التاريخ والوقت",
+    "venue": "المكان",
+    "synopsis": "نبذة عن العرض",
+    "criticalArticles": "مقالات نقدية عن العرض",
+    "symposium": "الندوة النقدية",
+    "viewDetails": "عرض التفاصيل",
+    "reserve": "حجز",
+    "today": "النهارده",
+    "available": "قريباً",
+    "finished": "اتعرضت ✔",
+    "tabs": {
+      "info": "معلومات",
+      "articles": "مقالات",
+      "symposia": "ندوات",
+      "comments": "تعليقات"
+    },
+    "noArticles": "لا توجد مقالات مرتبطة بعد.",
+    "noSymposia": "لا توجد ندوات مرتبطة.",
+    "commentsComingSoon": "سيتم إتاحة التعليقات قريباً.",
+    "statusLabel": "الحالة",
+    "eventLink": "لينك الإيفنت",
+    "openEventLink": "افتح لينك العرض",
+    "noEventLink": "لا يوجد رابط",
+    "festivalName": "اسم المهرجان",
+    "authorLabel": "المؤلف",
+    "viewMap": "اعرض الخريطة",
+    "nightsLabel": "ليالي العرض",
+    "dateLabel": "التاريخ",
+    "timeLabel": "الوقت",
+    "timeTBD": "يحدد لاحقاً",
+    "festivalFallback": "مهرجان الدورة {{year}}",
+    "unknownFestival": "بيانات المهرجان غير متاحة",
+    "notAvailable": "غير متوفر",
+    "sections": {
+      "actors": "التمثيل",
+      "crew": "فريق العمل",
+      "additional": "معلومات إضافية",
+      "synopsis": "نبذة عن العرض"
+    },
+    "comments": {
+      "title": "التعليقات",
+      "placeholder": "اكتب تعليقك هنا...",
+      "submit": "إرسال",
+      "submitting": "جاري الإرسال...",
+      "success": "تم إرسال تعليقك للمراجعة",
+      "errorSubmitting": "فشل إرسال التعليق. حاول مرة أخرى.",
+      "errorLoading": "فشل تحميل التعليقات. حاول مرة أخرى لاحقاً.",
+      "noComments": "لا توجد تعليقات بعد. كن أول من يعلق!"
+    }
+  },
+  "articles": {
+    "title": "المقالات",
+    "filterByYear": "تصفية حسب السنة",
+    "filterByShow": "تصفية حسب العرض",
+    "filterByType": "تصفية حسب النوع",
+    "allYears": "كل السنوات",
+    "allShows": "كل العروض",
+    "allTypes": "كل الأنواع",
+    "types": {
+      "review": "مراجعة عرض",
+      "symposium_coverage": "تغطية ندوة",
+      "analysis": "مقال تحليلي",
+      "general": "مقال عام عن المهرجان"
+    },
+    "author": "الكاتب",
+    "relatedShow": "العرض المرتبط",
+    "relatedFestival": "المهرجان المرتبط",
+    "relatedArticles": "مقالات مرتبطة",
+    "readMore": "اقرأ المزيد"
+  },
+  "symposia": {
+    "title": "الندوات النقدية",
+    "allYears": "كل السنوات",
+    "allTypes": "كل الأنواع",
+    "types": {
+      "review": "مراجعة عرض",
+      "symposium_coverage": "تغطية ندوة",
+      "analysis": "مقال تحليلي",
+      "general": "مقال عام عن المهرجان"
+    },
+    "author": "الكاتب",
+    "moderator": "المدير",
+    "panelists": "المشاركون",
+    "dateTime": "التاريخ والوقت",
+    "hall": "القاعة",
+    "summary": "ملخص النقاش",
+    "relatedShows": "عروض مرتبطة",
+    "relatedShow": "العرض المرتبط",
+    "relatedFestival": "المهرجان المرتبط",
+    "relatedArticles": "ندوات مرتبطة",
+    "readMore": "اقرأ المزيد"
+  },
+  "creativity": {
+    "title": "إبداع الطلاب",
+    "description": "مساحة مفتوحة لإبداعات الطلاب خلال المهرجان من قصص ومقالات نقدية وقصائد ونصوص تجريبية",
+    "submit": "شارك بنصك",
+    "submitForm": {
+      "title": "شارك بإبداعك",
+      "name": "الاسم",
+      "email": "البريد الإلكتروني",
+      "workTitle": "عنوان العمل",
+      "type": "نوع العمل",
+      "types": {
+        "story": "قصة قصيرة",
+        "essay": "مقال نقدي",
+        "poem": "قصيدة",
+        "other": "آخر"
+      },
+      "editionYear": "دورة المهرجان (اختياري)",
+      "content": "النص",
+      "file": "أو ارفع ملف",
+      "submitBtn": "إرسال",
+      "cancel": "إلغاء",
+      "success": "شكراً لمشاركتك! سيتم مراجعة نصك قريباً."
+    },
+    "by": "بقلم",
+    "types": {
+      "story": "قصة قصيرة",
+      "essay": "مقال نقدي",
+      "poem": "قصيدة",
+      "other": "أخرى"
+    },
+    "author": "الكاتب",
+    "relatedShow": "العرض المرتبط",
+    "relatedFestival": "المهرجان المرتبط",
+    "relatedArticles": "إبداعات مرتبطة",
+    "readMore": "اقرأ المزيد"
+  },
+  "about": {
+    "title": "عن المهرجان",
+    "whatIsTitle": "ما هو المهرجان العربي؟",
+    "whatIsText": "المهرجان العربي للمسرح هو حدث سنوي يستضيفه المعهد العالي للفنون المسرحية.",
+    "whyArchiveTitle": "لماذا هذا الأرشيف؟",
+    "whyArchiveText": "يهدف هذا الموقع إلى توثيق تاريخ المهرجان بشكل شامل، وحفظ النقد المسرحي المصاحب للعروض، وتوفير مرجع بحثي للباحثين والمهتمين بالمسرح العربي المعاصر.",
+    "contactTitle": "تواصل معنا",
+    "contactText": "للاستفسارات والمقترحات، يرجى التواصل على:"
+  },
+  "common": {
+    "search": "بحث",
+    "filter": "تصفية",
+    "reset": "إعادة تعيين",
+    "loading": "جاري التحميل...",
+    "loadingMessage": "نقوم بتجهيز خشبة المسرح للعرض التالي...",
+    "error": "حدث خطأ",
+    "noResults": "لا توجد نتائج",
+    "viewDetails": "عرض التفاصيل",
+    "backToList": "العودة إلى القائمة",
+    "back": "رجوع",
+    "share": "مشاركة",
+    "comingSoon": "قريباً",
+    "comingSoonMessage": "نضع اللمسات الأخيرة على هذه التجربة المميزة. ترقبوا!",
+    "stayTuned": "تابعونا",
+    "backHome": "العودة إلى الرئيسية",
+    "cancel": "إلغاء"
+  },
+  "myTickets": {
+    "title": "تذاكري",
+    "subtitle_one": "{{count}} حجز",
+    "subtitle_other": "{{count}} حجوزات",
+    "subtitle": "{{count}} حجوزات",
+    "all": "الكل",
+    "confirmed": "مؤكد",
+    "waitingList": "قائمة الانتظار",
+    "reservationNumber": "حجز رقم #{{number}}",
+    "seatNumber": "مقعد {{seat}}",
+    "noTickets": "لا توجد حجوزات بعد.",
+    "browseShows": "تصفح العروض",
+    "status": {
+      "CONFIRMED": "مؤكد",
+      "WAITING_LIST": "قائمة الانتظار",
+      "CLOSED": "مغلق"
+    }
+  },
+  "reservation": {
+    "label": "بيانات الحجز",
+    "subtitle": "أكمل البيانات التالية لتأكيد حجزك",
+    "button": "احجز مقعدك",
+    "fields": {
+      "fullName": "الاسم الكامل",
+      "email": "البريد الإلكتروني"
+    },
+    "emailNote": "سيصلك رقم الحجز على بريدك الإلكتروني.",
+    "seatMap": {
+      "leftBlock": "الجناح الأيسر",
+      "rightBlock": "الجناح الأيمن"
+    },
+    "selectSeat": "اختر مقعدك",
+    "selectedSeat": "مقعد {{seat}}",
+    "waitingList": {
+      "info": "نفدت الأماكن المتاحة. يمكنك الانضمام إلى قائمة الانتظار.",
+      "button": "انضم لقائمة الانتظار"
+    },
+    "submit": "تأكيد الحجز",
+    "submitting": "جاري الإرسال...",
+    "success": "تم إرسال الحجز بنجاح!",
+    "successModal": {
+      "title": "تم إتمام حجزك بنجاح!",
+      "nameLabel": "الاسم",
+      "reservationNumberLabel": "رقم الحجز",
+      "seatNumberLabel": "المقعد",
+      "instruction": "يرجى الاحتفاظ بهذه المعلومات فهي بمثابة تذكرتك، التقط لقطة شاشة.",
+      "close": "إغلاق",
+      "waitingListTitle": "تم إضافتك إلى قائمة الانتظار!",
+      "waitingListPositionLabel": "رقمك في القائمة",
+      "waitingListInstruction": "احتفظ بهذا الرقم. التقط لقطة شاشة."
+    },
+    "errors": {
+      "fullNameRequired": "يرجى إدخال اسمك الكامل.",
+      "fullNameArabic": "يجب أن يكون الاسم بالحروف العربية فقط.",
+      "fullNameMaxLength": "يجب ألا يتجاوز الاسم ١٠٠ حرف.",
+      "emailRequired": "يرجى إدخال بريدك الإلكتروني.",
+      "email": "يرجى إدخال بريد إلكتروني صالح.",
+      "generic": "تعذر إتمام الحجز. حاول مرة أخرى.",
+      "codes": {
+        "NO_SHOW": "لم يتم العثور على هذا العرض، يرجى التحديث والمحاولة مرة أخرى.",
+        "NO_SEATS": "جميع مقاعد هذا العرض محجوزة.",
+        "DUPLICATE_MAIL": "لقد قمت بالحجز مسبقاً. مقعدك هو {{seat}}.",
+        "DUPLICATE_WAITING_LIST": "أنت بالفعل في قائمة الانتظار. رقمك في القائمة هو #{{seat}}.",
+        "INVALID_TOKEN": "ليس لديك صلاحية حجز هذا العرض.",
+        "UNKNOWN_ERROR": "خطأ في الاتصال بالإنترنت",
+        "INVALID_SEAT": "مقعد غير صالح، يرجى الاختيار من الصفوف G إلى L.",
+        "SEAT_TAKEN": "هذا المقعد محجوز للتو، يرجى اختيار مقعد آخر."
+      }
+    }
+  }
+}

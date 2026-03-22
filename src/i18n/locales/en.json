@@ -1,0 +1,291 @@
+{
+  "auth": {
+    "signIn": "Sign In",
+    "signInWithGoogle": "Sign in with Google",
+    "signOut": "Sign Out",
+    "signInToReserve": "Please sign in with your Google account to complete the reservation.",
+    "unsupportedBrowser": "Unsupported Browser",
+    "unsupportedBrowserMsg": "Google sign-in doesn't work inside in-app browsers. Please open this page in your device's browser.",
+    "openInBrowser": "Open in Browser"
+  },
+  "nav": {
+    "home": "Home",
+    "editions": "Festival Editions",
+    "articles": "Critical Articles",
+    "creativity": "Student Creativity",
+    "about": "About"
+  },
+  "home": {
+    "title": "Arab Festival",
+    "subtitle": "Higher Institute of Theatrical Arts",
+    "tagline": "A comprehensive critical and documentary archive of the Arab Festival through the years",
+    "currentEdition": "Go to Current Edition",
+    "browseArticles": "Browse Critical Articles",
+    "editionsTitle": "Festival Editions",
+    "latestArticles": "Latest Critical Articles",
+    "creativityTitle": "Student Creativity",
+    "creativityText": "An open space for student creative contributions during the festival including stories, critical essays, and poems",
+    "exploreCreativity": "Explore Creativity"
+  },
+  "festival": {
+    "info": "Info",
+    "shows": "Shows",
+    "articles": "Critical Articles",
+    "symposia": "Symposia",
+    "creativity": "Student Creativity",
+    "numberOfShows": "shows",
+    "numberOfArticles": "articles",
+    "filterByDate": "Filter by Date",
+    "filterByVenue": "Filter by Venue",
+    "filterByCountry": "Filter by Country",
+    "allDates": "All Dates",
+    "allVenues": "All Venues",
+    "allCountries": "All Countries",
+    "todayShow": "Today's Show",
+    "basicInfo": "Basic Information",
+    "organizer": "Organizer",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "organizingTeam": "Festival Hierarchy",
+    "juryList": "Jury List",
+    "awards": "Awards",
+    "additionalInfo": "Additional Information",
+    "poster": "Festival Poster",
+    "additionalSections": "Additional Information Sections",
+    "noAdditionalInfo": "No additional information available for this festival edition."
+  },
+  "show": {
+    "reserve_waiting_list": "Reserve on Waiting List",
+    "complete": "Reservation Complete",
+    "bookTicket": "Book Your Ticket",
+    "director": "Director",
+    "dramaturg": "Dramaturg",
+    "cast": "Cast",
+    "group": "Group",
+    "country": "Country",
+    "dateTime": "Date & Time",
+    "venue": "Venue",
+    "synopsis": "Synopsis",
+    "criticalArticles": "Critical Articles About This Show",
+    "symposium": "Critical Symposium",
+    "viewDetails": "view details",
+    "reserve": "reserve",
+    "today": "Today",
+    "available": "Soon",
+    "finished": "Done ✔",
+    "tabs": {
+      "info": "Info",
+      "articles": "Articles",
+      "symposia": "Symposia",
+      "comments": "Comments"
+    },
+    "noArticles": "No related articles yet.",
+    "noSymposia": "No related symposia.",
+    "commentsComingSoon": "Comments will be available soon.",
+    "statusLabel": "Status",
+    "eventLink": "Event Link",
+    "openEventLink": "Open event link",
+    "noEventLink": "No link available",
+    "festivalName": "Festival",
+    "authorLabel": "Author",
+    "viewMap": "View map",
+    "nightsLabel": "Show nights",
+    "dateLabel": "Date",
+    "timeLabel": "Time",
+    "timeTBD": "To be announced",
+    "festivalFallback": "Festival edition {{year}}",
+    "unknownFestival": "Festival info unavailable",
+    "notAvailable": "Not available",
+    "sections": {
+      "actors": "Actors",
+      "crew": "Crew",
+      "additional": "Additional Info",
+      "synopsis": "Synopsis"
+    },
+    "comments": {
+      "title": "Comments",
+      "placeholder": "Write your comment here...",
+      "submit": "Submit",
+      "submitting": "Submitting...",
+      "success": "Your comment has been submitted for approval",
+      "errorSubmitting": "Failed to submit your comment. Please try again.",
+      "errorLoading": "Failed to load comments. Please try again later.",
+      "noComments": "No comments yet. Be the first to comment!"
+    }
+  },
+  "articles": {
+    "title": "Critical Articles",
+    "filterByYear": "Filter by Year",
+    "filterByShow": "Filter by Show",
+    "filterByType": "Filter by Type",
+    "allYears": "All Years",
+    "allShows": "All Shows",
+    "allTypes": "All Types",
+    "types": {
+      "review": "Show Review",
+      "symposium_coverage": "Symposium Coverage",
+      "analysis": "Analytical Article",
+      "general": "General Festival Article"
+    },
+    "author": "Author",
+    "relatedShow": "Related Show",
+    "relatedFestival": "Related Festival",
+    "relatedArticles": "Related Articles",
+    "readMore": "Read More"
+  },
+  "symposia": {
+    "title": "Critical Symposia",
+    "allYears": "All Years",
+    "allTypes": "All Types",
+    "types": {
+      "review": "Show Review",
+      "symposium_coverage": "Symposium Coverage",
+      "analysis": "Analytical Article",
+      "general": "General Festival Article"
+    },
+    "author": "Author",
+    "moderator": "Moderator",
+    "panelists": "Panelists",
+    "dateTime": "Date & Time",
+    "hall": "Hall",
+    "summary": "Discussion Summary",
+    "relatedShows": "Related Shows",
+    "relatedShow": "Related Show",
+    "relatedFestival": "Related Festival",
+    "relatedArticles": "Related Symposia",
+    "readMore": "Read More"
+  },
+  "creativity": {
+    "title": "Student Creativity",
+    "description": "An open space for student creative contributions during the festival including short stories, critical essays, poems, and experimental texts",
+    "submit": "Submit Your Work",
+    "submitForm": {
+      "title": "Share Your Creativity",
+      "name": "Name",
+      "email": "Email",
+      "workTitle": "Work Title",
+      "type": "Work Type",
+      "types": {
+        "story": "Short Story",
+        "essay": "Critical Essay",
+        "poem": "Poem",
+        "other": "Other"
+      },
+      "editionYear": "Festival Edition (Optional)",
+      "content": "Text",
+      "file": "Or Upload a File",
+      "submitBtn": "Submit",
+      "cancel": "Cancel",
+      "success": "Thank you for your submission! Your work will be reviewed soon."
+    },
+    "by": "By",
+    "types": {
+      "story": "Short Story",
+      "essay": "Critical Essay",
+      "poem": "Poem",
+      "other": "Other"
+    },
+    "author": "Author",
+    "relatedShow": "Related Show",
+    "relatedFestival": "Related Festival",
+    "relatedArticles": "Related Creativity",
+    "readMore": "Read More"
+  },
+  "about": {
+    "title": "About the Festival",
+    "whatIsTitle": "What is the Arab Festival?",
+    "whatIsText": "The Arab Theatre Festival is an annual event hosted by the Higher Institute of Theatrical Arts.",
+    "whyArchiveTitle": "Why This Archive?",
+    "whyArchiveText": "This website aims to comprehensively document the festival's history, preserve the theatrical criticism accompanying the performances, and provide a research reference for scholars and those interested in contemporary Arab theatre.",
+    "contactTitle": "Contact Us",
+    "contactText": "For inquiries and suggestions, please contact:"
+  },
+  "common": {
+    "search": "Search",
+    "filter": "Filter",
+    "reset": "Reset",
+    "loading": "Loading...",
+    "loadingMessage": "Setting the stage for the next act...",
+    "error": "An error occurred",
+    "noResults": "No results found",
+    "viewDetails": "View Details",
+    "backToList": "Back to List",
+    "back": "Back",
+    "share": "Share",
+    "comingSoon": "Coming Soon",
+    "comingSoonMessage": "We are putting the final touches on this experience. Stay tuned!",
+    "stayTuned": "Stay Tuned",
+    "backHome": "Back to Home",
+    "cancel": "Cancel"
+  },
+  "myTickets": {
+    "title": "My Tickets",
+    "subtitle_one": "{{count}} reservation",
+    "subtitle_other": "{{count}} reservations",
+    "subtitle": "{{count}} reservations",
+    "all": "All",
+    "confirmed": "Confirmed",
+    "waitingList": "Waiting List",
+    "reservationNumber": "Reservation #{{number}}",
+    "seatNumber": "Seat {{seat}}",
+    "noTickets": "You have no reservations yet.",
+    "browseShows": "Browse Shows",
+    "status": {
+      "CONFIRMED": "Confirmed",
+      "WAITING_LIST": "Waiting List",
+      "CLOSED": "Closed"
+    }
+  },
+  "reservation": {
+    "label": "Reservation",
+    "subtitle": "Reserve your seat by sharing your information",
+    "button": "Reserve Your Seat",
+    "fields": {
+      "fullName": "Full Name",
+      "email": "Email"
+    },
+    "emailNote": "You shall receive your reservation number on your email.",
+    "submit": "Submit Reservation",
+    "submitting": "Submitting...",
+    "success": "Reservation submitted successfully!",
+    "successModal": {
+      "title": "Your reservation is done successfully!",
+      "nameLabel": "Name",
+      "reservationNumberLabel": "Reservation Number",
+      "seatNumberLabel": "Seat",
+      "instruction": "Please keep this as this is your ticket, take a screenshot.",
+      "close": "Close",
+      "waitingListTitle": "You've been added to the waiting list!",
+      "waitingListPositionLabel": "Your position",
+      "waitingListInstruction": "Keep this number. Take a screenshot."
+    },
+    "seatMap": {
+      "leftBlock": "Left Block",
+      "rightBlock": "Right Block"
+    },
+    "selectSeat": "Select Your Seat",
+    "selectedSeat": "Seat {{seat}}",
+    "waitingList": {
+      "info": "All seats are taken. You can join the waiting list.",
+      "button": "Join Waiting List"
+    },
+    "errors": {
+      "fullNameRequired": "Please enter your full name.",
+      "fullNameArabic": "Name must be written using Arabic characters only.",
+      "fullNameMaxLength": "Name must be 100 characters or fewer.",
+      "emailRequired": "Please enter your email address.",
+      "email": "Please provide a valid email address.",
+      "generic": "Unable to complete the reservation. Please try again.",
+      "codes": {
+        "NO_SHOW": "Unable to find this show. Please refresh and try again.",
+        "NO_SEATS": "All seats for this show are taken.",
+        "DUPLICATE_MAIL": "You have already reserved this show. Your seat is {{seat}}.",
+        "DUPLICATE_WAITING_LIST": "You are already on the waiting list. Your position is #{{seat}}.",
+        "INVALID_TOKEN": "You do not have access to reserve this show.",
+        "UNKNOWN_ERROR": "Internet Connection Error",
+        "INVALID_SEAT": "Invalid seat selection. Please choose a seat from rows G–L.",
+        "SEAT_TAKEN": "This seat was just taken. Please choose another seat."
+      }
+    }
+  }
+}
