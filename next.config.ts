@@ -8,8 +8,10 @@ const apiHostname = (() => {
 
 const nextConfig: NextConfig = {
   images: {
+    unoptimized: true,
     remotePatterns: [
       { protocol: 'https', hostname: apiHostname },
+      { protocol: 'https', hostname: 'media.play-cast.com' },
       { protocol: 'http',  hostname: 'localhost' },
     ],
   },
