@@ -9,6 +9,9 @@ export const metadata: Metadata = {
     template: '%s | Global Theatre Festival',
   },
   description: 'Theatre shows, articles, and booking.',
+  verification: {
+    google: '488-BdVYHrBiOC_pfLNjFvzE0NO5deErJngnvuXh578',
+  },
 }
 
 export default function RootLayout({
