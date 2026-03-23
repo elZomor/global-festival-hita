@@ -60,6 +60,8 @@ export default async function FestivalEditionPage({ params }: Props) {
   const { festivalSlug } = await params
   const festival = await fetchFestival(festivalSlug)
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? ''
+
   const jsonLd = festival
     ? {
         '@context': 'https://schema.org',
@@ -69,9 +71,22 @@ export default async function FestivalEditionPage({ params }: Props) {
         startDate: festival.start_date ?? undefined,
         endDate: festival.end_date ?? undefined,
         image: buildOgImageUrl(festival.logo) ?? undefined,
-        organizer: festival.organizer
-          ? { '@type': 'Organization', name: festival.organizer }
-          : undefined,
+        url: `${siteUrl}/festival/${festivalSlug}`,
+        eventStatus: 'https://schema.org/EventScheduled',
+        location: {
+          '@type': 'Place',
+          name: 'المعهد العالي للفنون المسرحية',
+          address: {
+            '@type': 'PostalAddress',
+            addressLocality: 'القاهرة',
+            addressCountry: 'EG',
+          },
+        },
+        organizer: {
+          '@type': 'Organization',
+          name: festival.organizer ?? 'أكاديمية الفنون - المعهد العالي للفنون المسرحية',
+          url: 'https://hita.play-cast.com',
+        },
       }
     : null
 
