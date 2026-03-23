@@ -23,20 +23,30 @@ function buildOgImageUrl(logo?: string | null): string | undefined {
   return `https://media.play-cast.com/${logo}?w=1200&h=630&fit=pad&bg=ffffff&q=75&fmt=jpg`
 }
 
+function buildDescription(festival: Record<string, string>): string {
+  if (festival.description) return festival.description
+  const parts = [festival.name]
+  if (festival.start_date) parts.push(festival.start_date.slice(0, 4))
+  return parts.join(' — ')
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { festivalSlug } = await params
   const festival = await fetchFestival(festivalSlug)
   if (!festival) return {}
 
   const title = festival.name
+  const description = buildDescription(festival)
   const imageUrl = buildOgImageUrl(festival.logo)
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? ''
 
   return {
     title,
+    description,
     alternates: { canonical: `${siteUrl}/festival/${festivalSlug}` },
     openGraph: {
       title,
+      description,
       url: `${siteUrl}/festival/${festivalSlug}`,
       type: 'website',
       images: imageUrl
@@ -46,4 +56,34 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default function FestivalEditionPage() { return <FestivalEdition /> }
+export default async function FestivalEditionPage({ params }: Props) {
+  const { festivalSlug } = await params
+  const festival = await fetchFestival(festivalSlug)
+
+  const jsonLd = festival
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'Festival',
+        name: festival.name,
+        description: festival.description ?? undefined,
+        startDate: festival.start_date ?? undefined,
+        endDate: festival.end_date ?? undefined,
+        image: buildOgImageUrl(festival.logo) ?? undefined,
+        organizer: festival.organizer
+          ? { '@type': 'Organization', name: festival.organizer }
+          : undefined,
+      }
+    : null
+
+  return (
+    <>
+      {jsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      )}
+      <FestivalEdition />
+    </>
+  )
+}
