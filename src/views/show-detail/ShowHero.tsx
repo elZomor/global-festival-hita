@@ -4,9 +4,7 @@ import {Button, PosterImage} from '../../components/common';
 import type {Show} from '../../types';
 import {motion} from 'framer-motion';
 import {Share2} from 'lucide-react';
-import {baseUrl} from '../../constants';
 import {useTranslation} from 'react-i18next';
-import {festivalConfig} from '../../config/festival';
 
 type InfoItem = {
     label: string;
@@ -66,7 +64,7 @@ export const ShowHero = ({
                         </h1>
                         <motion.button
                             onClick={() => {
-                                const url = `${baseUrl}${festivalConfig.apiPrefix}/shows/${show.id}/share`;
+                                const url = window.location.href;
                                 if (navigator.share) {
                                     navigator.share({
                                         title: show.name,

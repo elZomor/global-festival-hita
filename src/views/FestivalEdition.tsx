@@ -18,7 +18,6 @@ import {formatLocalizedNumber, localizeDigitsInString} from '../utils/numberUtil
 import {buildMediaUrl} from '../utils/mediaUtils';
 import {getArticlePreviewText} from '../utils/articleContent';
 import {FestivalInfoTab} from './festival-detail';
-import {baseUrl} from "../constants";
 import {motion} from "framer-motion";
 
 type Tab = 'info' | 'shows' | 'articles' | 'symposia' | 'creativity';
@@ -117,7 +116,7 @@ export const FestivalEdition = () => {
                     </h1>
                     <motion.button
                         onClick={() => {
-                            const url = `${baseUrl}${festivalConfig.apiPrefix}/festivals/${edition.slug}/share`;
+                            const url = window.location.href;
                             if (navigator.share) {
                                 navigator.share({
                                     title: edition.titleAr,
