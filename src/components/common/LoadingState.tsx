@@ -2,6 +2,7 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../../contexts/ThemeContext';
+import { festivalConfig } from '../../config/festival';
 
 type LoadingStateProps = {
     message?: string;
@@ -33,7 +34,7 @@ export const LoadingState = ({ message, fullscreen = true }: LoadingStateProps) 
                         <div className="absolute inset-3 rounded-full border border-accent-600/40" />
                         <div className="absolute inset-0 flex items-center justify-center">
               <span className="text-xs tracking-[0.2em] uppercase text-secondary-500">
-                {theme === 'dark' ? 'ARF' : 'ARF'}
+                {festivalConfig.abbreviation}
               </span>
                         </div>
                     </div>
@@ -47,7 +48,7 @@ export const LoadingState = ({ message, fullscreen = true }: LoadingStateProps) 
                 </p>
 
                 <div className="flex items-center justify-center gap-2 text-xs uppercase tracking-[0.3em] text-accent-600 dark:text-accent-500">
-                    <span>Arab Festival</span>
+                    <span>{festivalConfig.titleEn}</span>
                 </div>
 
                 <div className="flex items-center justify-center gap-1 mt-2 text-secondary-500">

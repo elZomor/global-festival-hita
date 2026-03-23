@@ -2,6 +2,7 @@ const key = (process.env.NEXT_PUBLIC_FESTIVAL ?? 'arabic') as 'arabic' | 'global
 
 const configs = {
   arabic: {
+    abbreviation: 'ARF',
     taglineAr: 'أرشيف نقدي وتوثيقي شامل للمهرجان العربي عبر السنوات',
     taglineEn: 'A comprehensive critical and documentary archive of the Arab Festival through the years',
     titleAr: 'المهرجان العربي',
@@ -25,6 +26,7 @@ const configs = {
     aboutWhyArchiveTextEn: 'This website aims to comprehensively document the festival\'s history, preserve the theatrical criticism accompanying the performances, and provide a research reference for scholars and those interested in contemporary Arab theatre.',
   },
   global: {
+    abbreviation: 'GTF',
     taglineAr: 'أرشيف نقدي وتوثيقي شامل للمهرجان العالمي عبر السنوات',
     taglineEn: 'A comprehensive critical and documentary archive of the World Theatre Festival through the years',
     titleAr: 'مهرجان المسرح العالمي',

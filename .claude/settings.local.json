@@ -1,7 +1,12 @@
 {
   "permissions": {
     "allow": [
-      "Bash(find /mnt/d/projects/global_festival -name *.test.* -o -name *.spec.* -o -name jest.config.* -o -name vitest.config.*)"
+      "Bash(find /mnt/d/projects/global_festival -name *.test.* -o -name *.spec.* -o -name jest.config.* -o -name vitest.config.*)",
+      "Bash(grep -r \"Arab Festival\\\\|World Theatre Festival\\\\|arab\\\\|global\" --include=*.tsx --include=*.ts src/ app/)",
+      "Bash(grep -r \"\\\\.env\\\\|NEXT_PUBLIC\\\\|FESTIVAL\" --include=.env* /mnt/d/projects/global_festival/)",
+      "Bash(grep -r \"NEXT_PUBLIC_FESTIVAL\\\\|process.env.FESTIVAL\" --include=*.tsx --include=*.ts src/ app/)",
+      "Bash(grep -r festivalConfig --include=*.tsx --include=*.ts src/ app/)",
+      "Bash(grep:*)"
     ]
   }
 }

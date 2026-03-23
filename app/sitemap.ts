@@ -1,8 +1,9 @@
 import type { MetadataRoute } from 'next'
+import { festivalConfig } from '@/src/config/festival'
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? ''
 const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL ?? ''
-const apiPrefix = process.env.NEXT_PUBLIC_API_PREFIX ?? '/global_festival'
+const apiPrefix = process.env.NEXT_PUBLIC_API_PREFIX ?? festivalConfig.apiPrefix
 
 async function fetchIds(path: string): Promise<number[]> {
   try {

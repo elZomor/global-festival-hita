@@ -2,11 +2,14 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { Providers } from '@/src/components/layout/Providers'
 import { I18nInitializer } from '@/src/components/layout/I18nInitializer'
+import { festivalConfig } from '@/src/config/festival'
+
+const festivalTitle = festivalConfig.titleEn
 
 export const metadata: Metadata = {
   title: {
-    default: 'Global Theatre Festival',
-    template: '%s | Global Theatre Festival',
+    default: festivalTitle,
+    template: `%s | ${festivalTitle}`,
   },
   description: 'Theatre shows, articles, and booking.',
   verification: {
