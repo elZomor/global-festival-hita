@@ -36,16 +36,16 @@ const decodeJwtPayload = (token: string): Record<string, unknown> => {
 };
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<AuthUser | null>(() => {
-    if (typeof window === 'undefined') return null;
-    const stored = localStorage.getItem(USER_KEY);
-    try { return stored ? JSON.parse(stored) : null; } catch { return null; }
-  });
+  const [user, setUser] = useState<AuthUser | null>(null);
 
-  // Inject stored token into API client on mount (persists across page reloads)
+  // Hydrate auth state from localStorage after mount (avoids SSR/client mismatch)
   useEffect(() => {
-    const stored = localStorage.getItem(ACCESS_TOKEN_KEY);
-    if (stored) apiQueryClient.setAuthToken(stored);
+    const stored = localStorage.getItem(USER_KEY);
+    const token = localStorage.getItem(ACCESS_TOKEN_KEY);
+    if (stored && token) {
+      try { setUser(JSON.parse(stored)); } catch { /* ignore */ }
+      apiQueryClient.setAuthToken(token);
+    }
   }, []);
 
   const loginWithGoogleCredential = async (credential: string) => {
@@ -104,7 +104,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   return (
     <AuthContext.Provider value={{
       user,
-      isAuthenticated: Boolean(user && localStorage.getItem(ACCESS_TOKEN_KEY)),
+      isAuthenticated: Boolean(user),
       loginWithGoogleCredential,
       refreshAccessToken,
       signOut,
