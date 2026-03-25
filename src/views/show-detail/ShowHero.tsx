@@ -26,6 +26,7 @@ type ShowHeroProps = {
     waitingListLabel: string;
     completeLabel: string;
     bookTicketLabel: string;
+    isAuthenticated: boolean;
     onReservationClick: () => void;
 };
 
@@ -40,6 +41,7 @@ export const ShowHero = ({
                              reserveLabel,
                              waitingListLabel,
                              completeLabel,
+                             isAuthenticated,
                              onReservationClick,
                          }: ShowHeroProps) => {
     const {t} = useTranslation();
@@ -107,7 +109,7 @@ export const ShowHero = ({
                 </div>
 
                 <div className="space-y-3 flex flex-col items-center">
-                    {isReservationStatus && (
+                    {isReservationStatus && isAuthenticated && (
                         <Button
                             type="button"
                             variant={reservationButtonVariant}

@@ -295,6 +295,7 @@ export const ShowDetail = () => {
                 isReservationStatus={isReservationStatus}
                 isReservationComplete={isReservationComplete}
                 reservationButtonVariant={reservationButtonVariant}
+                isAuthenticated={isAuthenticated}
                 reserveLabel={t('show.reserve')}
                 waitingListLabel={t('show.reserve_waiting_list')}
                 completeLabel={t('show.complete')}

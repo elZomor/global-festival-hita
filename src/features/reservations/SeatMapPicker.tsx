@@ -11,7 +11,7 @@ interface SeatMapPickerProps {
 // Full theater layout — all 14 rows A–N
 // left/right = number of seats per side (odd/even)
 const ALL_ROWS: { label: string; left: number; right: number }[] = [
-    { label: 'A', left: 6,  right: 6  },
+    { label: 'A', left: 7,  right: 7  },
     { label: 'B', left: 7,  right: 7  },
     { label: 'C', left: 8,  right: 8  },
     { label: 'D', left: 8,  right: 8  },
@@ -146,7 +146,7 @@ export const SeatMapPicker = ({ takenSeats, selectedSeat, onSeatSelect }: SeatMa
                     const rightCat = getCategory(label, 'left');
 
                     return (
-                        <div key={label} className="flex items-center" style={{ gap: '4px' }}>
+                        <div key={label} className="flex items-center" style={{ gap: '4px', marginTop: label === 'L' ? 10 : undefined }}>
                             {/* Row label left */}
                             <div
                                 className="font-mono font-bold text-center shrink-0"
