@@ -42,7 +42,7 @@ const configs = {
     celebrationEn: 'Join us in celebrating World Theatre',
     aboutWhatIsTitleAr: 'ما هو مهرجان المسرح العالمي؟',
     aboutWhatIsTitleEn: 'What is the World Theatre Festival?',
-    aboutWhatIsTextAr: 'مهرجان المسرح العالمي هو حدث سنوي دولي يستضيفه المعهد العالي للفنون المسرحية، يجمع فرقاً مسرحية من مختلف أنحاء العالم.',
+    aboutWhatIsTextAr: 'مهرجان المسرح العالمي هو حدث سنوي يستضيفه المعهد العالي للفنون المسرحية، يقدم فيه عروضًا مسرحية من المسرح العالمي.',
     aboutWhatIsTextEn: 'The World Theatre Festival is an annual international event hosted by the Higher Institute of Theatrical Arts, bringing together theatre companies from around the world.',
     aboutWhyArchiveTitleAr: 'لماذا هذا الأرشيف؟',
     aboutWhyArchiveTitleEn: 'Why This Archive?',
