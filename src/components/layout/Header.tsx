@@ -175,15 +175,17 @@ export const Header = () => {
                 </button>
                 {loginDropdownOpen && (
                   <div className="absolute end-0 mt-2 p-4 rounded-lg bg-primary-50 dark:bg-primary-900 border border-primary-200 dark:border-primary-700 shadow-lg z-50">
-                    <GoogleLogin
-                      onSuccess={async ({ credential }) => {
-                        if (credential) {
-                          setLoginDropdownOpen(false);
-                          try { await loginWithGoogleCredential(credential); } catch { /* failed */ }
-                        }
-                      }}
-                      onError={() => setLoginDropdownOpen(false)}
-                    />
+                    <div style={{ cursor: 'pointer', touchAction: 'manipulation' }}>
+                      <GoogleLogin
+                        onSuccess={async ({ credential }) => {
+                          if (credential) {
+                            setLoginDropdownOpen(false);
+                            try { await loginWithGoogleCredential(credential); } catch { /* failed */ }
+                          }
+                        }}
+                        onError={() => setLoginDropdownOpen(false)}
+                      />
+                    </div>
                   </div>
                 )}
               </div>
@@ -264,15 +266,17 @@ export const Header = () => {
                       {t('auth.openInBrowser')}
                     </button>
                   ) : (
-                    <GoogleLogin
-                      onSuccess={async ({ credential }) => {
-                        setMobileMenuOpen(false);
-                        if (credential) {
-                          try { await loginWithGoogleCredential(credential); } catch { /* failed */ }
-                        }
-                      }}
-                      onError={() => setMobileMenuOpen(false)}
-                    />
+                    <div style={{ cursor: 'pointer', touchAction: 'manipulation' }}>
+                      <GoogleLogin
+                        onSuccess={async ({ credential }) => {
+                          setMobileMenuOpen(false);
+                          if (credential) {
+                            try { await loginWithGoogleCredential(credential); } catch { /* failed */ }
+                          }
+                        }}
+                        onError={() => setMobileMenuOpen(false)}
+                      />
+                    </div>
                   )}
                 </div>
               )}

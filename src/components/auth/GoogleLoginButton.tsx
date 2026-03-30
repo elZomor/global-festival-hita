@@ -45,11 +45,15 @@ export const GoogleLoginButton = ({ onSuccess, onError }: Props) => {
   }
 
   return (
-    <GoogleLogin
-      onSuccess={async ({ credential }) => {
-        if (credential) await onSuccess(credential);
-      }}
-      onError={onError ?? (() => {})}
-    />
+    // cursor:pointer + touch-action:manipulation are required for iOS Safari to fire
+    // click/tap events on iframe-based elements like the Google OAuth button.
+    <div style={{ cursor: 'pointer', touchAction: 'manipulation' }}>
+      <GoogleLogin
+        onSuccess={async ({ credential }) => {
+          if (credential) await onSuccess(credential);
+        }}
+        onError={onError ?? (() => {})}
+      />
+    </div>
   );
 };

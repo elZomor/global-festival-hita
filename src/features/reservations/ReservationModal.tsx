@@ -85,10 +85,13 @@ export const ReservationModal = ({ showId, showName, isOpen, onClose, onSuccess,
 
     return (
         <div
-            className="fixed inset-0 z-50 flex items-center justify-center px-4 py-4 bg-primary-950/80 backdrop-blur-sm"
+            className="fixed inset-0 z-50 flex items-center justify-center px-4 py-4"
             onClick={handleClose}
         >
-            <div className="w-full max-w-3xl max-h-[calc(100svh-2rem)] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            {/* Backdrop is a sibling — not an ancestor — of the modal content.
+                backdrop-filter on an ancestor blocks iframe touch events on iOS Safari (WebKit bug). */}
+            <div className="absolute inset-0 bg-primary-950/80 backdrop-blur-sm" />
+            <div className="relative z-10 w-full max-w-3xl max-h-[calc(100svh-2rem)] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
                 <Card className="space-y-4" hover={false}>
                     <div className="space-y-1 text-center">
                         <p className="text-sm uppercase tracking-[0.2em] text-secondary-500">{t('reservation.label')}</p>
