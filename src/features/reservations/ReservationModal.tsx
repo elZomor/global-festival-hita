@@ -91,14 +91,15 @@ export const ReservationModal = ({ showId, showName, isOpen, onClose, onSuccess,
             {/* Backdrop is a sibling — not an ancestor — of the modal content.
                 backdrop-filter on an ancestor blocks iframe touch events on iOS Safari (WebKit bug). */}
             <div className="absolute inset-0 bg-primary-950/80 backdrop-blur-sm" />
-            <div className="relative z-10 w-full max-w-3xl max-h-[calc(100svh-2rem)] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-                <Card className="space-y-4" hover={false}>
-                    <div className="space-y-1 text-center">
-                        <p className="text-sm uppercase tracking-[0.2em] text-secondary-500">{t('reservation.label')}</p>
-                        <h2 className="text-2xl font-bold text-accent-600 dark:text-secondary-500">{showName}</h2>
-                    </div>
-
-                    {!isAuthenticated ? (
+            {/* Login card sits outside overflow-y-auto: iOS Safari drops touch events on
+                cross-origin iframes (Google Sign-In button) inside overflow scroll containers. */}
+            {!isAuthenticated ? (
+                <div className="relative z-10 w-full max-w-3xl" onClick={(e) => e.stopPropagation()}>
+                    <Card className="space-y-4" hover={false}>
+                        <div className="space-y-1 text-center">
+                            <p className="text-sm uppercase tracking-[0.2em] text-secondary-500">{t('reservation.label')}</p>
+                            <h2 className="text-2xl font-bold text-accent-600 dark:text-secondary-500">{showName}</h2>
+                        </div>
                         <div className="space-y-4">
                             <p className="text-sm text-center text-primary-600 dark:text-primary-300">
                                 {t('auth.signInToReserve')}
@@ -116,7 +117,17 @@ export const ReservationModal = ({ showId, showName, isOpen, onClose, onSuccess,
                                 </Button>
                             </div>
                         </div>
-                    ) : alreadyBooked ? (
+                    </Card>
+                </div>
+            ) : (
+            <div className="relative z-10 w-full max-w-3xl max-h-[calc(100svh-2rem)] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+                <Card className="space-y-4" hover={false}>
+                    <div className="space-y-1 text-center">
+                        <p className="text-sm uppercase tracking-[0.2em] text-secondary-500">{t('reservation.label')}</p>
+                        <h2 className="text-2xl font-bold text-accent-600 dark:text-secondary-500">{showName}</h2>
+                    </div>
+
+                    {alreadyBooked ? (
                         <div className="space-y-4">
                             <div className="flex flex-col items-center gap-3 p-4 rounded-lg bg-amber-50 dark:bg-amber-900/20 border border-amber-300 dark:border-amber-700 text-center">
                                 <span className="text-3xl">{existingStatus === 'WAITING_LIST' ? '⏳' : '💺'}</span>
@@ -196,6 +207,7 @@ export const ReservationModal = ({ showId, showName, isOpen, onClose, onSuccess,
                     )}
                 </Card>
             </div>
+            )}
         </div>
     );
 };
