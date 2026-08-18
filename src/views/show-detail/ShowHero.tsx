@@ -85,7 +85,7 @@ export const ShowHero = ({
                         </motion.button>
                     </div>
                     {show.castWord && (<h3 className="mb-2 text-primary-500 flex items-center gap-2 italic">
-                        "{show.castWord}"
+                        &ldquo;{show.castWord}&rdquo;
                     </h3>)}
                     <h3 className={`text-xl font-bold mb-6 flex items-center gap-2 ${showStatusClassName}`}>
                         {showStatusLabel}

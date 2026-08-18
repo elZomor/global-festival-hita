@@ -1,4 +1,5 @@
 'use client';
+import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import { festivalConfig } from '../../config/festival';
 
@@ -26,19 +27,19 @@ export const Footer = () => {
             </h4>
             <ul className="space-y-2 text-sm text-primary-400">
               <li>
-                <a href="/festival" className="hover:text-secondary-500 transition-colors duration-300">
+                <Link href="/festival" className="hover:text-secondary-500 transition-colors duration-300">
                   {t('nav.editions')}
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/articles" className="hover:text-secondary-500 transition-colors duration-300">
+                <Link href="/articles" className="hover:text-secondary-500 transition-colors duration-300">
                   {t('nav.articles')}
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/creativity" className="hover:text-secondary-500 transition-colors duration-300">
+                <Link href="/creativity" className="hover:text-secondary-500 transition-colors duration-300">
                   {t('nav.creativity')}
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

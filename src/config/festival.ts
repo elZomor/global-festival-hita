@@ -1,4 +1,8 @@
-const key = (process.env.NEXT_PUBLIC_FESTIVAL ?? 'arabic') as 'arabic' | 'global';
+type FestivalKey = 'arabic' | 'global' | 'alt_spaces';
+
+const rawKey = process.env.NEXT_PUBLIC_FESTIVAL;
+const key: FestivalKey =
+  rawKey === 'arabic' || rawKey === 'global' || rawKey === 'alt_spaces' ? rawKey : 'arabic';
 
 const configs = {
   arabic: {
@@ -48,6 +52,30 @@ const configs = {
     aboutWhyArchiveTitleEn: 'Why This Archive?',
     aboutWhyArchiveTextAr: 'يهدف هذا الموقع إلى توثيق تاريخ المهرجان العالمي بشكل شامل، وحفظ النقد المسرحي المصاحب للعروض، وتوفير مرجع بحثي للباحثين والمهتمين بالمسرح العالمي المعاصر.',
     aboutWhyArchiveTextEn: 'This website aims to comprehensively document the World Theatre Festival\'s history, preserve the theatrical criticism accompanying the performances, and provide a research reference for scholars and those interested in contemporary world theatre.',
+  },
+  alt_spaces: {
+    abbreviation: 'ASV',
+    taglineAr: 'أرشيف نقدي وتوثيقي شامل لمهرجان الفضاءات والأماكن البديلة عبر السنوات',
+    taglineEn: 'A comprehensive critical and documentary archive of the Alternative Spaces and Venues Festival through the years',
+    titleAr: 'مهرجان الفضاءات والأماكن البديلة',
+    titleEn: 'Alternative Spaces and Venues Festival',
+    subtitleAr: 'المعهد العالي للفنون المسرحية',
+    subtitleEn: 'Higher Institute of Theatrical Arts',
+    contactEmail: 'info@play-cast.com',
+    logo: '🏭',
+    apiPrefix: process.env.NEXT_PUBLIC_API_PREFIX ?? '/alt_spaces_festival',
+    addressAr: 'المعهد العالي للفنون المسرحية\nأكاديمية الفنون\nمصر',
+    addressEn: 'Higher Institute of Theatrical Arts\nAcademy of Arts\nEgypt',
+    celebrationAr: 'انضم إلينا في الاحتفال بمسرح الفضاءات البديلة',
+    celebrationEn: 'Join us in celebrating alternative-space theatre',
+    aboutWhatIsTitleAr: 'ما هو مهرجان الفضاءات والأماكن البديلة؟',
+    aboutWhatIsTitleEn: 'What is the Alternative Spaces and Venues Festival?',
+    aboutWhatIsTextAr: 'مهرجان الفضاءات والأماكن البديلة هو حدث سنوي يستضيفه المعهد العالي للفنون المسرحية، يقدم عروضًا مسرحية في أماكن غير تقليدية.',
+    aboutWhatIsTextEn: 'The Alternative Spaces and Venues Festival is an annual event hosted by the Higher Institute of Theatrical Arts, staging performances in non-traditional venues.',
+    aboutWhyArchiveTitleAr: 'لماذا هذا الأرشيف؟',
+    aboutWhyArchiveTitleEn: 'Why This Archive?',
+    aboutWhyArchiveTextAr: 'يهدف هذا الموقع إلى توثيق تاريخ المهرجان بشكل شامل، وحفظ النقد المسرحي المصاحب للعروض، وتوفير مرجع بحثي للباحثين والمهتمين بمسرح الفضاءات البديلة.',
+    aboutWhyArchiveTextEn: 'This website aims to comprehensively document the festival\'s history, preserve the theatrical criticism accompanying the performances, and provide a research reference for scholars and those interested in alternative-space theatre.',
   },
 } as const;
 

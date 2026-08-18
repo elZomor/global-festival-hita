@@ -11,6 +11,8 @@ npm run dev      # Start development server
 npm run build    # Production build
 npm run start    # Start production server
 npm run lint     # Run ESLint
+npm run cf:build   # Build for Cloudflare Workers (opennextjs-cloudflare)
+npm run cf:deploy  # Build and deploy to Cloudflare via wrangler
 ```
 
 There is no test runner configured in this project.

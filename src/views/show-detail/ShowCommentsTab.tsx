@@ -44,8 +44,13 @@ export const ShowCommentsTab = ({showId, openForComments}: ShowCommentsTabProps)
 
             // Invalidate comments query to refetch
             queryClient.invalidateQueries({queryKey: ['comments', showId]});
-        } catch (error: any) {
-            const message = error?.response?.data?.message || error?.message || t('show.comments.errorSubmitting');
+        } catch (error) {
+            const apiMessage =
+                error && typeof error === 'object' && 'response' in error
+                    ? (error as { response?: { data?: { message?: string } } }).response?.data?.message
+                    : undefined;
+            const message =
+                apiMessage || (error instanceof Error ? error.message : undefined) || t('show.comments.errorSubmitting');
             setErrorMessage(message);
         }
     };
