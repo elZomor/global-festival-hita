@@ -1,6 +1,6 @@
 import {useMemo} from 'react';
 import {buildQueryKey, useApiMutation, useApiQuery, withQueryParams} from './reactQueryClient';
-import type {Article, Comment, CreativitySubmission, DetailEntry, FestivalEdition, MyReservation, Show} from '../types';
+import type {Article, Comment, CreativitySubmission, DetailEntry, FestivalEdition, MyReservation, Publication, Show} from '../types';
 import {festivalConfig} from '../config/festival';
 
 const api = festivalConfig.apiPrefix;
@@ -32,6 +32,13 @@ type FestivalApiResult = {
     organizingTeam?: ShowDetailFieldApi[] | null;
     juryList?: string[] | null;
     awards?: ShowDetailFieldApi[] | null;
+    publications?: PublicationApi[] | null;
+};
+
+type PublicationApi = {
+    file: string;
+    publicationNumber?: string | null;
+    publicationDate?: string | null;
 };
 
 type FestivalApiResponse = {
@@ -257,7 +264,21 @@ const mapFestivalApiResultToEdition = (festival: FestivalApiResult): FestivalEdi
         juryList: festival.juryList ?? undefined,
         awards: mapStructuredField(festival.awards, undefined),
         extraDetails: mapExtraDetails(festival.extraDetails),
+        publications: mapPublications(festival.publications),
     };
+};
+
+const mapPublications = (publications?: PublicationApi[] | null): Publication[] | undefined => {
+    if (!publications || publications.length === 0) {
+        return undefined;
+    }
+    return publications
+        .filter(pub => Boolean(pub.file))
+        .map(pub => ({
+            file: pub.file,
+            publicationNumber: pub.publicationNumber ?? undefined,
+            publicationDate: pub.publicationDate ?? undefined,
+        }));
 };
 
 /**

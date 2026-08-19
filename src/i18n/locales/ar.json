@@ -52,7 +52,10 @@
     "additionalInfo": "معلومات إضافية",
     "poster": "ملصق المهرجان",
     "additionalSections": "أقسام المعلومات الإضافية",
-    "noAdditionalInfo": "لا توجد معلومات إضافية متاحة لهذه الدورة من المهرجان."
+    "noAdditionalInfo": "لا توجد معلومات إضافية متاحة لهذه الدورة من المهرجان.",
+    "publications": "المنشورات",
+    "publicationFallbackName": "منشور",
+    "download": "تحميل"
   },
   "show": {
     "reserve_waiting_list": "حجز في قائمة الانتظار",

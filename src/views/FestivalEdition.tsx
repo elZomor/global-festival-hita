@@ -3,7 +3,7 @@ import {useState} from 'react';
 import {useParams} from 'next/navigation';
 import Link from 'next/link';
 import {useTranslation} from 'react-i18next';
-import {Calendar, ArrowLeft, Share2} from 'lucide-react';
+import {Calendar, ArrowLeft, Share2, Download} from 'lucide-react';
 import {Badge, Card, LoadingState} from '../components/common';
 import {festivalConfig} from '../config/festival';
 import {ShowCard} from '../features/festival/ShowCard';
@@ -20,7 +20,7 @@ import {getArticlePreviewText} from '../utils/articleContent';
 import {FestivalInfoTab} from './festival-detail';
 import {motion} from "framer-motion";
 
-type Tab = 'info' | 'shows' | 'articles' | 'symposia' | 'creativity';
+type Tab = 'info' | 'shows' | 'articles' | 'symposia' | 'creativity' | 'publications';
 
 export const FestivalEdition = () => {
     const params = useParams();
@@ -85,7 +85,10 @@ export const FestivalEdition = () => {
         {key: 'articles', label: t('festival.articles')},
         {key: 'symposia', label: t('festival.symposia')},
         {key: 'creativity', label: t('festival.creativity')},
+        {key: 'publications', label: t('festival.publications')},
     ];
+
+    const publications = edition.publications ?? [];
 
     const localizedTitle = localizeDigitsInString(
         isRTL ? edition.titleAr : edition.titleEn,
@@ -409,6 +412,58 @@ export const FestivalEdition = () => {
                     </div>
 
                     {creativity.length === 0 && (
+                        <div className="text-center py-16">
+                            <p className="text-primary-600 dark:text-primary-400">{t('common.noResults')}</p>
+                        </div>
+                    )}
+                </div>
+            )}
+
+            {activeTab === 'publications' && (
+                <div className="space-y-4 w-full md:w-[85%] mx-auto">
+                    {publications.map((publication, index) => {
+                        const fileUrl = buildMediaUrl(publication.file);
+                        const label = publication.publicationNumber
+                            ? `${t('festival.publicationFallbackName')} ${localizeDigitsInString(publication.publicationNumber, i18n.language)}`
+                            : `${t('festival.publicationFallbackName')} ${formatLocalizedNumber(index + 1, i18n.language)}`;
+
+                        return (
+                            <Card key={fileUrl || index} className="flex items-center justify-between gap-4 p-4">
+                                <div>
+                                    <a
+                                        href={fileUrl}
+                                        download
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-lg font-medium text-accent-600 dark:text-secondary-500 hover:text-secondary-400 underline"
+                                    >
+                                        {label}
+                                    </a>
+                                    {publication.publicationDate && (
+                                        <p className="text-sm text-primary-600 dark:text-primary-400 mt-1">
+                                            {new Date(publication.publicationDate).toLocaleDateString(isRTL ? 'ar-EG' : 'en-US', {
+                                                year: 'numeric',
+                                                month: 'long',
+                                                day: 'numeric',
+                                            })}
+                                        </p>
+                                    )}
+                                </div>
+                                <a
+                                    href={fileUrl}
+                                    download
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-secondary-500 hover:text-secondary-400 flex-shrink-0"
+                                    aria-label={t('festival.download')}
+                                >
+                                    <Download size={22}/>
+                                </a>
+                            </Card>
+                        );
+                    })}
+
+                    {publications.length === 0 && (
                         <div className="text-center py-16">
                             <p className="text-primary-600 dark:text-primary-400">{t('common.noResults')}</p>
                         </div>

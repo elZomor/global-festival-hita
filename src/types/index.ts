@@ -17,6 +17,13 @@ export type FestivalEdition = {
   juryList?: string[];
   awards?: DetailEntry[];
   extraDetails?: (string | DetailEntry)[];
+  publications?: Publication[];
+};
+
+export type Publication = {
+  file: string;
+  publicationNumber?: string;
+  publicationDate?: string;
 };
 
 /**

@@ -52,7 +52,10 @@
     "additionalInfo": "Additional Information",
     "poster": "Festival Poster",
     "additionalSections": "Additional Information Sections",
-    "noAdditionalInfo": "No additional information available for this festival edition."
+    "noAdditionalInfo": "No additional information available for this festival edition.",
+    "publications": "Publications",
+    "publicationFallbackName": "Publication",
+    "download": "Download"
   },
   "show": {
     "reserve_waiting_list": "Reserve on Waiting List",
