@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import { FestivalEdition } from '@/src/views/FestivalEdition'
+import { LoadingState } from '@/src/components/common'
 import { festivalConfig } from '@/src/config/festival'
 
 type Props = { params: Promise<{ festivalSlug: string }> }
@@ -98,7 +100,9 @@ export default async function FestivalEditionPage({ params }: Props) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       )}
-      <FestivalEdition />
+      <Suspense fallback={<LoadingState />}>
+        <FestivalEdition />
+      </Suspense>
     </>
   )
 }

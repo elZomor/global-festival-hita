@@ -1,6 +1,6 @@
 'use client';
-import {useState} from 'react';
-import {useParams} from 'next/navigation';
+import {useEffect, useState} from 'react';
+import {useParams, usePathname, useRouter, useSearchParams} from 'next/navigation';
 import Link from 'next/link';
 import {useTranslation} from 'react-i18next';
 import {Calendar, ArrowLeft, Share2, Download} from 'lucide-react';
@@ -21,13 +21,33 @@ import {FestivalInfoTab} from './festival-detail';
 import {motion} from "framer-motion";
 
 type Tab = 'info' | 'shows' | 'articles' | 'symposia' | 'creativity' | 'publications';
+const TABS: Tab[] = ['info', 'shows', 'articles', 'symposia', 'creativity', 'publications'];
+
+const getTabFromSearchParams = (searchParams: URLSearchParams): Tab => {
+    const tab = searchParams.get('tab');
+    return TABS.includes(tab as Tab) ? (tab as Tab) : 'info';
+};
 
 export const FestivalEdition = () => {
     const params = useParams();
     const festivalSlug = params.festivalSlug as string;
     const {t, i18n} = useTranslation();
     const isRTL = i18n.language === 'ar';
-    const [activeTab, setActiveTab] = useState<Tab>('info');
+    const router = useRouter();
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
+    const [activeTab, setActiveTab] = useState<Tab>(() => getTabFromSearchParams(searchParams));
+
+    useEffect(() => {
+        setActiveTab(getTabFromSearchParams(searchParams));
+    }, [searchParams]);
+
+    const handleTabChange = (tab: Tab) => {
+        setActiveTab(tab);
+        const nextParams = new URLSearchParams(searchParams.toString());
+        nextParams.set('tab', tab);
+        router.replace(`${pathname}?${nextParams.toString()}`, {scroll: false});
+    };
 
     const editionsQuery = useFestivalEditions();
     const edition = editionsQuery.data?.find(e => e.slug === festivalSlug);
@@ -167,7 +187,7 @@ export const FestivalEdition = () => {
                     {tabs.map(tab => (
                         <button
                             key={tab.key}
-                            onClick={() => setActiveTab(tab.key)}
+                            onClick={() => handleTabChange(tab.key)}
                             className={`
                 px-6 py-3 font-medium transition-all duration-300
                 border-b-2 whitespace-nowrap
