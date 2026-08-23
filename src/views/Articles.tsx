@@ -1,11 +1,18 @@
-'use client';
 import Link from 'next/link';
-import {useTranslation} from 'react-i18next';
-import {FileText} from 'lucide-react';
-import {Card, Badge, SectionHeader, LoadingState} from '../components/common';
-import {useArticles, useShows} from '../api/hooks';
-import {buildMediaUrl} from '../utils/mediaUtils';
-import {getArticlePreviewText} from '../utils/articleContent';
+import { getLocale } from 'next-intl/server';
+import { FileText } from 'lucide-react';
+import { Card, Badge, SectionHeader } from '../components/common';
+import { getT } from '../i18n/getT';
+import { serverApiFetch, withQueryParams, apiPrefix } from '../api/server';
+import {
+    mapArticleApiResultToArticle,
+    mapShowApiResultToShow,
+    type ArticleApiResult,
+    type PaginatedResponse,
+    type ShowApiResult,
+} from '../api/hooks';
+import { buildMediaUrl } from '../utils/mediaUtils';
+import { getArticlePreviewText } from '../utils/articleContent';
 
 type ArticleListingPageProps = {
     contentType?: 'ARTICLE' | 'SYMPOSIA';
@@ -13,23 +20,23 @@ type ArticleListingPageProps = {
     detailPath?: 'articles' | 'symposia';
 };
 
-export const ArticleListingPage = ({
+export const ArticleListingPage = async ({
                                        contentType = 'ARTICLE',
                                        translationNamespace = 'articles',
                                        detailPath = 'articles',
                                    }: ArticleListingPageProps) => {
-    const {t, i18n} = useTranslation();
-    const isRTL = i18n.language === 'ar';
-    const {
-        data: articles = [],
-        isLoading,
-        isError,
-    } = useArticles(contentType);
-    const {
-        data: shows = [],
-        isLoading: isLoadingShows,
-        isError: hasShowsError,
-    } = useShows();
+    const [t, isRTL, articlesResponse, showsResponse] = await Promise.all([
+        getT(),
+        getLocale().then(locale => locale === 'ar'),
+        serverApiFetch<PaginatedResponse<ArticleApiResult>>(
+            withQueryParams(`${apiPrefix}/articles`, { type: contentType, page_size: 50 }),
+            300,
+        ),
+        serverApiFetch<PaginatedResponse<ShowApiResult>>(`${apiPrefix}/shows`, 300),
+    ]);
+
+    const articles = (articlesResponse?.results ?? []).map(mapArticleApiResultToArticle);
+    const shows = (showsResponse?.results ?? []).map(mapShowApiResultToShow);
 
     const getPrimaryAttachment = (attachments?: string[]) =>
         attachments?.map(path => buildMediaUrl(path)).find(url => url && url.trim() !== '') ?? '';
@@ -41,18 +48,6 @@ export const ArticleListingPage = ({
         const show = shows.find(s => s.id === showId);
         return show ? show.name : null;
     };
-
-    if (isLoading || isLoadingShows) {
-        return <LoadingState/>;
-    }
-
-    if (isError || hasShowsError) {
-        return (
-            <div className="text-center py-16">
-                <p className="text-lg text-primary-600 dark:text-primary-300">{t('common.error')}</p>
-            </div>
-        );
-    }
 
     return (
         <div className="space-y-6 w-full md:w-[85%] mx-auto">

@@ -1,5 +1,6 @@
 'use client';
-import {useTranslation} from 'react-i18next';
+import {useLocale} from 'next-intl';
+import {useT} from '../../i18n/useT';
 import {Card, PosterImage} from '../../components/common';
 import type {DetailEntry, FestivalEdition} from '../../types';
 import {buildMediaUrl} from '../../utils/mediaUtils';
@@ -33,8 +34,8 @@ type FestivalInfoTabProps = {
  * ```
  */
 export const FestivalInfoTab = ({edition}: FestivalInfoTabProps) => {
-    const {t, i18n} = useTranslation();
-    const isRTL = i18n.language === 'ar';
+    const t = useT();
+    const isRTL = useLocale() === 'ar';
 
     const formattedStartDate = new Date(edition.startDate).toLocaleDateString(
         isRTL ? 'ar-EG' : 'en-US',

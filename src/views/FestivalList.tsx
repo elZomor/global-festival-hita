@@ -1,32 +1,21 @@
-'use client';
 import Link from 'next/link';
-import { useTranslation } from 'react-i18next';
+import { getLocale } from 'next-intl/server';
 import { Calendar } from 'lucide-react';
-import { Card, SectionHeader, LoadingState } from '../components/common';
-import { useFestivalEditions } from '../api/hooks';
+import { Card, SectionHeader } from '../components/common';
+import { getT } from '../i18n/getT';
+import { serverApiFetch, apiPrefix } from '../api/server';
+import { mapFestivalApiResultToEdition, type FestivalApiResponse } from '../api/hooks';
 import { formatLocalizedNumber, localizeDigitsInString } from '../utils/numberUtils';
 
-export const FestivalList = () => {
-  const { t, i18n } = useTranslation();
-  const isRTL = i18n.language === 'ar';
-  const {
-    data: editions = [],
-    isLoading,
-    isError,
-  } = useFestivalEditions();
+export const FestivalList = async () => {
+  const [t, locale, response] = await Promise.all([
+    getT(),
+    getLocale(),
+    serverApiFetch<FestivalApiResponse>(`${apiPrefix}/festivals`, 3600),
+  ]);
+  const isRTL = locale === 'ar';
+  const editions = (response?.results ?? []).map(mapFestivalApiResultToEdition);
   const sortedEditions = [...editions].sort((a, b) => b.year - a.year);
-
-  if (isLoading) {
-    return <LoadingState />;
-  }
-
-  if (isError) {
-    return (
-      <div className="text-center py-16">
-        <p className="text-lg text-primary-600 dark:text-primary-300">{t('common.error')}</p>
-      </div>
-    );
-  }
 
   if (!editions.length) {
     return (
@@ -47,11 +36,11 @@ export const FestivalList = () => {
         {sortedEditions.map((edition) => {
           const localizedTitle = localizeDigitsInString(
             isRTL ? edition.titleAr : edition.titleEn,
-            i18n.language
+            locale
           );
           const localizedDescription = localizeDigitsInString(
             isRTL ? edition.descriptionAr : edition.descriptionEn,
-            i18n.language
+            locale
           );
 
           return (
@@ -77,9 +66,9 @@ export const FestivalList = () => {
                     })}
                   </span>
                   <span>•</span>
-                  <span>{formatLocalizedNumber(edition.totalShows, i18n.language)} {t('festival.numberOfShows')}</span>
+                  <span>{formatLocalizedNumber(edition.totalShows, locale)} {t('festival.numberOfShows')}</span>
                   <span>•</span>
-                  <span>{formatLocalizedNumber(edition.totalArticles, i18n.language)} {t('festival.numberOfArticles')}</span>
+                  <span>{formatLocalizedNumber(edition.totalArticles, locale)} {t('festival.numberOfArticles')}</span>
                 </div>
               </div>
               </Card>

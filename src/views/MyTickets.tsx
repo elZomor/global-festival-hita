@@ -2,7 +2,8 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useTranslation } from 'react-i18next';
+import { useLocale } from 'next-intl';
+import { useT } from '../i18n/useT';
 import { useAuth } from '../contexts/AuthContext';
 import { useMyReservations } from '../api/hooks';
 import type { MyReservation } from '../types';
@@ -16,8 +17,8 @@ const statusBadgeClass: Record<string, string> = {
 };
 
 function TicketCard({ reservation }: { reservation: MyReservation }) {
-  const { t, i18n } = useTranslation();
-  const isRTL = i18n.language === 'ar';
+  const t = useT();
+  const isRTL = useLocale() === 'ar';
 
   const formattedDate = reservation.showDate
     ? new Date(reservation.showDate).toLocaleDateString(isRTL ? 'ar-EG' : 'en-GB', {
@@ -33,7 +34,7 @@ function TicketCard({ reservation }: { reservation: MyReservation }) {
     : '';
 
   const badgeClass = statusBadgeClass[reservation.status] ?? statusBadgeClass.CLOSED;
-  const statusLabel = t(`myTickets.status.${reservation.status}`, reservation.status);
+  const statusLabel = t(`myTickets.status.${reservation.status}`);
 
   return (
     <div className="rounded-xl border border-primary-200 dark:border-primary-700 bg-primary-50 dark:bg-primary-900 shadow-sm overflow-hidden flex flex-col">
@@ -116,7 +117,7 @@ function SkeletonCard() {
 }
 
 export const MyTickets = () => {
-  const { t } = useTranslation();
+  const t = useT();
   const { isAuthenticated } = useAuth();
   const [filter, setFilter] = useState<StatusFilter>('ALL');
   const { data: reservations, isLoading } = useMyReservations();

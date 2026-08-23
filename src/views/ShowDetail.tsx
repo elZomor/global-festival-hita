@@ -1,71 +1,55 @@
-'use client';
 import Link from 'next/link';
-import {useParams, useRouter, useSearchParams} from 'next/navigation';
-import {useTranslation} from 'react-i18next';
-import {useState, type ReactNode} from 'react';
-import {useQueryClient} from '@tanstack/react-query';
-import {ArrowLeft} from 'lucide-react';
-import {LoadingState} from '../components/common';
-import {useArticles, useIsHitaMember, useReserveShow, useShow, useSymposia, type ReserveShowResponse} from '../api/hooks';
-import {useAuth} from '../contexts/AuthContext';
-import {ReservationModal} from '../features/reservations/ReservationModal';
-import {ReservationSuccessModal} from '../features/reservations/ReservationSuccessModal';
-import {compareWithToday, getLongFormattedDate, translateTime} from '../utils/dateUtils';
+import { getLocale } from 'next-intl/server';
+import { type ReactNode } from 'react';
+import { BackButton } from '../components/common';
+import { getT } from '../i18n/getT';
+import { serverApiFetch, withQueryParams, apiPrefix } from '../api/server';
 import {
-    ShowHero,
+    mapArticleApiResultToArticle,
+    mapShowApiResultToShow,
+    type ArticleApiResult,
+    type PaginatedResponse,
+    type ShowApiResult,
+} from '../api/hooks';
+import { compareWithToday, getLongFormattedDate, translateTime } from '../utils/dateUtils';
+import {
     ShowTabsNavigation,
     ShowInfoTab,
     ShowArticlesTab,
     ShowCommentsTab,
+    ShowReservationSection,
     type ShowTab,
     type ShowTabKey,
     type ShowDetailSection,
 } from './show-detail';
 import {isDetailEntry} from '../components/detail-display/utils';
 
-export const ShowDetail = () => {
-    const params = useParams();
-    const pk = params.pk as string;
-    const router = useRouter();
-    const searchParams = useSearchParams();
-    const token = searchParams.get('token') ?? undefined;
-    const {t, i18n} = useTranslation();
-    const isRTL = i18n.language === 'ar';
-    const {isAuthenticated} = useAuth();
-    const {data: isHitaMember} = useIsHitaMember(isAuthenticated);
-    const reserveMutation = useReserveShow();
-    const [isReservationOpen, setReservationOpen] = useState(false);
-    const [reservationSuccess, setReservationSuccess] = useState<ReserveShowResponse | null>(null);
-    const [activeTab, setActiveTab] = useState<ShowTabKey>('info');
-    const queryClient = useQueryClient();
+type ShowDetailProps = {
+    showId: string;
+    tab?: string;
+    token?: string;
+};
 
-    const showId = pk ?? '';
-    const {
-        data: show,
-        isLoading: isShowLoading,
-        isError: isShowError,
-    } = useShow(showId, {enabled: Boolean(showId)});
-    const articlesQuery = useArticles();
-    const symposiaQuery = useSymposia();
+const TAB_KEYS: ShowTabKey[] = ['info', 'articles', 'symposia', 'comments'];
 
-    const relatedArticles = (articlesQuery.data ?? []).filter(a => a.showId === show?.id);
-    const relatedSymposia = (symposiaQuery.data ?? []).filter(symposium => symposium.showId === show?.id);
-    const isLoading = isShowLoading || articlesQuery.isLoading || symposiaQuery.isLoading;
-    const hasError = isShowError || articlesQuery.isError || symposiaQuery.isError;
+export const ShowDetail = async ({ showId, tab: tabParam, token }: ShowDetailProps) => {
+    const activeTab: ShowTabKey = TAB_KEYS.includes(tabParam as ShowTabKey) ? (tabParam as ShowTabKey) : 'info';
 
-    if (isLoading) {
-        return <LoadingState/>;
-    }
-
-    if (hasError) {
-        return (
-            <div className="text-center py-16">
-                <h2 className="text-2xl font-bold text-primary-900 dark:text-primary-50">
-                    {t('common.error')}
-                </h2>
-            </div>
-        );
-    }
+    const [t, locale, showResult, articlesResponse, symposiaResponse] = await Promise.all([
+        getT(),
+        getLocale(),
+        serverApiFetch<ShowApiResult>(`${apiPrefix}/shows/${showId}`, 300),
+        serverApiFetch<PaginatedResponse<ArticleApiResult>>(
+            withQueryParams(`${apiPrefix}/articles`, { type: 'ARTICLE', page_size: 50 }),
+            300,
+        ),
+        serverApiFetch<PaginatedResponse<ArticleApiResult>>(
+            withQueryParams(`${apiPrefix}/articles`, { type: 'SYMPOSIA', page_size: 50 }),
+            300,
+        ),
+    ]);
+    const isRTL = locale === 'ar';
+    const show = showResult ? mapShowApiResultToShow(showResult) : null;
 
     if (!show) {
         return (
@@ -77,23 +61,14 @@ export const ShowDetail = () => {
         );
     }
 
+    const relatedArticles = (articlesResponse?.results ?? [])
+        .map(mapArticleApiResultToArticle)
+        .filter(a => a.showId === show.id);
+    const relatedSymposia = (symposiaResponse?.results ?? [])
+        .map(mapArticleApiResultToArticle)
+        .filter(symposium => symposium.showId === show.id);
+
     const showDate = show.date ? new Date(show.date) : null;
-    const reservationStatuses = ['OPEN_FOR_RESERVATION', 'OPEN_FOR_WAITING_LIST', 'COMPLETE'];
-    const isReservationStatus = reservationStatuses.includes(show.isOpenForReservation)
-        && (!isAuthenticated || Boolean(token) || isHitaMember === true);
-    const isReservationComplete = show.isOpenForReservation === 'COMPLETE';
-    const getReservationStatusClass = (status: string) => {
-        switch (status) {
-            case 'OPEN_FOR_RESERVATION':
-                return 'reservation';
-            case 'OPEN_FOR_WAITING_LIST':
-                return 'waiting';
-            case 'COMPLETE':
-                return 'complete';
-            default:
-                return 'secondary';
-        }
-    };
     const tabs: ShowTab[] = [
         {key: 'info', label: t('show.tabs.info')},
         {key: 'articles', label: t('show.tabs.articles')},
@@ -108,8 +83,8 @@ export const ShowDetail = () => {
                 ? 'show.finished'
                 : 'show.today';
     const showStatusLabel = t(statusTranslationKey);
-    const formattedDate = showDate ? getLongFormattedDate(i18n.language, showDate) : t('show.notAvailable');
-    const formattedTime = show.time ? translateTime(show.time, i18n.language) : t('show.timeTBD');
+    const formattedDate = showDate ? getLongFormattedDate(locale, showDate) : t('show.notAvailable');
+    const formattedTime = show.time ? translateTime(show.time, locale) : t('show.timeTBD');
     const showStatusClassName = (() => {
         if (!show.date) return 'text-accent-500';
         const comparison = compareWithToday(new Date(show.date));
@@ -226,7 +201,13 @@ export const ShowDetail = () => {
     const crewSection = buildDetailSection(t('show.sections.crew'), show.crew);
     const additionalSection = buildDetailSection(t('show.sections.additional'), show.notes);
 
-    const reservationButtonVariant = getReservationStatusClass(show.isOpenForReservation);
+    const tabHref = (tabKey: ShowTabKey) => {
+        const params = new URLSearchParams();
+        params.set('tab', tabKey);
+        if (token) params.set('token', token);
+        return `/shows/${showId}?${params.toString()}`;
+    };
+
     const renderActiveTab = () => {
         switch (activeTab) {
             case 'articles':
@@ -270,70 +251,26 @@ export const ShowDetail = () => {
         }
     };
 
-    const handleSuccessModalClose = () => {
-        setReservationSuccess(null);
-        queryClient.invalidateQueries({queryKey: ['show']});
-        queryClient.invalidateQueries({queryKey: ['shows']});
-    };
-
     return (
         <div className="space-y-8">
-            <button
-                onClick={() => router.back()}
-                className="inline-flex items-center gap-2 text-secondary-500 hover:text-secondary-400 transition-colors"
-            >
-                <ArrowLeft size={20} className={isRTL ? 'rotate-180' : ''}/>
-                {t('common.back')}
-            </button>
+            <BackButton label={t('common.back')} isRTL={isRTL}/>
 
-            <ShowHero
+            <ShowReservationSection
                 show={show}
                 infoItems={infoItems}
                 showStatusLabel={showStatusLabel}
                 showStatusClassName={showStatusClassName}
                 isRTL={isRTL}
-                isReservationStatus={isReservationStatus}
-                isReservationComplete={isReservationComplete}
-                reservationButtonVariant={reservationButtonVariant}
-                isAuthenticated={isAuthenticated}
                 reserveLabel={t('show.reserve')}
                 waitingListLabel={t('show.reserve_waiting_list')}
                 completeLabel={t('show.complete')}
                 bookTicketLabel={t('show.bookTicket')}
-                onReservationClick={async () => {
-                    if (show.isOpenForReservation === 'OPEN_FOR_WAITING_LIST' && isAuthenticated) {
-                        try {
-                            const response = await reserveMutation.mutateAsync({ showId: show.id, token });
-                            setReservationSuccess(response.data);
-                        } catch {
-                            setReservationOpen(true);
-                        }
-                    } else {
-                        setReservationOpen(true);
-                    }
-                }}
+                token={token}
             />
 
-            <ShowTabsNavigation tabs={tabs} activeTab={activeTab} onTabChange={tab => setActiveTab(tab)}/>
+            <ShowTabsNavigation tabs={tabs} activeTab={activeTab} getHref={tabHref}/>
 
             {renderActiveTab()}
-
-            {isReservationStatus && (
-                <ReservationModal
-                    showId={show.id}
-                    showName={show.name}
-                    isOpen={isReservationOpen}
-                    onClose={() => setReservationOpen(false)}
-                    onSuccess={response => setReservationSuccess(response)}
-                    token={token}
-                />
-            )}
-            <ReservationSuccessModal
-                isOpen={Boolean(reservationSuccess)}
-                reservation={reservationSuccess}
-                onClose={handleSuccessModalClose}
-            />
-
         </div>
     );
 };

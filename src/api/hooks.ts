@@ -18,7 +18,7 @@ const emptyArray: never[] = [];
  * - organizing_team → organizingTeam
  * - jury_list → juryList
  */
-type FestivalApiResult = {
+export type FestivalApiResult = {
     id: number;
     name: string;
     description?: string | null;
@@ -41,7 +41,7 @@ type PublicationApi = {
     publicationDate?: string | null;
 };
 
-type FestivalApiResponse = {
+export type FestivalApiResponse = {
     count: number;
     totalPages: number;
     currentPage: number;
@@ -87,7 +87,7 @@ type ShowDetailFieldApi = {
  * - allowed_seats → allowedSeats
  * - allowed_waiting → allowedWaiting
  */
-type ShowApiResult = {
+export type ShowApiResult = {
     id: number;
     name?: string | null;
     slug?: string | null;
@@ -117,7 +117,7 @@ type ShowApiResult = {
     openForComments?: boolean | null;
 };
 
-type PaginatedResponse<T> = {
+export type PaginatedResponse<T> = {
     count: number;
     totalPages: number;
     currentPage: number;
@@ -139,7 +139,7 @@ type PaginatedResponse<T> = {
  * - festival_year → festivalYear
  * - article_attachments_list → articleAttachmentsList
  */
-type ArticleApiResult = {
+export type ArticleApiResult = {
     id: number;
     slug?: string | null;
     title?: string | null;
@@ -240,7 +240,7 @@ const mapExtraDetails = (
  * @param festival - Festival data from API
  * @returns Formatted FestivalEdition object
  */
-const mapFestivalApiResultToEdition = (festival: FestivalApiResult): FestivalEdition => {
+export const mapFestivalApiResultToEdition = (festival: FestivalApiResult): FestivalEdition => {
     const startDate = festival.startDate ?? festival.endDate ?? '';
     const endDate = festival.endDate ?? festival.startDate ?? '';
     const year = startDate ? new Date(startDate).getFullYear() : new Date().getFullYear();
@@ -566,7 +566,7 @@ const parseDescriptionField = (description?: string | string[] | null): string |
  * @param show - Show data from API
  * @returns Formatted Show object
  */
-const mapShowApiResultToShow = (show: ShowApiResult): Show => {
+export const mapShowApiResultToShow = (show: ShowApiResult): Show => {
     const datePart = show.date ?? '';
     const timePart = show.time ?? '';
     const fallbackYearSource = datePart || show.createdAt;
@@ -648,7 +648,7 @@ const mapShowApiResultToShow = (show: ShowApiResult): Show => {
  * @param article - Article data from API
  * @returns Formatted Article object
  */
-const mapArticleApiResultToArticle = (article: ArticleApiResult): Article => {
+export const mapArticleApiResultToArticle = (article: ArticleApiResult): Article => {
     const createdAt = article.createdAt ?? new Date().toISOString();
     const editionYear =
         article.festivalYear ??
@@ -721,7 +721,7 @@ const mapArticleApiResultToArticle = (article: ArticleApiResult): Article => {
  * @param article - Article data from API (used for creativity submissions)
  * @returns Formatted CreativitySubmission object
  */
-const mapArticleApiResultToCreativity = (article: ArticleApiResult): CreativitySubmission => {
+export const mapArticleApiResultToCreativity = (article: ArticleApiResult): CreativitySubmission => {
     const baseTitleAr = article.titleAr ?? article.title ?? 'عمل إبداعي';
     const baseTitleEn = article.titleEn ?? article.title ?? 'Creative Work';
     const attachments = Array.isArray(article.articleAttachmentsList)

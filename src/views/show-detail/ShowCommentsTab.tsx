@@ -1,6 +1,7 @@
 'use client';
 import {useState} from 'react';
-import {useTranslation} from 'react-i18next';
+import {useLocale} from 'next-intl';
+import {useT} from '../../i18n/useT';
 import {useQueryClient} from '@tanstack/react-query';
 import {MessageCircle} from 'lucide-react';
 import {Card, Button, LoadingState} from '../../components/common';
@@ -12,8 +13,8 @@ type ShowCommentsTabProps = {
 };
 
 export const ShowCommentsTab = ({showId, openForComments}: ShowCommentsTabProps) => {
-    const {t, i18n} = useTranslation();
-    const isRTL = i18n.language === 'ar';
+    const t = useT();
+    const isRTL = useLocale() === 'ar';
     const [comment, setComment] = useState('');
     const [showSuccess, setShowSuccess] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);

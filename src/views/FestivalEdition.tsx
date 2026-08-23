@@ -1,93 +1,57 @@
-'use client';
-import {useEffect, useState} from 'react';
-import {useParams, usePathname, useRouter, useSearchParams} from 'next/navigation';
 import Link from 'next/link';
-import {useTranslation} from 'react-i18next';
-import {Calendar, ArrowLeft, Share2, Download} from 'lucide-react';
-import {Badge, Card, LoadingState} from '../components/common';
-import {festivalConfig} from '../config/festival';
-import {ShowCard} from '../features/festival/ShowCard';
+import { getLocale } from 'next-intl/server';
+import { Calendar, ArrowLeft, Download } from 'lucide-react';
+import { Badge, Card, ShareButton } from '../components/common';
+import { ShowCard } from '../features/festival/ShowCard';
+import { getT } from '../i18n/getT';
+import { serverApiFetch, withQueryParams, apiPrefix } from '../api/server';
 import {
-    useArticles,
-    useCreativityEntries,
-    useFestivalEditions,
-    useShows,
-    useSymposia,
+    mapArticleApiResultToArticle,
+    mapArticleApiResultToCreativity,
+    mapFestivalApiResultToEdition,
+    mapShowApiResultToShow,
+    type ArticleApiResult,
+    type FestivalApiResponse,
+    type PaginatedResponse,
+    type ShowApiResult,
 } from '../api/hooks';
-import {formatLocalizedNumber, localizeDigitsInString} from '../utils/numberUtils';
-import {buildMediaUrl} from '../utils/mediaUtils';
-import {getArticlePreviewText} from '../utils/articleContent';
-import {FestivalInfoTab} from './festival-detail';
-import {motion} from "framer-motion";
+import { formatLocalizedNumber, localizeDigitsInString } from '../utils/numberUtils';
+import { buildMediaUrl } from '../utils/mediaUtils';
+import { getArticlePreviewText } from '../utils/articleContent';
+import { FestivalInfoTab } from './festival-detail';
 
 type Tab = 'info' | 'shows' | 'articles' | 'symposia' | 'creativity' | 'publications';
 const TABS: Tab[] = ['info', 'shows', 'articles', 'symposia', 'creativity', 'publications'];
 
-const getTabFromSearchParams = (searchParams: URLSearchParams): Tab => {
-    const tab = searchParams.get('tab');
-    return TABS.includes(tab as Tab) ? (tab as Tab) : 'info';
+type FestivalEditionProps = {
+    festivalSlug: string;
+    tab?: string;
 };
 
-export const FestivalEdition = () => {
-    const params = useParams();
-    const festivalSlug = params.festivalSlug as string;
-    const {t, i18n} = useTranslation();
-    const isRTL = i18n.language === 'ar';
-    const router = useRouter();
-    const pathname = usePathname();
-    const searchParams = useSearchParams();
-    const [activeTab, setActiveTab] = useState<Tab>(() => getTabFromSearchParams(searchParams));
+export const FestivalEdition = async ({ festivalSlug, tab: tabParam }: FestivalEditionProps) => {
+    const activeTab: Tab = TABS.includes(tabParam as Tab) ? (tabParam as Tab) : 'info';
 
-    useEffect(() => {
-        setActiveTab(getTabFromSearchParams(searchParams));
-    }, [searchParams]);
+    const [t, locale, festivalsResponse, articlesResponse, symposiaResponse, creativityResponse] = await Promise.all([
+        getT(),
+        getLocale(),
+        serverApiFetch<FestivalApiResponse>(`${apiPrefix}/festivals`, 3600),
+        serverApiFetch<PaginatedResponse<ArticleApiResult>>(
+            withQueryParams(`${apiPrefix}/articles`, { type: 'ARTICLE', page_size: 50 }),
+            300,
+        ),
+        serverApiFetch<PaginatedResponse<ArticleApiResult>>(
+            withQueryParams(`${apiPrefix}/articles`, { type: 'SYMPOSIA', page_size: 50 }),
+            300,
+        ),
+        serverApiFetch<PaginatedResponse<ArticleApiResult>>(
+            withQueryParams(`${apiPrefix}/articles`, { type: 'CREATIVITY', page_size: 50 }),
+            300,
+        ),
+    ]);
+    const isRTL = locale === 'ar';
 
-    const handleTabChange = (tab: Tab) => {
-        setActiveTab(tab);
-        const nextParams = new URLSearchParams(searchParams.toString());
-        nextParams.set('tab', tab);
-        router.replace(`${pathname}?${nextParams.toString()}`, {scroll: false});
-    };
-
-    const editionsQuery = useFestivalEditions();
-    const edition = editionsQuery.data?.find(e => e.slug === festivalSlug);
-    const showsQuery = useShows(edition?.id, {enabled: Boolean(edition?.id)});
-    const articlesQuery = useArticles();
-    const symposiaQuery = useSymposia();
-    const creativityQuery = useCreativityEntries();
-
-    const isLoading =
-        editionsQuery.isLoading ||
-        showsQuery.isLoading ||
-        articlesQuery.isLoading ||
-        symposiaQuery.isLoading ||
-        creativityQuery.isLoading;
-
-    const hasError =
-        editionsQuery.isError ||
-        showsQuery.isError ||
-        articlesQuery.isError ||
-        symposiaQuery.isError ||
-        creativityQuery.isError;
-
-    const shows = showsQuery.data ?? [];
-    const articles = (articlesQuery.data ?? []).filter(a => a.festivalId === edition?.id);
-    const symposia = (symposiaQuery.data ?? []).filter(s => s.festivalId === edition?.id);
-    const creativity = (creativityQuery.data ?? []).filter(c => c.festivalId === edition?.id);
-    const getAttachmentUrl = (attachments?: string[]) =>
-        attachments?.map(path => buildMediaUrl(path)).find(url => url && url.trim() !== '') ?? '';
-
-    if (isLoading) {
-        return <LoadingState/>;
-    }
-
-    if (hasError) {
-        return (
-            <div className="text-center py-16">
-                <p className="text-lg text-primary-600 dark:text-primary-300">{t('common.error')}</p>
-            </div>
-        );
-    }
+    const editions = (festivalsResponse?.results ?? []).map(mapFestivalApiResultToEdition);
+    const edition = editions.find(e => e.slug === festivalSlug);
 
     if (!edition) {
         return (
@@ -98,6 +62,21 @@ export const FestivalEdition = () => {
             </div>
         );
     }
+
+    const showsResponse = await serverApiFetch<PaginatedResponse<ShowApiResult>>(
+        withQueryParams(`${apiPrefix}/shows`, { festival: edition.id, page_size: 50 }),
+        300,
+    );
+    const shows = (showsResponse?.results ?? []).map(mapShowApiResultToShow);
+    const allArticles = (articlesResponse?.results ?? []).map(mapArticleApiResultToArticle);
+    const allSymposia = (symposiaResponse?.results ?? []).map(mapArticleApiResultToArticle);
+    const allCreativity = (creativityResponse?.results ?? []).map(mapArticleApiResultToCreativity);
+
+    const articles = allArticles.filter(a => a.festivalId === edition.id);
+    const symposia = allSymposia.filter(s => s.festivalId === edition.id);
+    const creativity = allCreativity.filter(c => c.festivalId === edition.id);
+    const getAttachmentUrl = (attachments?: string[]) =>
+        attachments?.map(path => buildMediaUrl(path)).find(url => url && url.trim() !== '') ?? '';
 
     const tabs: { key: Tab; label: string }[] = [
         {key: 'info', label: t('festival.info')},
@@ -112,11 +91,11 @@ export const FestivalEdition = () => {
 
     const localizedTitle = localizeDigitsInString(
         isRTL ? edition.titleAr : edition.titleEn,
-        i18n.language
+        locale
     );
     const localizedDescription = localizeDigitsInString(
         isRTL ? edition.descriptionAr : edition.descriptionEn,
-        i18n.language
+        locale
     );
 
     return (
@@ -137,25 +116,7 @@ export const FestivalEdition = () => {
                     <h1 className="text-3xl md:text-4xl font-bold">
                         {localizedTitle}
                     </h1>
-                    <motion.button
-                        onClick={() => {
-                            const url = window.location.href;
-                            if (navigator.share) {
-                                navigator.share({
-                                    title: edition.titleAr,
-                                    url,
-                                });
-                            } else {
-                                navigator.clipboard.writeText(url);
-                                alert(t('link_copied'));
-                            }
-                        }}
-                        className="text-sm mx-2 hover:text-accent-500 text-secondary-500 font-medium underline text-center md:text-left"
-                        whileHover={{scale: 1.05}}
-                        whileTap={{scale: 0.95}}
-                    >
-                        <Share2 size={30}/>
-                    </motion.button>
+                    <ShareButton title={isRTL ? edition.titleAr : edition.titleEn}/>
                 </div>
 
                 <p className="text-lg text-primary-100 dark:text-primary-200 mb-4">
@@ -174,31 +135,32 @@ export const FestivalEdition = () => {
                     })}
                     </Badge>
                     <Badge variant="default">
-                        {formatLocalizedNumber(edition.totalShows, i18n.language)} {t('festival.numberOfShows')}
+                        {formatLocalizedNumber(edition.totalShows, locale)} {t('festival.numberOfShows')}
                     </Badge>
                     <Badge variant="default">
-                        {formatLocalizedNumber(edition.totalArticles, i18n.language)} {t('festival.numberOfArticles')}
+                        {formatLocalizedNumber(edition.totalArticles, locale)} {t('festival.numberOfArticles')}
                     </Badge>
                 </div>
             </div>
 
             <div className="border-b border-primary-300 dark:border-primary-700">
                 <div className="flex gap-2 overflow-x-auto">
-                    {tabs.map(tab => (
-                        <button
-                            key={tab.key}
-                            onClick={() => handleTabChange(tab.key)}
+                    {tabs.map(tabItem => (
+                        <Link
+                            key={tabItem.key}
+                            href={`/festival/${festivalSlug}?tab=${tabItem.key}`}
+                            scroll={false}
                             className={`
                 px-6 py-3 font-medium transition-all duration-300
                 border-b-2 whitespace-nowrap
-                ${activeTab === tab.key
+                ${activeTab === tabItem.key
                                 ? 'border-secondary-500 text-accent-600 dark:text-secondary-500'
                                 : 'border-transparent text-primary-600 dark:text-primary-400 hover:text-accent-600 dark:hover:text-secondary-500'
                             }
               `}
                         >
-                            {tab.label}
-                        </button>
+                            {tabItem.label}
+                        </Link>
                     ))}
                 </div>
             </div>
@@ -367,7 +329,7 @@ export const FestivalEdition = () => {
                 <div className="space-y-6 w-full md:w-[85%] mx-auto">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {creativity.map(item => {
-                            const localizedTitle = isRTL ? item.titleAr ?? item.title : item.titleEn ?? item.title;
+                            const localizedItemTitle = isRTL ? item.titleAr ?? item.title : item.titleEn ?? item.title;
                             const preview = isRTL ? item.contentAr ?? item.content : item.contentEn ?? item.content;
                             const attachmentUrl = item.attachments?.map(path => buildMediaUrl(path)).find(url => url && url.trim() !== '') ?? '';
 
@@ -380,7 +342,7 @@ export const FestivalEdition = () => {
                                                     className="w-full md:w-1/3 lg:w-2/5 bg-primary-100 dark:bg-primary-900 rounded-lg flex items-center justify-center overflow-hidden">
                                                     <img
                                                         src={attachmentUrl}
-                                                        alt={localizedTitle}
+                                                        alt={localizedItemTitle}
                                                         className="w-full h-48 object-contain"
                                                     />
                                                 </div>
@@ -398,7 +360,7 @@ export const FestivalEdition = () => {
                                                 </div>
 
                                                 <h2 className="text-2xl md:text-3xl font-bold text-accent-600 dark:text-secondary-500">
-                                                    {localizedTitle}
+                                                    {localizedItemTitle}
                                                 </h2>
 
                                                 <p className="text-primary-600 dark:text-primary-400 flex flex-wrap items-center gap-2">
@@ -444,8 +406,8 @@ export const FestivalEdition = () => {
                     {publications.map((publication, index) => {
                         const fileUrl = buildMediaUrl(publication.file);
                         const label = publication.publicationNumber
-                            ? `${t('festival.publicationFallbackName')} ${localizeDigitsInString(publication.publicationNumber, i18n.language)}`
-                            : `${t('festival.publicationFallbackName')} ${formatLocalizedNumber(index + 1, i18n.language)}`;
+                            ? `${t('festival.publicationFallbackName')} ${localizeDigitsInString(publication.publicationNumber, locale)}`
+                            : `${t('festival.publicationFallbackName')} ${formatLocalizedNumber(index + 1, locale)}`;
 
                         return (
                             <Card key={fileUrl || index} className="flex items-center justify-between gap-4 p-4">

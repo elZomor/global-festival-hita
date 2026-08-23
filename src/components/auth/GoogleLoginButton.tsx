@@ -1,6 +1,6 @@
 'use client';
 import { GoogleLogin } from '@react-oauth/google';
-import { useTranslation } from 'react-i18next';
+import { useT } from '../../i18n/useT';
 
 type Props = {
   onSuccess: (credential: string) => Promise<void>;
@@ -25,7 +25,7 @@ export const openExternalBrowser = () => {
 export { isInAppBrowser };
 
 export const GoogleLoginButton = ({ onSuccess, onError }: Props) => {
-  const { t } = useTranslation();
+  const t = useT();
 
   if (isInAppBrowser) {
     return (

@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useT } from '../../i18n/useT';
 
 interface SeatMapPickerProps {
     takenSeats: string[];
@@ -71,7 +71,7 @@ const LEGEND_ITEMS = [
 ];
 
 export const SeatMapPicker = ({ takenSeats, selectedSeat, onSeatSelect }: SeatMapPickerProps) => {
-    const { t } = useTranslation();
+    const t = useT();
     const takenSet = new Set(takenSeats);
     const scrollRef = useRef<HTMLDivElement>(null);
 

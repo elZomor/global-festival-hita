@@ -97,7 +97,7 @@
     "dateLabel": "التاريخ",
     "timeLabel": "الوقت",
     "timeTBD": "يحدد لاحقاً",
-    "festivalFallback": "مهرجان الدورة {{year}}",
+    "festivalFallback": "مهرجان الدورة {year}",
     "unknownFestival": "بيانات المهرجان غير متاحة",
     "notAvailable": "غير متوفر",
     "sections": {
@@ -225,14 +225,12 @@
   },
   "myTickets": {
     "title": "تذاكري",
-    "subtitle_one": "{{count}} حجز",
-    "subtitle_other": "{{count}} حجوزات",
-    "subtitle": "{{count}} حجوزات",
+    "subtitle": "{count, plural, one {# حجز} other {# حجوزات}}",
     "all": "الكل",
     "confirmed": "مؤكد",
     "waitingList": "قائمة الانتظار",
-    "reservationNumber": "حجز رقم #{{number}}",
-    "seatNumber": "مقعد {{seat}}",
+    "reservationNumber": "حجز رقم #{number}",
+    "seatNumber": "مقعد {seat}",
     "noTickets": "لا توجد حجوزات بعد.",
     "browseShows": "تصفح العروض",
     "status": {
@@ -255,7 +253,7 @@
       "rightBlock": "الجناح الأيمن"
     },
     "selectSeat": "اختر مقعدك",
-    "selectedSeat": "مقعد {{seat}}",
+    "selectedSeat": "مقعد {seat}",
     "waitingList": {
       "info": "نفدت الأماكن المتاحة. يمكنك الانضمام إلى قائمة الانتظار.",
       "button": "انضم لقائمة الانتظار"
@@ -284,8 +282,8 @@
       "codes": {
         "NO_SHOW": "لم يتم العثور على هذا العرض، يرجى التحديث والمحاولة مرة أخرى.",
         "NO_SEATS": "جميع مقاعد هذا العرض محجوزة.",
-        "DUPLICATE_MAIL": "لقد قمت بالحجز مسبقاً. مقعدك هو {{seat}}.",
-        "DUPLICATE_WAITING_LIST": "أنت بالفعل في قائمة الانتظار. رقمك في القائمة هو #{{seat}}.",
+        "DUPLICATE_MAIL": "لقد قمت بالحجز مسبقاً. مقعدك هو {seat}.",
+        "DUPLICATE_WAITING_LIST": "أنت بالفعل في قائمة الانتظار. رقمك في القائمة هو #{seat}.",
         "INVALID_TOKEN": "ليس لديك صلاحية حجز هذا العرض.",
         "UNKNOWN_ERROR": "خطأ في الاتصال بالإنترنت",
         "INVALID_SEAT": "مقعد غير صالح، يرجى الاختيار من الصفوف G إلى L.",

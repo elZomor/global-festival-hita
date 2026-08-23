@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
+import { NextIntlClientProvider } from 'next-intl'
+import { getLocale, getMessages } from 'next-intl/server'
 import './globals.css'
 import { Providers } from '@/src/components/layout/Providers'
-import { I18nInitializer } from '@/src/components/layout/I18nInitializer'
 import { festivalConfig } from '@/src/config/festival'
 
 const festivalTitle = festivalConfig.titleEn
@@ -17,20 +18,25 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const locale = await getLocale()
+  const messages = await getMessages()
+  const dir = locale === 'ar' ? 'rtl' : 'ltr'
+
   return (
     <html
-      lang="ar"
-      dir="rtl"
+      lang={locale}
+      dir={dir}
       suppressHydrationWarning
     >
       <body>
-        <I18nInitializer />
-        <Providers>{children}</Providers>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <Providers>{children}</Providers>
+        </NextIntlClientProvider>
       </body>
     </html>
   )

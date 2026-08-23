@@ -1,10 +1,11 @@
 import type { Metadata } from 'next'
-import { Suspense } from 'react'
 import { FestivalEdition } from '@/src/views/FestivalEdition'
-import { LoadingState } from '@/src/components/common'
 import { festivalConfig } from '@/src/config/festival'
 
-type Props = { params: Promise<{ festivalSlug: string }> }
+type Props = {
+  params: Promise<{ festivalSlug: string }>
+  searchParams: Promise<{ tab?: string }>
+}
 
 async function fetchFestival(festivalSlug: string) {
   const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL ?? ''
@@ -58,8 +59,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default async function FestivalEditionPage({ params }: Props) {
+export default async function FestivalEditionPage({ params, searchParams }: Props) {
   const { festivalSlug } = await params
+  const { tab } = await searchParams
   const festival = await fetchFestival(festivalSlug)
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? ''
@@ -100,9 +102,7 @@ export default async function FestivalEditionPage({ params }: Props) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       )}
-      <Suspense fallback={<LoadingState />}>
-        <FestivalEdition />
-      </Suspense>
+      <FestivalEdition festivalSlug={festivalSlug} tab={tab} />
     </>
   )
 }

@@ -1,39 +1,22 @@
-'use client';
 import Link from 'next/link';
-import { useTranslation } from 'react-i18next';
+import { getLocale } from 'next-intl/server';
 import { ArrowRight } from 'lucide-react';
-import { Button, LoadingState } from '../components/common';
+import { Button } from '../components/common';
+import { getT } from '../i18n/getT';
 import { festivalConfig } from '../config/festival';
-import { useFestivalEditions, useLatestArticles } from '../api/hooks';
+import { serverApiFetch, apiPrefix } from '../api/server';
+import { mapFestivalApiResultToEdition, type FestivalApiResponse } from '../api/hooks';
 
-export const Home = () => {
-  const { t, i18n } = useTranslation();
-  const isRTL = i18n.language === 'ar';
-  const {
-    data: editions = [],
-    isLoading: isLoadingEditions,
-    isError: hasEditionError,
-  } = useFestivalEditions();
-  const {
-    // data: latestArticles = [],
-    isLoading: isLoadingArticles,
-    isError: hasArticleError,
-  } = useLatestArticles();
-
+export const Home = async () => {
+  const [t, locale, response] = await Promise.all([
+    getT(),
+    getLocale(),
+    serverApiFetch<FestivalApiResponse>(`${apiPrefix}/festivals`, 300),
+  ]);
+  const isRTL = locale === 'ar';
+  const editions = (response?.results ?? []).map(mapFestivalApiResultToEdition);
   const sortedEditions = [...editions].sort((a, b) => b.year - a.year);
   const currentEdition = sortedEditions[0];
-
-  if (isLoadingEditions || isLoadingArticles) {
-    return <LoadingState />;
-  }
-
-  if (hasEditionError || hasArticleError) {
-    return (
-      <div className="text-center py-16">
-        <p className="text-lg text-primary-600 dark:text-primary-300">{t('common.error')}</p>
-      </div>
-    );
-  }
 
   if (!currentEdition) {
     return (
@@ -78,126 +61,10 @@ export const Home = () => {
                   <ArrowRight className={`inline ${isRTL ? 'mr-2 rotate-180' : 'ml-2'} group-hover:translate-x-1 transition-transform`} size={20} />
                 </Button>
               </Link>
-              {/*<Link href="/articles">*/}
-              {/*  <Button variant="secondary">*/}
-              {/*    {t('home.browseArticles')}*/}
-              {/*  </Button>*/}
-              {/*</Link>*/}
             </div>
           </div>
         </div>
       </section>
-
-      {/*<section>*/}
-      {/*  <div className="flex items-center justify-between mb-8">*/}
-      {/*    <SectionHeader>*/}
-      {/*      <Calendar className={`inline ${isRTL ? 'ml-3' : 'mr-3'}`} size={32} />*/}
-      {/*      {t('home.editionsTitle')}*/}
-      {/*    </SectionHeader>*/}
-      {/*  </div>*/}
-
-      {/*  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">*/}
-      {/*    {sortedEditions.map((edition) => (*/}
-      {/*      <Link key={edition.slug} href={`/festival/${edition.slug}`}>*/}
-      {/*        <Card className="h-full">*/}
-      {/*          <div className="space-y-4">*/}
-      {/*            <div className="flex items-start justify-between">*/}
-      {/*              <h3 className="text-2xl font-bold text-accent-600 dark:text-secondary-500">*/}
-      {/*                {isRTL ? edition.titleAr : edition.titleEn}*/}
-      {/*              </h3>*/}
-      {/*            </div>*/}
-
-      {/*            <p className="text-primary-700 dark:text-primary-300 leading-relaxed">*/}
-      {/*              {isRTL ? edition.descriptionAr : edition.descriptionEn}*/}
-      {/*            </p>*/}
-
-      {/*            <div className="flex gap-4 text-sm text-primary-600 dark:text-primary-400">*/}
-      {/*              <span className="flex items-center gap-1">*/}
-      {/*                <Calendar size={16} />*/}
-      {/*                {new Date(edition.startDate).toLocaleDateString(isRTL ? 'ar-EG' : 'en-US', {*/}
-      {/*                  month: 'short',*/}
-      {/*                  day: 'numeric'*/}
-      {/*                })}*/}
-      {/*              </span>*/}
-      {/*              <span>•</span>*/}
-      {/*              <span>{formatLocalizedNumber(edition.totalShows, i18n.language)} {t('festival.numberOfShows')}</span>*/}
-      {/*              <span>•</span>*/}
-      {/*              <span>{formatLocalizedNumber(edition.totalArticles, i18n.language)} {t('festival.numberOfArticles')}</span>*/}
-      {/*            </div>*/}
-      {/*          </div>*/}
-      {/*        </Card>*/}
-      {/*      </Link>*/}
-      {/*    ))}*/}
-      {/*  </div>*/}
-      {/*</section>*/}
-
-      {/*<section>*/}
-      {/*  <div className="flex items-center justify-between mb-8">*/}
-      {/*    <SectionHeader>*/}
-      {/*      <FileText className={`inline ${isRTL ? 'ml-3' : 'mr-3'}`} size={32} />*/}
-      {/*      {t('home.latestArticles')}*/}
-      {/*    </SectionHeader>*/}
-      {/*    <Link href="/articles">*/}
-      {/*      <Button variant="ghost" className="hidden sm:block">*/}
-      {/*        {t('common.viewDetails')}*/}
-      {/*      </Button>*/}
-      {/*    </Link>*/}
-      {/*  </div>*/}
-
-      {/*  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">*/}
-      {/*    {latestArticles.map((article) => (*/}
-      {/*      <Link key={article.id} href={`/articles/${article.slug}`}>*/}
-      {/*        <Card className="h-full">*/}
-      {/*          <div className="space-y-3">*/}
-      {/*            <div className="flex items-start justify-between gap-2">*/}
-      {/*              <Badge variant="gold">*/}
-      {/*                {t(`articles.types.${article.type}`)}*/}
-      {/*              </Badge>*/}
-      {/*              <span className="text-xs text-primary-500 dark:text-primary-400">*/}
-      {/*                {article.editionYear}*/}
-      {/*              </span>*/}
-      {/*            </div>*/}
-
-      {/*            <h3 className="text-xl font-bold text-primary-900 dark:text-white line-clamp-2">*/}
-      {/*              {isRTL ? article.titleAr : article.titleEn}*/}
-      {/*            </h3>*/}
-
-      {/*            <p className="text-sm text-primary-600 dark:text-primary-400">*/}
-      {/*              {t('articles.author')}: {article.author}*/}
-      {/*            </p>*/}
-
-      {/*            <p className="text-primary-700 dark:text-primary-300 line-clamp-3 leading-relaxed">*/}
-      {/*              {isRTL ? article.contentAr.substring(0, 150) : article.contentEn?.substring(0, 150)}...*/}
-      {/*            </p>*/}
-      {/*          </div>*/}
-      {/*        </Card>*/}
-      {/*      </Link>*/}
-      {/*    ))}*/}
-      {/*  </div>*/}
-
-      {/*  <div className="text-center mt-8 sm:hidden">*/}
-      {/*    <Link href="/articles">*/}
-      {/*      <Button variant="ghost">*/}
-      {/*        {t('common.viewDetails')}*/}
-      {/*      </Button>*/}
-      {/*    </Link>*/}
-      {/*  </div>*/}
-      {/*</section>*/}
-
-      {/*<section className="bg-gradient-to-r from-secondary-500 to-secondary-400 rounded-2xl p-8 md:p-12 text-center shadow-2xl">*/}
-      {/*  <Sparkles className="inline-block mb-4 text-primary-950" size={48} />*/}
-      {/*  <h2 className="text-3xl md:text-4xl font-bold text-primary-950 mb-4">*/}
-      {/*    {t('home.creativityTitle')}*/}
-      {/*  </h2>*/}
-      {/*  <p className="text-lg text-primary-950/80 max-w-2xl mx-auto mb-8">*/}
-      {/*    {t('home.creativityText')}*/}
-      {/*  </p>*/}
-      {/*  <Link href="/creativity">*/}
-      {/*    <Button variant="primary">*/}
-      {/*      {t('home.exploreCreativity')}*/}
-      {/*    </Button>*/}
-      {/*  </Link>*/}
-      {/*</section>*/}
     </div>
   );
 };

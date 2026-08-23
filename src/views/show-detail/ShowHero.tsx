@@ -4,7 +4,7 @@ import {Button, PosterImage} from '../../components/common';
 import type {Show} from '../../types';
 import {motion} from 'framer-motion';
 import {Share2} from 'lucide-react';
-import {useTranslation} from 'react-i18next';
+import {useT} from '../../i18n/useT';
 
 type InfoItem = {
     label: string;
@@ -44,7 +44,7 @@ export const ShowHero = ({
                              isAuthenticated,
                              onReservationClick,
                          }: ShowHeroProps) => {
-    const {t} = useTranslation();
+    const t = useT();
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

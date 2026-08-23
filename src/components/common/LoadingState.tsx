@@ -1,6 +1,6 @@
 'use client';
 import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useT } from '../../i18n/useT';
 import { useTheme } from '../../contexts/ThemeContext';
 import { festivalConfig } from '../../config/festival';
 
@@ -10,7 +10,7 @@ type LoadingStateProps = {
 };
 
 export const LoadingState = ({ message, fullscreen = true }: LoadingStateProps) => {
-    const { t } = useTranslation();
+    const t = useT();
     const { theme } = useTheme();
 
     const finalMessage = message ?? t('common.loading');

@@ -2,8 +2,9 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useTranslation } from 'react-i18next';
+import { usePathname, useRouter } from 'next/navigation';
+import { useLocale } from 'next-intl';
+import { useT } from '../../i18n/useT';
 import { Menu, X, Sun, Moon, Languages, LogOut, UserCircle, LogIn } from 'lucide-react';
 import { GoogleLogin } from '@react-oauth/google';
 import { isInAppBrowser, openExternalBrowser } from '../auth/GoogleLoginButton';
@@ -18,8 +19,10 @@ export const Header = () => {
   const userMenuRef = useRef<HTMLDivElement>(null);
   const loginDropdownRef = useRef<HTMLDivElement>(null);
   const { theme, toggleTheme } = useTheme();
-  const { t, i18n } = useTranslation();
+  const t = useT();
+  const locale = useLocale();
   const pathname = usePathname();
+  const router = useRouter();
   const { user, isAuthenticated, loginWithGoogleCredential, signOut } = useAuth();
 
   useEffect(() => {
@@ -35,14 +38,12 @@ export const Header = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const isRTL = i18n.language === 'ar';
+  const isRTL = locale === 'ar';
 
   const toggleLanguage = () => {
-    const newLang = i18n.language === 'ar' ? 'en' : 'ar';
-    i18n.changeLanguage(newLang);
-    localStorage.setItem('language', newLang);
-    document.documentElement.dir = newLang === 'ar' ? 'rtl' : 'ltr';
-    document.documentElement.lang = newLang;
+    const newLang = locale === 'ar' ? 'en' : 'ar';
+    document.cookie = `NEXT_LOCALE=${newLang}; path=/; max-age=31536000`;
+    router.refresh();
   };
 
   const navLinks = [

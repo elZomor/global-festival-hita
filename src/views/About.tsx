@@ -1,12 +1,13 @@
 'use client';
-import {useTranslation} from 'react-i18next';
+import {useLocale} from 'next-intl';
+import {useT} from '../i18n/useT';
 import {Mail, MapPin} from 'lucide-react';
 import {Card, SectionHeader} from '../components/common';
 import {festivalConfig} from '../config/festival';
 
 export const About = () => {
-    const {t, i18n} = useTranslation();
-    const isAr = i18n.language === 'ar';
+    const t = useT();
+    const isAr = useLocale() === 'ar';
     const whatIsTitle = isAr ? festivalConfig.aboutWhatIsTitleAr : festivalConfig.aboutWhatIsTitleEn;
     const whatIsText = isAr ? festivalConfig.aboutWhatIsTextAr : festivalConfig.aboutWhatIsTextEn;
     const whyArchiveTitle = isAr ? festivalConfig.aboutWhyArchiveTitleAr : festivalConfig.aboutWhyArchiveTitleEn;

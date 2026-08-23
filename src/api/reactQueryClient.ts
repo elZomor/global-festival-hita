@@ -92,7 +92,7 @@ const toCamelCase = (key: string) =>
 const toSnakeCase = (key: string) =>
     key.replace(/[A-Z]/g, c => `_${c.toLowerCase()}`);
 
-const transformKeysToCamel = (value: unknown): unknown => {
+export const transformKeysToCamel = (value: unknown): unknown => {
   if (Array.isArray(value)) {
     return value.map(transformKeysToCamel);
   }

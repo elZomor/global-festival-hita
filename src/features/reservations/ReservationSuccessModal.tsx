@@ -1,5 +1,5 @@
 'use client';
-import {useTranslation} from 'react-i18next';
+import {useT} from '../../i18n/useT';
 import {Button, Card} from '../../components/common';
 import type {ReserveShowResponse} from '../../api/hooks';
 
@@ -10,7 +10,7 @@ type ReservationSuccessModalProps = {
 };
 
 export const ReservationSuccessModal = ({isOpen, reservation, onClose}: ReservationSuccessModalProps) => {
-    const {t} = useTranslation();
+    const t = useT();
 
     if (!isOpen || !reservation) return null;
 

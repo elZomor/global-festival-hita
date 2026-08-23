@@ -1,11 +1,13 @@
 'use client';
 import Link from 'next/link';
-import { useTranslation } from 'react-i18next';
+import { useLocale } from 'next-intl';
+import { useT } from '../../i18n/useT';
 import { festivalConfig } from '../../config/festival';
 
 export const Footer = () => {
-  const { t, i18n } = useTranslation();
-  const isRTL = i18n.language === 'ar';
+  const t = useT();
+  const locale = useLocale();
+  const isRTL = locale === 'ar';
   const currentYear = new Date().getFullYear();
 
   return (

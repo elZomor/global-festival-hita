@@ -5,3 +5,5 @@ export { SectionHeader } from './SectionHeader';
 export { LoadingState } from './LoadingState';
 export { Snackbar } from './Snackbar';
 export { PosterImage } from './PosterImage';
+export { ShareButton } from './ShareButton';
+export { BackButton } from './BackButton';

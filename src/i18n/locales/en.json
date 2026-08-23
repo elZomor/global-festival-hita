@@ -96,7 +96,7 @@
     "dateLabel": "Date",
     "timeLabel": "Time",
     "timeTBD": "To be announced",
-    "festivalFallback": "Festival edition {{year}}",
+    "festivalFallback": "Festival edition {year}",
     "unknownFestival": "Festival info unavailable",
     "notAvailable": "Not available",
     "sections": {
@@ -224,14 +224,12 @@
   },
   "myTickets": {
     "title": "My Tickets",
-    "subtitle_one": "{{count}} reservation",
-    "subtitle_other": "{{count}} reservations",
-    "subtitle": "{{count}} reservations",
+    "subtitle": "{count, plural, one {# reservation} other {# reservations}}",
     "all": "All",
     "confirmed": "Confirmed",
     "waitingList": "Waiting List",
-    "reservationNumber": "Reservation #{{number}}",
-    "seatNumber": "Seat {{seat}}",
+    "reservationNumber": "Reservation #{number}",
+    "seatNumber": "Seat {seat}",
     "noTickets": "You have no reservations yet.",
     "browseShows": "Browse Shows",
     "status": {
@@ -268,7 +266,7 @@
       "rightBlock": "Right Block"
     },
     "selectSeat": "Select Your Seat",
-    "selectedSeat": "Seat {{seat}}",
+    "selectedSeat": "Seat {seat}",
     "waitingList": {
       "info": "All seats are taken. You can join the waiting list.",
       "button": "Join Waiting List"
@@ -283,8 +281,8 @@
       "codes": {
         "NO_SHOW": "Unable to find this show. Please refresh and try again.",
         "NO_SEATS": "All seats for this show are taken.",
-        "DUPLICATE_MAIL": "You have already reserved this show. Your seat is {{seat}}.",
-        "DUPLICATE_WAITING_LIST": "You are already on the waiting list. Your position is #{{seat}}.",
+        "DUPLICATE_MAIL": "You have already reserved this show. Your seat is {seat}.",
+        "DUPLICATE_WAITING_LIST": "You are already on the waiting list. Your position is #{seat}.",
         "INVALID_TOKEN": "You do not have access to reserve this show.",
         "UNKNOWN_ERROR": "Internet Connection Error",
         "INVALID_SEAT": "Invalid seat selection. Please choose a seat from rows G–L.",

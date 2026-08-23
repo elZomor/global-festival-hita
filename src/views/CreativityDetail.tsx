@@ -1,50 +1,47 @@
-'use client';
 import Link from 'next/link';
-import {useParams} from 'next/navigation';
-import {useTranslation} from 'react-i18next';
-import {ArrowLeft, Calendar, User} from 'lucide-react';
-import {Badge, Card, LoadingState} from '../components/common';
-import {useCreativityEntries, useFestivalEditions, useShows} from '../api/hooks';
-import {buildMediaUrl} from '../utils/mediaUtils';
+import { getLocale } from 'next-intl/server';
+import { ArrowLeft, Calendar, User } from 'lucide-react';
+import { Badge, Card } from '../components/common';
+import { getT } from '../i18n/getT';
+import { serverApiFetch, withQueryParams, apiPrefix } from '../api/server';
+import {
+    mapArticleApiResultToCreativity,
+    mapFestivalApiResultToEdition,
+    mapShowApiResultToShow,
+    type ArticleApiResult,
+    type FestivalApiResponse,
+    type PaginatedResponse,
+    type ShowApiResult,
+} from '../api/hooks';
+import { buildMediaUrl } from '../utils/mediaUtils';
 
-export const CreativityDetail = () => {
-    const params = useParams();
-    const slug = params.slug as string;
-    const {t, i18n} = useTranslation();
-    const isRTL = i18n.language === 'ar';
+export const CreativityDetail = async ({ slug }: { slug: string }) => {
+    const [t, locale, creativityResponse, showsResponse, festivalsResponse] = await Promise.all([
+        getT(),
+        getLocale(),
+        serverApiFetch<PaginatedResponse<ArticleApiResult>>(
+            withQueryParams(`${apiPrefix}/articles`, { type: 'CREATIVITY', page_size: 50 }),
+            300,
+        ),
+        serverApiFetch<PaginatedResponse<ShowApiResult>>(`${apiPrefix}/shows`, 300),
+        serverApiFetch<FestivalApiResponse>(`${apiPrefix}/festivals`, 3600),
+    ]);
+    const isRTL = locale === 'ar';
 
-    const creativityQuery = useCreativityEntries();
-    const showsQuery = useShows();
-    const festivalsQuery = useFestivalEditions();
+    const creativityEntries = (creativityResponse?.results ?? []).map(mapArticleApiResultToCreativity);
+    const shows = (showsResponse?.results ?? []).map(mapShowApiResultToShow);
+    const festivals = (festivalsResponse?.results ?? []).map(mapFestivalApiResultToEdition);
 
-    const isLoading = creativityQuery.isLoading || showsQuery.isLoading || festivalsQuery.isLoading;
-    const hasError = creativityQuery.isError || showsQuery.isError || festivalsQuery.isError;
-
-    const entry = creativityQuery.data?.find(item => item.slug === slug || item.id === slug);
-    const relatedShow = entry?.showId ? showsQuery.data?.find(show => show.id === entry.showId) : null;
-    const relatedEntries =
-        creativityQuery.data
-            ?.filter(item => item.id !== entry?.id && item.editionYear === entry?.editionYear)
-            .slice(0, 3) ?? [];
+    const entry = creativityEntries.find(item => item.slug === slug || item.id === slug);
+    const relatedShow = entry?.showId ? shows.find(show => show.id === entry.showId) : null;
+    const relatedEntries = creativityEntries
+        .filter(item => item.id !== entry?.id && item.editionYear === entry?.editionYear)
+        .slice(0, 3);
     const relatedFestival = entry?.festivalId
-        ? festivalsQuery.data?.find(
+        ? festivals.find(
               festival => festival.slug === entry.festivalId || String(festival.year) === entry.festivalId,
           )
         : null;
-
-    if (isLoading) {
-        return <LoadingState/>;
-    }
-
-    if (hasError) {
-        return (
-            <div className="text-center py-16">
-                <h2 className="text-2xl font-bold text-primary-900 dark:text-primary-50">
-                    {t('common.error')}
-                </h2>
-            </div>
-        );
-    }
 
     if (!entry) {
         return (

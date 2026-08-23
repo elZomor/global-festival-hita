@@ -1,5 +1,6 @@
 'use client';
-import {useTranslation} from 'react-i18next';
+import {useLocale} from 'next-intl';
+import {useT} from '../../i18n/useT';
 import {Calendar, Clock, MapPin, UserCog} from 'lucide-react';
 import {Badge, Button, Card} from '../../components/common';
 import {Show} from '../../types';
@@ -11,7 +12,8 @@ interface ShowCardProps {
 }
 
 export const ShowCard = ({show}: ShowCardProps) => {
-    const {t, i18n} = useTranslation();
+    const t = useT();
+    const locale = useLocale();
 
     const getShowStatusName = (showDate: string) => {
         const comparisonResult = compareWithToday(new Date(showDate))
@@ -74,13 +76,13 @@ export const ShowCard = ({show}: ShowCardProps) => {
                     <div className="flex items-center gap-2 text-primary-700 dark:text-primary-300">
                         <Calendar size={16} className="text-secondary-500 mx-2" />
                         <span className="text-sm">
-          {getLongFormattedDate(i18n.language, new Date(show.date))}
+          {getLongFormattedDate(locale, new Date(show.date))}
         </span>
                     </div>
                     <div className="flex items-center gap-2 text-primary-700 dark:text-primary-300">
                         <Clock size={16} className="text-secondary-500 mx-2" />
                         <span className="text-sm">
-          {translateTime(show.time, i18n.language)}
+          {translateTime(show.time, locale)}
         </span>
                     </div>
                 </div>

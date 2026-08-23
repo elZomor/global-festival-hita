@@ -1,10 +1,10 @@
 'use client';
-import { useTranslation } from 'react-i18next';
+import { useT } from '../i18n/useT';
 import { Sparkles, Clock } from 'lucide-react';
 import { Button, Card } from '../components/common';
 
 export const ComingSoon = () => {
-  const { t } = useTranslation();
+  const t = useT();
 
   return (
     <div className="min-h-[60vh] flex items-center justify-center">

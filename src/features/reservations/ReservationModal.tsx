@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useT } from '../../i18n/useT';
 import { GoogleLoginButton } from '../../components/auth/GoogleLoginButton';
 import { Button, Card } from '../../components/common';
 import { ReserveShowResponse, useMyShowReservation, useReserveShow, useShowSeats } from '../../api/hooks';
@@ -27,7 +27,7 @@ const isKnownReservationErrorCode = (value?: string): value is ReservationErrorC
 };
 
 export const ReservationModal = ({ showId, showName, isOpen, onClose, onSuccess, token }: ReservationModalProps) => {
-    const { t } = useTranslation();
+    const t = useT();
     const { user, isAuthenticated, loginWithGoogleCredential } = useAuth();
     const reserveMutation = useReserveShow();
     const [selectedSeat, setSelectedSeat] = useState<string | null>(null);

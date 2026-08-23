@@ -1,10 +1,11 @@
 import type { Metadata } from 'next'
-import { Suspense } from 'react'
 import { ShowDetail } from '@/src/views/ShowDetail'
-import { LoadingState } from '@/src/components/common'
 import { festivalConfig } from '@/src/config/festival'
 
-type Props = { params: Promise<{ pk: string }> }
+type Props = {
+  params: Promise<{ pk: string }>
+  searchParams: Promise<{ tab?: string; token?: string }>
+}
 
 async function fetchShow(pk: string) {
   const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL ?? ''
@@ -58,8 +59,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default async function ShowDetailPage({ params }: Props) {
+export default async function ShowDetailPage({ params, searchParams }: Props) {
   const { pk } = await params
+  const { tab, token } = await searchParams
   const show = await fetchShow(pk)
 
   const jsonLd = show
@@ -95,9 +97,7 @@ export default async function ShowDetailPage({ params }: Props) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       )}
-      <Suspense fallback={<LoadingState />}>
-        <ShowDetail />
-      </Suspense>
+      <ShowDetail showId={pk} tab={tab} token={token} />
     </>
   )
 }
