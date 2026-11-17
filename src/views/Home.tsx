@@ -96,7 +96,7 @@ export const Home = async () => {
       {/* First viewport: the edition, still hot. */}
       <section className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start pt-2 lg:pt-8">
         <div className="lg:col-span-7 space-y-8">
-          <h1 className="brush fired-text fired-live animate-fire text-[clamp(3rem,9vw,6rem)]">
+          <h1 dir="auto" className="brush fired-text fired-live animate-fire text-[clamp(3rem,9vw,6rem)]">
             {openApplication?.festivalName
               ? localizeDigitsInString(openApplication.festivalName, locale)
               : currentTitle}
@@ -165,7 +165,7 @@ export const Home = async () => {
           )}
 
           {openApplication && (
-            <dl className="kiln-frame relative z-40 bg-primary-50/90 dark:bg-primary-950/90 backdrop-blur p-5 space-y-4">
+            <dl className="kiln-frame relative z-40 bg-primary-50/90 dark:bg-primary-950/90 backdrop-blur p-5">
               <div>
                 <dt className="sr-only">{t('home.status.label')}</dt>
                 <dd className="flex items-center gap-2 font-semibold text-primary-950 dark:text-primary-50">
@@ -174,14 +174,6 @@ export const Home = async () => {
                 </dd>
                 <dd className="mt-2 text-sm leading-relaxed text-primary-600 dark:text-primary-400">{t('home.applyHero.frameText')}</dd>
               </div>
-              {openApplication.festivalStartDate && openApplication.festivalEndDate && (
-                <div>
-                  <dt className="label">{t('home.editionDates')}</dt>
-                  <dd className="mt-1 text-sm text-primary-900 dark:text-primary-100">
-                    {formatDay(openApplication.festivalStartDate, locale)} – {formatDay(openApplication.festivalEndDate, locale, true)}
-                  </dd>
-                </div>
-              )}
             </dl>
           )}
 
@@ -300,7 +292,7 @@ export const Home = async () => {
                     {formatLocalizedNumber(edition.year, locale).replace(/[٬,]/g, '')}
                   </span>
                   <span>
-                    <span className="block text-xl font-semibold text-primary-950 dark:text-primary-50">
+                    <span dir="auto" className="block text-xl font-semibold text-primary-950 dark:text-primary-50">
                       {localizeDigitsInString(isRTL ? edition.titleAr : edition.titleEn, locale)}
                     </span>
                     <span className="mt-2 block text-sm text-primary-600 dark:text-primary-400 tabular">
