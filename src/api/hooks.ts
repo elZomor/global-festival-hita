@@ -983,14 +983,24 @@ export const useMyReservations = () =>
         select: data => data.results ?? [],
     });
 
+export type MyApplication = {
+    id: number;
+    showName: string;
+    status: 'PENDING' | 'ACCEPTED' | 'REJECTED';
+    createdAt: string;
+};
+
 export type ApplicationStatusData = {
     open: boolean;
     festivalName: string | null;
+    /** Present only when logged in and the user already applied to the open edition. */
+    myApplication: MyApplication | null;
 };
 
-export const useApplicationStatus = () =>
+/** `userKey` (e.g. the logged-in email) makes the status refetch when the user logs in/out. */
+export const useApplicationStatus = (userKey?: string) =>
     useApiQuery<{data: ApplicationStatusData}, ApplicationStatusData>({
-        queryKey: buildQueryKey('application-status'),
+        queryKey: buildQueryKey('application-status', userKey ?? 'anonymous'),
         path: `${api}/applications/status`,
         select: response => response.data,
         enabled: festivalConfig.applicationsEnabled,

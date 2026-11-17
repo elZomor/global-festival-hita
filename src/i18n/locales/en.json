@@ -372,6 +372,17 @@
         "ALREADY_APPLIED": "An application with this email was already submitted for this edition.",
         "VALIDATION_ERROR": "Please fix the errors highlighted in the form."
       }
+    },
+    "alreadyApplied": {
+      "title": "You have already applied to this edition",
+      "message": "Your application was received. Only one application per edition is allowed.",
+      "submittedOn": "Submitted on",
+      "status": "Status",
+      "statuses": {
+        "PENDING": "Under review",
+        "ACCEPTED": "Accepted",
+        "REJECTED": "Rejected"
+      }
     }
   }
 }

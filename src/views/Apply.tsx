@@ -2,10 +2,11 @@
 import { FormEvent, ReactNode, useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useLocale } from 'next-intl';
-import { AlertTriangle, CheckCircle2 } from 'lucide-react';
+import { AlertTriangle, CheckCircle2, ClipboardCheck } from 'lucide-react';
 import { useT } from '../i18n/useT';
 import { useAuth } from '../contexts/AuthContext';
 import { useApplicationStatus, useSubmitApplication } from '../api/hooks';
+import { getLongFormattedDate } from '../utils/dateUtils';
 import type { ApiError } from '../api/reactQueryClient';
 import { festivalConfig } from '../config/festival';
 import { Button, Card, LoadingState, Snackbar } from '../components/common';
@@ -39,7 +40,7 @@ export const Apply = () => {
   const t = useT();
   const locale = useLocale();
   const { user } = useAuth();
-  const { data: status, isLoading: statusLoading, isError: statusError } = useApplicationStatus();
+  const { data: status, isLoading: statusLoading, isError: statusError } = useApplicationStatus(user?.email);
   const submitMutation = useSubmitApplication();
 
   const [values, setValues] = useState<ApplicationFormValues>(initialValues);
@@ -137,6 +138,28 @@ export const Apply = () => {
         {header}
         <Card hover={false} className="text-center">
           <p className="text-lg">{statusError ? t('apply.errors.generic') : t('apply.closed')}</p>
+        </Card>
+      </div>
+    );
+  }
+
+  const myApplication = status.myApplication;
+  if (myApplication && !submitted) {
+    return (
+      <div className="container mx-auto px-4 py-8 max-w-3xl">
+        {header}
+        <Card hover={false} className="text-center space-y-4 py-10">
+          <ClipboardCheck className="w-16 h-16 mx-auto text-secondary-600 dark:text-secondary-400" />
+          <h2 className="text-2xl font-bold">{t('apply.alreadyApplied.title')}</h2>
+          <p className="text-primary-600 dark:text-primary-300">{t('apply.alreadyApplied.message')}</p>
+          <dl className="inline-grid grid-cols-[auto_auto] gap-x-6 gap-y-2 text-start pt-2">
+            <dt className="text-primary-500 dark:text-primary-400">{t('apply.fields.showName')}</dt>
+            <dd className="font-medium">{myApplication.showName}</dd>
+            <dt className="text-primary-500 dark:text-primary-400">{t('apply.alreadyApplied.submittedOn')}</dt>
+            <dd className="font-medium">{getLongFormattedDate(locale, new Date(myApplication.createdAt))}</dd>
+            <dt className="text-primary-500 dark:text-primary-400">{t('apply.alreadyApplied.status')}</dt>
+            <dd className="font-medium">{t(`apply.alreadyApplied.statuses.${myApplication.status}`)}</dd>
+          </dl>
         </Card>
       </div>
     );
