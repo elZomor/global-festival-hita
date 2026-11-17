@@ -993,6 +993,8 @@ export type MyApplication = {
 export type ApplicationStatusData = {
     open: boolean;
     festivalName: string | null;
+    festivalStartDate: string | null;
+    festivalEndDate: string | null;
     /** Present only when logged in and the user already applied to the open edition. */
     myApplication: MyApplication | null;
 };
