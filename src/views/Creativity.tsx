@@ -23,7 +23,7 @@ export const Creativity = async () => {
     <div className="space-y-8">
       <div className="space-y-4">
         <div className="flex items-center gap-3">
-          <FileText size={40} className="text-accent-600 dark:text-secondary-500"/>
+          <FileText size={40} className="text-primary-950 dark:text-primary-50"/>
           <SectionHeader className="mb-0">{t(`creativity.title`)}</SectionHeader>
         </div>
       </div>
@@ -36,10 +36,10 @@ export const Creativity = async () => {
 
           return (
             <Link key={item.id} href={`/creativity/${item.slug}`} className="block h-full">
-              <Card className="transition-all hover:shadow-2xl h-full">
+              <Card className="h-full">
                 <div className="flex flex-col md:flex-row gap-4 h-full">
                   {attachmentUrl && (
-                    <div className="w-full md:w-1/3 lg:w-2/5 bg-primary-100 dark:bg-primary-900 rounded-lg flex items-center justify-center overflow-hidden">
+                    <div className="w-full md:w-1/3 lg:w-2/5 bg-primary-100 dark:bg-primary-900 rounded-[3px] flex items-center justify-center overflow-hidden">
                       <img
                         src={attachmentUrl}
                         alt={localizedTitle}
@@ -59,7 +59,7 @@ export const Creativity = async () => {
                       )}
                     </div>
 
-                    <h2 className="text-2xl md:text-3xl font-bold text-accent-600 dark:text-secondary-500">
+                    <h2 className="text-2xl md:text-3xl font-bold text-primary-950 dark:text-primary-50">
                       {localizedTitle}
                     </h2>
 
@@ -81,8 +81,8 @@ export const Creativity = async () => {
                       {preview.substring(0, 250)}...
                     </p>
 
-                    <p className="text-secondary-500 hover:text-secondary-400 font-medium">
-                      {t('creativity.readMore')} →
+                    <p className="text-primary-900 dark:text-primary-50 underline decoration-ember-500/60 hover:decoration-ember-500 font-medium">
+                      {t('creativity.readMore')}
                     </p>
                   </div>
                 </div>

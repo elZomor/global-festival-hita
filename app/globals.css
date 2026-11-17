@@ -1,41 +1,170 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500&family=Noto+Naskh+Arabic:wght@400;600;700&display=swap');
-
-:root {
-  --font-display: 'Playfair Display', serif;
-  --font-sans: 'Roboto', sans-serif;
-  --font-arabic: 'Noto Naskh Arabic', serif;
-}
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Raku world — carbon ground, crackled glaze surfaces, ember only for what is
+   live now. Fonts come from next/font (app/layout.tsx) as --font-display /
+   --font-sans. */
 
 @layer base {
-  * {
-    @apply transition-colors duration-300;
+  :root {
+    --ember-300: theme('colors.ember.300');
+    --ember-400: theme('colors.ember.400');
+    --ember-500: theme('colors.ember.500');
+    --ember-700: theme('colors.ember.700');
+    --clay-100: theme('colors.primary.100');
+    --clay-300: theme('colors.primary.300');
+    --clay-600: theme('colors.primary.600');
+    --clay-800: theme('colors.primary.800');
+    --clay-900: theme('colors.primary.900');
+    --clay-950: theme('colors.primary.950');
+  }
+
+  html {
+    color-scheme: light;
+    -webkit-tap-highlight-color: transparent;
+  }
+  html.dark {
+    color-scheme: dark;
   }
 
   body {
-    @apply font-sans antialiased;
+    @apply font-sans antialiased bg-primary-50 text-primary-900 dark:bg-primary-950 dark:text-primary-100;
+    font-feature-settings: 'kern', 'liga';
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Soot grain on the ground: fine carbon in dark, faint ash in light. */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .dark body::before {
+    opacity: 0.09;
+    filter: invert(1);
+  }
+
+  h1, h2, h3, h4 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: theme('colors.ember.500');
+    color: theme('colors.primary.950');
+  }
+
+  input, textarea, select {
+    caret-color: theme('colors.ember.500');
+  }
+
+  :focus-visible {
+    outline: 1.5px solid theme('colors.ember.500');
+    outline-offset: 3px;
   }
 
   a {
-    @apply transition-colors duration-300;
+    text-underline-offset: 0.25em;
+    text-decoration-thickness: 1px;
   }
 
-  a:hover,
-  a:focus-visible {
-    color: theme('colors.accent.600') !important;
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.primary.400') transparent;
+  }
+  .dark * {
+    scrollbar-color: theme('colors.primary.600') transparent;
+  }
+}
+
+@layer components {
+  /* Crackled glaze: the "fired" surface for cards and panels. */
+  .glaze {
+    background-color: theme('colors.primary.100');
+    background-image: url('/textures/glaze-light.webp');
+    background-size: 480px 480px;
+  }
+  .dark .glaze {
+    background-color: theme('colors.primary.900');
+    background-image: url('/textures/glaze-dark.webp');
   }
 
-  .dark a:hover,
-  .dark a:focus-visible {
-    color: theme('colors.accent.400') !important;
+  /* Fired lettering: the crackle shows inside the strokes, and the title
+     arrives ember-hot then cools to glaze (see .animate-fire). */
+  .fired-text {
+    color: transparent;
+    background-color: theme('colors.primary.950');
+    background-image: url('/textures/crackle-light.svg');
+    background-size: 240px 240px;
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+  .dark .fired-text {
+    background-color: theme('colors.primary.50');
+    background-image: url('/textures/crackle-ink.svg');
+  }
+  @keyframes fire {
+    0% { background-color: theme('colors.ember.400'); filter: url(#brush) drop-shadow(0 0 22px theme('colors.ember.500')); }
+    55% { background-color: theme('colors.ember.500'); filter: url(#brush) drop-shadow(0 0 10px theme('colors.ember.600')); }
+  }
+  /* Live titles keep an ember residue at rest (also under reduced motion). */
+  .fired-live {
+    filter: url(#brush) drop-shadow(0 6px 18px theme('colors.ember.500 / 45%'));
   }
 
-  [dir="rtl"] {
-    font-family: var(--font-arabic), Georgia, serif;
+  .animate-fire {
+    animation: fire 2.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  /* A hairline-framed panel on the ground (the kiln-status box). */
+  .kiln-frame {
+    @apply border border-primary-300 dark:border-primary-700;
+  }
+
+  /* Brushed display type: roughened edges via the #brush filter in layout. */
+  .brush {
+    font-family: var(--font-display), var(--font-sans), sans-serif;
+    filter: url(#brush);
+    letter-spacing: -0.01em;
+    line-height: 1.05;
+  }
+
+  /* Dry-brush ember swipe under a heading. */
+  .ember-swipe {
+    display: block;
+    height: 0.75rem;
+    background: theme('colors.ember.500');
+    -webkit-mask: url('/textures/brush-stroke.svg') center / 100% 100% no-repeat;
+    mask: url('/textures/brush-stroke.svg') center / 100% 100% no-repeat;
+  }
+
+  /* Cooled swipe: same stroke in clay, for anything that is not live. */
+  .swipe-cool {
+    background: theme('colors.primary.400');
+  }
+  .dark .swipe-cool {
+    background: theme('colors.primary.600');
+  }
+
+  /* Small engraved labels (Latin tracked caps; Arabic stays untracked). */
+  .label {
+    @apply text-xs font-medium uppercase tracking-label text-primary-500 dark:text-primary-400;
+  }
+  [dir='rtl'] .label {
+    letter-spacing: 0;
+    text-transform: none;
+    font-size: 0.8125rem;
+  }
+
+  .tabular {
+    font-variant-numeric: tabular-nums lining-nums;
   }
 }
 
@@ -44,16 +173,15 @@
   display: block;
 }
 .seat-map-scroll::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 3px;
+  background: transparent;
 }
 .seat-map-scroll::-webkit-scrollbar-thumb {
-  background: rgba(251, 191, 36, 0.5);
+  background: theme('colors.ember.600');
   border-radius: 3px;
 }
 .seat-map-scroll {
   scrollbar-width: thin;
-  scrollbar-color: rgba(251, 191, 36, 0.5) rgba(255, 255, 255, 0.05);
+  scrollbar-color: theme('colors.ember.600') transparent;
 }
 
 @layer utilities {
@@ -69,24 +197,10 @@
   }
 }
 
-@layer components {
-  .btn {
-    @apply px-4 py-2 rounded-md font-medium transition-all duration-200;
-  }
-
-  .btn-primary {
-    @apply btn bg-accent-500 text-white font-bold hover:bg-secondary-400;
-  }
-
-  .btn-secondary {
-    @apply btn bg-secondary-600 text-white hover:bg-secondary-700;
-  }
-
-  .btn-accent {
-    @apply btn bg-accent-500 text-white hover:bg-accent-600;
-  }
-
-  .btn-outline {
-    @apply btn border border-primary-600 text-primary-600 hover:bg-primary-50;
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

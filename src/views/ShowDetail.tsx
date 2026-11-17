@@ -86,16 +86,16 @@ export const ShowDetail = async ({ showId, tab: tabParam, token }: ShowDetailPro
     const formattedDate = showDate ? getLongFormattedDate(locale, showDate) : t('show.notAvailable');
     const formattedTime = show.time ? translateTime(show.time, locale) : t('show.timeTBD');
     const showStatusClassName = (() => {
-        if (!show.date) return 'text-accent-500';
+        if (!show.date) return 'text-primary-500';
         const comparison = compareWithToday(new Date(show.date));
         switch (comparison) {
             case 'AFTER':
-                return 'text-secondary-600 dark:text-secondary-400';
+                return 'text-primary-900 dark:text-primary-100';
             case 'EQUALS':
-                return 'text-theatre-gold-500 dark:text-theatre-gold-400';
+                return 'text-ember-600 dark:text-ember-400';
             case 'BEFORE':
             default:
-                return 'text-accent-600 dark:text-accent-400';
+                return 'text-primary-500 dark:text-primary-400';
         }
     })();
     const festivalDisplayName = show.festivalName ?? (show.editionYear ? t('show.festivalFallback', {year: show.editionYear}) : undefined);
@@ -103,7 +103,7 @@ export const ShowDetail = async ({ showId, tab: tabParam, token }: ShowDetailPro
     const festivalLinkValue = festivalDisplayName && festivalRouteParam ? (
         <Link
             href={`/festival/${festivalRouteParam}`}
-            className="text-secondary-600 dark:text-secondary-400 underline"
+            className="text-primary-950 dark:text-primary-50 underline decoration-ember-500/60 hover:decoration-ember-500"
         >
             {festivalDisplayName}
         </Link>
@@ -115,7 +115,7 @@ export const ShowDetail = async ({ showId, tab: tabParam, token }: ShowDetailPro
             href={show.bookingUrl}
             target="_blank"
             rel="noreferrer"
-            className="text-secondary-600 dark:text-secondary-400 underline"
+            className="text-primary-950 dark:text-primary-50 underline decoration-ember-500/60 hover:decoration-ember-500"
         >
             {t('show.openEventLink')}
         </a>
@@ -128,7 +128,7 @@ export const ShowDetail = async ({ showId, tab: tabParam, token }: ShowDetailPro
                     href={show.venueLocation}
                     target="_blank"
                     rel="noreferrer"
-                    className="text-secondary-600 dark:text-secondary-400 text-sm underline"
+                    className="text-sm text-primary-700 dark:text-primary-300 underline decoration-ember-500/60 hover:decoration-ember-500"
                 >
                     {t('show.viewMap')}
                 </a>

@@ -13,9 +13,9 @@ export const BackButton = ({ label, isRTL }: BackButtonProps) => {
     return (
         <button
             onClick={() => router.back()}
-            className="inline-flex items-center gap-2 text-secondary-500 hover:text-secondary-400 transition-colors"
+            className="inline-flex items-center gap-2 min-h-11 text-sm font-medium text-primary-600 hover:text-ember-600 dark:text-primary-300 dark:hover:text-ember-400 transition-colors"
         >
-            <ArrowLeft size={20} className={isRTL ? 'rotate-180' : ''}/>
+            <ArrowLeft size={18} strokeWidth={1.5} className={isRTL ? 'rotate-180' : ''}/>
             {label}
         </button>
     );

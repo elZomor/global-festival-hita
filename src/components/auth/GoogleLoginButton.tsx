@@ -29,14 +29,14 @@ export const GoogleLoginButton = ({ onSuccess, onError }: Props) => {
 
   if (isInAppBrowser) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-        <h3 className="text-xl font-semibold text-gray-800 mb-4">
+      <div className="flex flex-col items-center justify-center min-h-[60vh] px-6 text-center">
+        <h3 className="text-xl font-semibold text-primary-950 dark:text-primary-50 mb-3">
           {t('auth.unsupportedBrowser')}
         </h3>
-        <p className="text-gray-600 mb-6">{t('auth.unsupportedBrowserMsg')}</p>
+        <p className="text-primary-600 dark:text-primary-300 mb-6">{t('auth.unsupportedBrowserMsg')}</p>
         <button
           onClick={openExternalBrowser}
-          className="px-6 py-3 bg-purple-500 text-white rounded-md shadow hover:bg-purple-600 transition-all duration-300"
+          className="min-h-11 px-6 py-3 rounded-[3px] bg-ember-500 text-primary-950 font-semibold hover:bg-ember-400 transition-colors"
         >
           {t('auth.openInBrowser')}
         </button>

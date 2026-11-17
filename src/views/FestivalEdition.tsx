@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { getLocale } from 'next-intl/server';
-import { Calendar, ArrowLeft, Download } from 'lucide-react';
+import { ArrowLeft, Download } from 'lucide-react';
 import { Badge, Card, ShareButton } from '../components/common';
 import { ShowCard } from '../features/festival/ShowCard';
 import { getT } from '../i18n/getT';
@@ -101,69 +101,71 @@ export const FestivalEdition = async ({ festivalSlug, tab: tabParam }: FestivalE
     return (
         <div className="space-y-8">
             <Link
-                href="/"
-                className="inline-flex items-center gap-2 text-secondary-500 hover:text-secondary-400 transition-colors"
+                href="/festival"
+                className="inline-flex items-center gap-2 min-h-11 text-sm font-medium text-primary-600 hover:text-ember-600 dark:text-primary-300 dark:hover:text-ember-400 transition-colors"
             >
-                <ArrowLeft size={20} className={isRTL ? 'rotate-180' : ''}/>
+                <ArrowLeft size={18} strokeWidth={1.5} className={isRTL ? 'rotate-180' : ''}/>
                 {t('common.backToList')}
             </Link>
 
-            <div
-                className="bg-gradient-to-r from-accent-600 to-accent-700 dark:from-accent-700 dark:to-accent-800 rounded-2xl p-8 text-primary-50 shadow-2xl">
-                <div className="flex items-center gap-3 mb-2 justify-center md:justify-start">
-
-                    <Calendar size={32} className="text-secondary-500"/>
-                    <h1 className="text-3xl md:text-4xl font-bold">
+            <header className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end border-b border-primary-300 dark:border-primary-800 pb-10">
+                <div className="lg:col-span-8 space-y-5">
+                    <h1 className="brush fired-text text-[clamp(2.5rem,7vw,5rem)]">
                         {localizedTitle}
                     </h1>
-                    <ShareButton title={isRTL ? edition.titleAr : edition.titleEn}/>
+                    <span className="ember-swipe swipe-cool w-40 md:w-56" aria-hidden="true"/>
+                    {localizedDescription && (
+                        <p className="max-w-2xl text-lg leading-relaxed text-primary-700 dark:text-primary-300">
+                            {localizedDescription}
+                        </p>
+                    )}
                 </div>
+                <dl className="lg:col-span-4 kiln-frame p-5 grid grid-cols-2 gap-4">
+                    <div className="col-span-2 flex items-start justify-between gap-3">
+                        <div>
+                            <dt className="label">{t('home.dates')}</dt>
+                            <dd className="mt-1 text-sm text-primary-900 dark:text-primary-100">
+                                {new Date(edition.startDate).toLocaleDateString(isRTL ? 'ar-EG' : 'en-GB', {month: 'long', day: 'numeric'})}
+                                {' – '}
+                                {new Date(edition.endDate).toLocaleDateString(isRTL ? 'ar-EG' : 'en-GB', {month: 'long', day: 'numeric', year: 'numeric'})}
+                            </dd>
+                        </div>
+                        <ShareButton title={isRTL ? edition.titleAr : edition.titleEn}/>
+                    </div>
+                    <div>
+                        <dt className="label">{t('festival.shows')}</dt>
+                        <dd className="mt-1 font-display text-3xl tabular text-primary-950 dark:text-primary-50">{formatLocalizedNumber(edition.totalShows, locale)}</dd>
+                    </div>
+                    <div>
+                        <dt className="label">{t('festival.articles')}</dt>
+                        <dd className="mt-1 font-display text-3xl tabular text-primary-950 dark:text-primary-50">{formatLocalizedNumber(edition.totalArticles, locale)}</dd>
+                    </div>
+                </dl>
+            </header>
 
-                <p className="text-lg text-primary-100 dark:text-primary-200 mb-4">
-                    {localizedDescription}
-                </p>
-
-                <div className="flex flex-wrap gap-4 text-sm">
-                    <Badge variant="gold">
-                        {new Date(edition.startDate).toLocaleDateString(isRTL ? 'ar-EG' : 'en-US', {
-                            month: 'long',
-                            day: 'numeric'
-                        })} - {new Date(edition.endDate).toLocaleDateString(isRTL ? 'ar-EG' : 'en-US', {
-                        month: 'long',
-                        day: 'numeric',
-                        year: 'numeric'
+            <nav aria-label={localizedTitle} className="border-b border-primary-300 dark:border-primary-800 -mt-4">
+                <div className="flex gap-1 overflow-x-auto">
+                    {tabs.map(tabItem => {
+                        const active = activeTab === tabItem.key;
+                        return (
+                            <Link
+                                key={tabItem.key}
+                                href={`/festival/${festivalSlug}?tab=${tabItem.key}`}
+                                scroll={false}
+                                aria-current={active ? 'page' : undefined}
+                                className={`relative min-h-12 px-5 py-3 whitespace-nowrap font-medium transition-colors ${
+                                    active
+                                        ? 'text-primary-950 dark:text-primary-50'
+                                        : 'text-primary-500 hover:text-primary-950 dark:text-primary-400 dark:hover:text-primary-50'
+                                }`}
+                            >
+                                {tabItem.label}
+                                {active && <span className="ember-swipe swipe-cool absolute inset-x-3 -bottom-[3px] h-1.5" aria-hidden="true"/>}
+                            </Link>
+                        );
                     })}
-                    </Badge>
-                    <Badge variant="default">
-                        {formatLocalizedNumber(edition.totalShows, locale)} {t('festival.numberOfShows')}
-                    </Badge>
-                    <Badge variant="default">
-                        {formatLocalizedNumber(edition.totalArticles, locale)} {t('festival.numberOfArticles')}
-                    </Badge>
                 </div>
-            </div>
-
-            <div className="border-b border-primary-300 dark:border-primary-700">
-                <div className="flex gap-2 overflow-x-auto">
-                    {tabs.map(tabItem => (
-                        <Link
-                            key={tabItem.key}
-                            href={`/festival/${festivalSlug}?tab=${tabItem.key}`}
-                            scroll={false}
-                            className={`
-                px-6 py-3 font-medium transition-all duration-300
-                border-b-2 whitespace-nowrap
-                ${activeTab === tabItem.key
-                                ? 'border-secondary-500 text-accent-600 dark:text-secondary-500'
-                                : 'border-transparent text-primary-600 dark:text-primary-400 hover:text-accent-600 dark:hover:text-secondary-500'
-                            }
-              `}
-                        >
-                            {tabItem.label}
-                        </Link>
-                    ))}
-                </div>
-            </div>
+            </nav>
 
             {activeTab === 'info' && (
                 <FestivalInfoTab edition={edition}/>
@@ -195,11 +197,11 @@ export const FestivalEdition = async ({ festivalSlug, tab: tabParam }: FestivalE
                             const previewText = getArticlePreviewText(article, isRTL);
                             return (
                                 <Link key={article.id} href={`/articles/${article.slug}`} className="block h-full">
-                                    <Card className="transition-all hover:shadow-2xl h-full">
+                                    <Card className="h-full">
                                         <div className="flex flex-col md:flex-row gap-4 h-full">
                                             {attachmentUrl && (
                                                 <div
-                                                    className="w-full md:w-1/3 lg:w-2/5 bg-primary-100 dark:bg-primary-900 rounded-lg flex items-center justify-center overflow-hidden">
+                                                    className="w-full md:w-1/3 lg:w-2/5 glaze rounded-[2px] flex items-center justify-center overflow-hidden">
                                                     <img
                                                         src={attachmentUrl}
                                                         alt={isRTL ? article.titleAr : article.titleEn}
@@ -217,7 +219,7 @@ export const FestivalEdition = async ({ festivalSlug, tab: tabParam }: FestivalE
                                                     </Badge>
                                                 </div>
 
-                                                <h2 className="text-2xl md:text-3xl font-bold text-accent-600 dark:text-secondary-500">
+                                                <h2 className="text-2xl md:text-3xl font-bold text-primary-950 dark:text-primary-50">
                                                     {isRTL ? article.titleAr : article.titleEn}
                                                 </h2>
 
@@ -240,8 +242,8 @@ export const FestivalEdition = async ({ festivalSlug, tab: tabParam }: FestivalE
                                                     {previewText ? `${previewText}...` : ''}
                                                 </p>
 
-                                                <p className="text-secondary-500 hover:text-secondary-400 font-medium">
-                                                    {t('articles.readMore')} →
+                                                <p className="text-primary-900 dark:text-primary-50 underline decoration-ember-500/60 hover:decoration-ember-500 font-medium">
+                                                    {t('articles.readMore')}
                                                 </p>
                                             </div>
                                         </div>
@@ -261,11 +263,11 @@ export const FestivalEdition = async ({ festivalSlug, tab: tabParam }: FestivalE
                             const previewText = getArticlePreviewText(symposium, isRTL);
                             return (
                                 <Link key={symposium.id} href={`/symposia/${symposium.slug}`} className="block h-full">
-                                    <Card className="transition-all hover:shadow-2xl h-full">
+                                    <Card className="h-full">
                                         <div className="flex flex-col md:flex-row gap-4 h-full">
                                             {attachmentUrl && (
                                                 <div
-                                                    className="w-full md:w-1/3 lg:w-2/5 bg-primary-100 dark:bg-primary-900 rounded-lg flex items-center justify-center overflow-hidden">
+                                                    className="w-full md:w-1/3 lg:w-2/5 glaze rounded-[2px] flex items-center justify-center overflow-hidden">
                                                     <img
                                                         src={attachmentUrl}
                                                         alt={isRTL ? symposium.titleAr : symposium.titleEn}
@@ -283,7 +285,7 @@ export const FestivalEdition = async ({ festivalSlug, tab: tabParam }: FestivalE
                                                     </Badge>
                                                 </div>
 
-                                                <h2 className="text-2xl md:text-3xl font-bold text-accent-600 dark:text-secondary-500">
+                                                <h2 className="text-2xl md:text-3xl font-bold text-primary-950 dark:text-primary-50">
                                                     {isRTL ? symposium.titleAr : symposium.titleEn}
                                                 </h2>
 
@@ -306,8 +308,8 @@ export const FestivalEdition = async ({ festivalSlug, tab: tabParam }: FestivalE
                                                     {previewText ? `${previewText}...` : ''}
                                                 </p>
 
-                                                <p className="text-secondary-500 hover:text-secondary-400 font-medium">
-                                                    {t('symposia.readMore')} →
+                                                <p className="text-primary-900 dark:text-primary-50 underline decoration-ember-500/60 hover:decoration-ember-500 font-medium">
+                                                    {t('symposia.readMore')}
                                                 </p>
                                             </div>
                                         </div>
@@ -335,11 +337,11 @@ export const FestivalEdition = async ({ festivalSlug, tab: tabParam }: FestivalE
 
                             return (
                                 <Link key={item.id} href={`/creativity/${item.slug}`} className="block h-full">
-                                    <Card className="transition-all hover:shadow-2xl h-full">
+                                    <Card className="h-full">
                                         <div className="flex flex-col md:flex-row gap-4 h-full">
                                             {attachmentUrl && (
                                                 <div
-                                                    className="w-full md:w-1/3 lg:w-2/5 bg-primary-100 dark:bg-primary-900 rounded-lg flex items-center justify-center overflow-hidden">
+                                                    className="w-full md:w-1/3 lg:w-2/5 glaze rounded-[2px] flex items-center justify-center overflow-hidden">
                                                     <img
                                                         src={attachmentUrl}
                                                         alt={localizedItemTitle}
@@ -359,7 +361,7 @@ export const FestivalEdition = async ({ festivalSlug, tab: tabParam }: FestivalE
                                                     )}
                                                 </div>
 
-                                                <h2 className="text-2xl md:text-3xl font-bold text-accent-600 dark:text-secondary-500">
+                                                <h2 className="text-2xl md:text-3xl font-bold text-primary-950 dark:text-primary-50">
                                                     {localizedItemTitle}
                                                 </h2>
 
@@ -382,8 +384,8 @@ export const FestivalEdition = async ({ festivalSlug, tab: tabParam }: FestivalE
                                                     {preview.substring(0, 250)}...
                                                 </p>
 
-                                                <p className="text-secondary-500 hover:text-secondary-400 font-medium">
-                                                    {t('creativity.readMore')} →
+                                                <p className="text-primary-900 dark:text-primary-50 underline decoration-ember-500/60 hover:decoration-ember-500 font-medium">
+                                                    {t('creativity.readMore')}
                                                 </p>
                                             </div>
                                         </div>
@@ -417,7 +419,7 @@ export const FestivalEdition = async ({ festivalSlug, tab: tabParam }: FestivalE
                                         download
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="text-lg font-medium text-accent-600 dark:text-secondary-500 hover:text-secondary-400 underline"
+                                        className="text-lg font-medium text-primary-950 dark:text-primary-50 underline decoration-ember-500/60 hover:decoration-ember-500"
                                     >
                                         {label}
                                     </a>
@@ -436,10 +438,10 @@ export const FestivalEdition = async ({ festivalSlug, tab: tabParam }: FestivalE
                                     download
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-secondary-500 hover:text-secondary-400 flex-shrink-0"
+                                    className="text-primary-900 dark:text-primary-50 underline decoration-ember-500/60 hover:decoration-ember-500 flex-shrink-0"
                                     aria-label={t('festival.download')}
                                 >
-                                    <Download size={22}/>
+                                    <Download size={20} strokeWidth={1.5}/>
                                 </a>
                             </Card>
                         );

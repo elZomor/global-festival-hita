@@ -88,11 +88,11 @@ export const SeatMapPicker = ({ takenSeats, selectedSeat, onSeatSelect }: SeatMa
         <div className="min-w-max mx-auto flex flex-col items-center gap-1">
             {/* Stage arch */}
             <div
-                className="w-full flex items-center justify-center text-[#fef3c7] font-bold tracking-[0.4em] text-sm"
+                className="w-full flex items-center justify-center text-primary-100 font-semibold tracking-[0.4em] text-sm"
                 style={{
                     borderRadius: '0 0 60% 60% / 0 0 32px 32px',
-                    background: 'linear-gradient(to bottom, #57534e, #1c1917)',
-                    border: '1px solid rgba(251,191,36,0.2)',
+                    background: 'linear-gradient(to bottom, var(--clay-800), var(--clay-950))',
+                    border: '1px solid var(--clay-600)',
                     borderTop: 'none',
                     padding: '0.75rem 4rem',
                     boxShadow: '0 8px 24px rgba(0,0,0,0.5), inset 0 -4px 12px rgba(0,0,0,0.3)',
@@ -107,7 +107,7 @@ export const SeatMapPicker = ({ takenSeats, selectedSeat, onSeatSelect }: SeatMa
                 style={{
                     height: '2px',
                     width: '100%',
-                    background: 'linear-gradient(to right, transparent, rgba(251,191,36,0.5), transparent)',
+                    background: 'linear-gradient(to right, transparent, var(--ember-500), transparent)',
                     filter: 'blur(1px)',
                     marginBottom: '6px',
                 }}
@@ -278,7 +278,7 @@ const DecorativeSeat = ({ category }: { category: keyof typeof CATEGORY_STYLES }
     );
 };
 
-// Bookable seat — available / taken (red) / selected (amber)
+// Bookable seat — available (glaze) / taken (soot, dashed) / selected (ember)
 interface BookableSeatProps {
     seatId: string;
     taken: boolean;
@@ -306,9 +306,9 @@ const BookableSeat = ({ seatId, taken, selected, onSelect }: BookableSeatProps) 
                 title={seatId}
                 style={{
                     ...baseStyle,
-                    background: 'linear-gradient(to bottom,#b91c1c,#7f1d1d)',
-                    border: '1px solid #f8717155',
-                    color: '#fecaca',
+                    background: 'var(--clay-900)',
+                    border: '1px dashed var(--clay-600)',
+                    color: 'var(--clay-600)',
                     cursor: 'not-allowed',
                 }}
             >
@@ -325,10 +325,11 @@ const BookableSeat = ({ seatId, taken, selected, onSelect }: BookableSeatProps) 
                 onClick={() => onSelect(seatId)}
                 style={{
                     ...baseStyle,
-                    background: 'linear-gradient(to bottom,#d97706,#92400e)',
-                    border: '1px solid #fbbf2488',
-                    color: '#fef9c3',
-                    outline: '2px solid #fbbf24',
+                    background: 'var(--ember-500)',
+                    border: '1px solid var(--ember-300)',
+                    color: 'var(--clay-950)',
+                    boxShadow: '0 0 14px var(--ember-500)',
+                    outline: '2px solid var(--ember-400)',
                     outlineOffset: '1px',
                     cursor: 'pointer',
                 }}
@@ -345,9 +346,9 @@ const BookableSeat = ({ seatId, taken, selected, onSelect }: BookableSeatProps) 
             onClick={() => onSelect(seatId)}
             style={{
                 ...baseStyle,
-                background: 'linear-gradient(to bottom,#16a34a,#14532d)',
-                border: '1px solid #86efac55',
-                color: '#dcfce7',
+                background: 'var(--clay-100)',
+                border: '1px solid var(--clay-300)',
+                color: 'var(--clay-950)',
                 cursor: 'pointer',
             }}
         >

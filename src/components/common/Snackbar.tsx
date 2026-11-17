@@ -18,13 +18,13 @@ export const Snackbar = ({ message, isOpen, onClose, variant = 'success' }: Snac
   if (!isOpen) return null;
 
   const variantStyles: Record<typeof variant, string> = {
-    success: 'bg-secondary-500 text-theatre-black-950 dark:bg-secondary-400 dark:text-theatre-black-900',
-    error: 'bg-accent-600 text-primary-50 dark:bg-accent-500 dark:text-primary-50',
+    success: 'glaze text-primary-950 dark:text-primary-50 border-primary-400 dark:border-primary-600',
+    error: 'bg-primary-950 text-primary-50 border-ember-500 dark:bg-primary-900',
   };
 
   return (
-    <div className="fixed inset-x-0 bottom-4 flex justify-center z-50 px-4">
-      <div className={`w-full max-w-md rounded-full px-6 py-3 shadow-2xl ${variantStyles[variant]}`}>
+    <div className="fixed inset-x-0 bottom-4 flex justify-center z-50 px-4" role="status" aria-live="polite">
+      <div className={`w-full max-w-md rounded-[3px] border px-5 py-3 shadow-glow-dark animate-smoke ${variantStyles[variant]}`}>
         <p className="text-center text-sm font-medium">{message}</p>
       </div>
     </div>

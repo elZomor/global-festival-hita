@@ -1,34 +1,31 @@
 'use client';
+import Link from 'next/link';
 import { useT } from '../i18n/useT';
-import { Sparkles, Clock } from 'lucide-react';
-import { Button, Card } from '../components/common';
 
+// The kiln is still heating.
 export const ComingSoon = () => {
   const t = useT();
 
   return (
-    <div className="min-h-[60vh] flex items-center justify-center">
-      <Card className="w-full max-w-3xl text-center bg-gradient-to-br from-primary-900 via-accent-600 to-primary-900 dark:from-primary-950 dark:via-accent-700 dark:to-primary-950 text-primary-50 shadow-2xl">
-        <div className="space-y-6 py-16 px-8">
-          <div className="flex justify-center gap-3 text-secondary-500">
-            <Sparkles size={40} className="animate-pulse" />
-            <Clock size={40} className="animate-spin" />
-          </div>
-          <h1 className="text-4xl md:text-5xl font-bold tracking-wide">
-            {t('common.comingSoon')}
-          </h1>
-          <p className="text-lg text-secondary-50/90 max-w-2xl mx-auto leading-relaxed">
-            {t('common.comingSoonMessage')}
-          </p>
-
-          <Button variant="secondary"
-                  className="border border-secondary-500 text-primary-900 dark:text-theatre-black-950 bg-primary-50 dark:bg-secondary-500/20 hover:bg-secondary-500/10 dark:hover:bg-secondary-500/40"
-                  onClick={() => window.location.href = '/'}
-          >
-            {t('common.backHome')}
-          </Button>
+    <div className="min-h-[60vh] flex items-center">
+      <div className="max-w-3xl space-y-6">
+        <h1 className="brush fired-text text-[clamp(3rem,9vw,6rem)]">
+          {t('common.comingSoon')}
+        </h1>
+        <span className="ember-swipe swipe-cool w-56" aria-hidden="true" />
+        <p className="text-lg max-w-2xl leading-relaxed text-primary-700 dark:text-primary-300">
+          {t('common.comingSoonMessage')}
+        </p>
+        <div className="h-0.5 w-64 bg-primary-200 dark:bg-primary-800 overflow-hidden" aria-hidden="true">
+          <div className="h-full w-1/3 bg-ember-500 animate-pulse" />
         </div>
-      </Card>
+        <Link
+          href="/"
+          className="inline-flex items-center min-h-12 px-7 rounded-[3px] border border-primary-400 dark:border-primary-600 text-primary-900 dark:text-primary-100 font-medium hover:border-ember-500 transition-colors"
+        >
+          {t('common.backHome')}
+        </Link>
+      </div>
     </div>
   );
 };

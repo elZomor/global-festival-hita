@@ -67,7 +67,7 @@ export const CreativityDetail = async ({ slug }: { slug: string }) => {
         <div className="max-w-4xl mx-auto space-y-8">
             <Link
                 href="/creativity"
-                className="inline-flex items-center gap-2 text-secondary-500 hover:text-secondary-400 transition-colors"
+                className="inline-flex items-center gap-2 text-primary-900 dark:text-primary-50 underline decoration-ember-500/60 hover:decoration-ember-500 transition-colors"
             >
                 <ArrowLeft size={20} className={isRTL ? 'rotate-180' : ''}/>
                 {t('common.backToList')}
@@ -77,9 +77,9 @@ export const CreativityDetail = async ({ slug }: { slug: string }) => {
                 {(relatedShow || relatedFestival) && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {relatedShow && (
-                            <Card className="border border-secondary-300 h-full">
+                            <Card className="h-full">
                                 <div className="space-y-2">
-                                    <p className="text-xs uppercase tracking-wide text-secondary-500">
+                                    <p className="label">
                                         {t('creativity.relatedShow')}
                                     </p>
                                     <Link href={`/shows/${relatedShow.id}`}>
@@ -94,7 +94,7 @@ export const CreativityDetail = async ({ slug }: { slug: string }) => {
                         {relatedFestival && (
                             <Card className="border border-primary-300 h-full">
                                 <div className="space-y-2">
-                                    <p className="text-xs uppercase tracking-wide text-secondary-500">
+                                    <p className="label">
                                         {t('creativity.relatedFestival')}
                                     </p>
                                     <Link href={`/festival/${relatedFestival.slug}`}>
@@ -132,7 +132,7 @@ export const CreativityDetail = async ({ slug }: { slug: string }) => {
                         )}
                     </div>
 
-                    <h1 className="text-3xl md:text-5xl font-bold text-accent-600 dark:text-secondary-500 leading-tight">
+                    <h1 className="text-3xl md:text-5xl font-bold text-primary-950 dark:text-primary-50 leading-tight">
                         {localizedTitle}
                     </h1>
 
@@ -160,7 +160,7 @@ export const CreativityDetail = async ({ slug }: { slug: string }) => {
                         <img
                             src={primaryAttachment}
                             alt={localizedTitle}
-                            className="max-h-[360px] w-full max-w-3xl object-contain rounded-2xl bg-primary-50 dark:bg-primary-900"
+                            className="max-h-[360px] w-full max-w-3xl object-contain rounded-[3px] bg-primary-50 dark:bg-primary-900"
                         />
                     </div>
                 )}
@@ -192,7 +192,7 @@ export const CreativityDetail = async ({ slug }: { slug: string }) => {
                                 <img
                                     src={attachment}
                                     alt={`${localizedTitle} attachment ${idx + 2}`}
-                                    className="max-h-[360px] w-full max-w-xl object-contain rounded-2xl bg-primary-50 dark:bg-primary-900"
+                                    className="max-h-[360px] w-full max-w-xl object-contain rounded-[3px] bg-primary-50 dark:bg-primary-900"
                                 />
                             </div>
                         ))}
@@ -202,7 +202,7 @@ export const CreativityDetail = async ({ slug }: { slug: string }) => {
 
             {relatedEntries.length > 0 && (
                 <div className="border-t border-primary-300 dark:border-primary-700 pt-8">
-                    <h2 className="text-2xl font-bold text-accent-600 dark:text-secondary-500 mb-6">
+                    <h2 className="text-2xl font-bold text-primary-950 dark:text-primary-50 mb-6">
                         {t('creativity.relatedArticles')}
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -212,10 +212,10 @@ export const CreativityDetail = async ({ slug }: { slug: string }) => {
                             const attachmentUrl = item.attachments?.map(path => buildMediaUrl(path)).find(url => url && url.trim() !== '') ?? '';
                             return (
                                 <Link key={item.id} href={`/creativity/${item.slug}`} className="block h-full">
-                                    <Card className="transition-all hover:shadow-2xl h-full">
+                                    <Card className="h-full">
                                         <div className="flex flex-col md:flex-row gap-4 h-full">
                                             {attachmentUrl && (
-                                                <div className="w-full md:w-1/3 lg:w-2/5 bg-primary-100 dark:bg-primary-900 rounded-lg flex items-center justify-center overflow-hidden">
+                                                <div className="w-full md:w-1/3 lg:w-2/5 bg-primary-100 dark:bg-primary-900 rounded-[3px] flex items-center justify-center overflow-hidden">
                                                     <img
                                                         src={attachmentUrl}
                                                         alt={relatedTitle}
@@ -235,7 +235,7 @@ export const CreativityDetail = async ({ slug }: { slug: string }) => {
                                                     )}
                                                 </div>
 
-                                                <h2 className="text-2xl md:text-3xl font-bold text-accent-600 dark:text-secondary-500">
+                                                <h2 className="text-2xl md:text-3xl font-bold text-primary-950 dark:text-primary-50">
                                                     {relatedTitle}
                                                 </h2>
 
@@ -257,8 +257,8 @@ export const CreativityDetail = async ({ slug }: { slug: string }) => {
                                                     {preview.substring(0, 250)}...
                                                 </p>
 
-                                                <p className="text-secondary-500 hover:text-secondary-400 font-medium">
-                                                    {t('creativity.readMore')} →
+                                                <p className="text-primary-900 dark:text-primary-50 underline decoration-ember-500/60 hover:decoration-ember-500 font-medium">
+                                                    {t('creativity.readMore')}
                                                 </p>
                                             </div>
                                         </div>

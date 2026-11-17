@@ -32,6 +32,39 @@
       "title": "Apply now to take part in {festival}",
       "subtitle": "Submit your show and join this year's edition.",
       "cta": "Apply now"
+    },
+    "viewShows": "This edition's shows",
+    "allEditions": "All editions",
+    "dates": "Dates",
+    "status": {
+      "label": "Edition status",
+      "soon": "Coming edition",
+      "running": "Shows running now",
+      "finished": "Edition ended"
+    },
+    "stages": {
+      "title": "Festival stages",
+      "apply": {
+        "title": "Apply",
+        "text": "Submit your show to take part in the edition."
+      },
+      "shows": {
+        "title": "Shows",
+        "text": "Show dates and venues — book your seat."
+      },
+      "writing": {
+        "title": "Articles",
+        "text": "Critical writing on the festival's shows."
+      },
+      "symposia": {
+        "title": "Symposia",
+        "text": "The critical symposia that follow the shows."
+      },
+      "archive": {
+        "title": "Archive",
+        "text": "Every past edition, kept whole."
+      },
+      "live": "Open now"
     }
   },
   "festival": {
@@ -82,7 +115,7 @@
     "reserve": "reserve",
     "today": "Today",
     "available": "Soon",
-    "finished": "Done ✔",
+    "finished": "Done",
     "tabs": {
       "info": "Info",
       "articles": "Articles",
@@ -121,7 +154,8 @@
       "errorSubmitting": "Failed to submit your comment. Please try again.",
       "errorLoading": "Failed to load comments. Please try again later.",
       "noComments": "No comments yet. Be the first to comment!"
-    }
+    },
+    "noInfo": "No further information about this show yet."
   },
   "articles": {
     "title": "Critical Articles",
@@ -372,6 +406,18 @@
         "ALREADY_APPLIED": "An application with this email was already submitted for this edition.",
         "VALIDATION_ERROR": "Please fix the errors highlighted in the form."
       }
+    },
+    "alreadyApplied": {
+      "title": "You have already applied to this edition",
+      "message": "Your application was received. Only one application per edition is allowed.",
+      "submittedOn": "Submitted on",
+      "status": "Status",
+      "statuses": {
+        "PENDING": "Under review",
+        "ACCEPTED": "Accepted",
+        "REJECTED": "Rejected"
+      }
     }
-  }
+  },
+  "link_copied": "Link copied"
 }

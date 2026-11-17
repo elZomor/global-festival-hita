@@ -2,8 +2,9 @@
 import {useLocale} from 'next-intl';
 import {useT} from '../i18n/useT';
 import {Mail, MapPin} from 'lucide-react';
-import {Card, SectionHeader} from '../components/common';
+import {SectionHeader} from '../components/common';
 import {festivalConfig} from '../config/festival';
+import {KilnMark} from '../components/layout/Wordmark';
 
 export const About = () => {
     const t = useT();
@@ -14,77 +15,58 @@ export const About = () => {
     const whyArchiveText = isAr ? festivalConfig.aboutWhyArchiveTextAr : festivalConfig.aboutWhyArchiveTextEn;
 
     return (
-        <div className="max-w-4xl mx-auto space-y-8">
-            <div className="text-center space-y-4">
-                <div className="text-7xl mb-4">{festivalConfig.logo}</div>
-                <SectionHeader>{t('about.title')}</SectionHeader>
+        <div className="max-w-5xl mx-auto space-y-16">
+            <div className="flex items-center gap-5">
+                <KilnMark className="w-16 h-16 shrink-0 text-primary-950 dark:text-primary-50"/>
+                <SectionHeader className="mb-0">{t('about.title')}</SectionHeader>
             </div>
 
-            <Card className="bg-gradient-to-br from-accent-600/10 to-secondary-500/10" hover={false}>
-                <div className="space-y-6">
-                    <div>
-                        <h2 className="text-2xl font-bold text-accent-600 dark:text-secondary-500 mb-4">
-                            {whatIsTitle}
-                        </h2>
-                        <p className="text-primary-800 dark:text-primary-200 leading-relaxed text-lg">
-                            {whatIsText}
-                        </p>
-                    </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10 border-t border-primary-300 dark:border-primary-800 pt-10">
+                <section>
+                    <h2 className="font-display text-3xl text-primary-950 dark:text-primary-50 mb-4">{whatIsTitle}</h2>
+                    <p className="text-lg leading-relaxed text-primary-700 dark:text-primary-300 max-w-[65ch]">{whatIsText}</p>
+                </section>
+                <section>
+                    <h2 className="font-display text-3xl text-primary-950 dark:text-primary-50 mb-4">{whyArchiveTitle}</h2>
+                    <p className="text-lg leading-relaxed text-primary-700 dark:text-primary-300 max-w-[65ch]">{whyArchiveText}</p>
+                </section>
+            </div>
 
-                    <div className="border-t border-primary-300 dark:border-primary-700 pt-6">
-                        <h2 className="text-2xl font-bold text-accent-600 dark:text-secondary-500 mb-4">
-                            {whyArchiveTitle}
-                        </h2>
-                        <p className="text-primary-800 dark:text-primary-200 leading-relaxed text-lg">
-                            {whyArchiveText}
-                        </p>
-                    </div>
-                </div>
-            </Card>
-
-            <Card hover={false}>
-                <h2 className="text-2xl font-bold text-accent-600 dark:text-secondary-500 mb-6">
-                    {t('about.contactTitle')}
-                </h2>
-
-                <div className="space-y-4">
+            <section className="glaze rounded-[3px] border border-primary-200 dark:border-primary-800 p-8">
+                <h2 className="font-display text-3xl text-primary-950 dark:text-primary-50 mb-8">{t('about.contactTitle')}</h2>
+                <dl className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="flex items-start gap-4">
-                        <Mail size={24} className="text-secondary-500 mt-1 flex-shrink-0"/>
+                        <Mail size={22} strokeWidth={1.5} className="text-ember-600 dark:text-ember-400 mt-1 shrink-0"/>
                         <div>
-                            <p className="text-sm text-primary-600 dark:text-primary-400 mb-1">
-                                البريد الإلكتروني / Email
-                            </p>
-                            <a
-                                href={`mailto:${festivalConfig.contactEmail}`}
-                                className="text-secondary-500 hover:text-secondary-400 font-medium"
-                            >
-                                {festivalConfig.contactEmail}
-                            </a>
+                            <dt className="text-sm text-primary-600 dark:text-primary-400 mb-1">البريد الإلكتروني / Email</dt>
+                            <dd>
+                                <a
+                                    href={`mailto:${festivalConfig.contactEmail}`}
+                                    dir="ltr"
+                                    className="text-primary-950 dark:text-primary-50 underline decoration-ember-500/60 hover:decoration-ember-500 font-medium"
+                                >
+                                    {festivalConfig.contactEmail}
+                                </a>
+                            </dd>
                         </div>
                     </div>
-
                     <div className="flex items-start gap-4">
-                        <MapPin size={24} className="text-secondary-500 mt-1 flex-shrink-0"/>
+                        <MapPin size={22} strokeWidth={1.5} className="text-ember-600 dark:text-ember-400 mt-1 shrink-0"/>
                         <div>
-                            <p className="text-sm text-primary-600 dark:text-primary-400 mb-1">
-                                العنوان / Address
-                            </p>
-                            <p className="text-primary-800 dark:text-primary-200 font-medium leading-relaxed" style={{whiteSpace: 'pre-line'}}>
+                            <dt className="text-sm text-primary-600 dark:text-primary-400 mb-1">العنوان / Address</dt>
+                            <dd className="text-primary-900 dark:text-primary-100 font-medium leading-relaxed" style={{whiteSpace: 'pre-line'}}>
                                 {festivalConfig.addressAr}
-                            </p>
+                            </dd>
                         </div>
                     </div>
-                </div>
-            </Card>
+                </dl>
+            </section>
 
-            <div className="bg-gradient-to-r from-primary-950 to-accent-700 rounded-2xl p-8 text-center shadow-2xl">
-                <h3 className="text-2xl font-bold text-secondary-500 mb-4">
-                    {festivalConfig.celebrationAr}
-                </h3>
-                <p className="text-primary-300 text-lg">
-                    {festivalConfig.celebrationEn}
-                </p>
-            </div>
+            <section className="text-center py-6">
+                <p className="brush text-[clamp(2rem,5vw,3.5rem)] text-primary-950 dark:text-primary-50">{festivalConfig.celebrationAr}</p>
+                <span className="ember-swipe swipe-cool w-40 mx-auto my-5" aria-hidden="true"/>
+                <p className="text-lg text-primary-600 dark:text-primary-400" dir="ltr">{festivalConfig.celebrationEn}</p>
+            </section>
         </div>
     );
 };

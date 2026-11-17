@@ -34,7 +34,7 @@ export const renderValue = (value?: string | string[], options: RenderValueOptio
             const [rank, show] = filtered;
             return (
                 <span className="text-primary-800 dark:text-primary-100">
-                    {rank && <span className="text-secondary-500 dark:text-secondary-400">{rank}</span>}
+                    {rank && <span className="text-ember-600 dark:text-ember-400 tabular">{rank}</span>}
                     {rank && show && ' '}
                     {show && <em>{show}</em>}
                 </span>
@@ -52,7 +52,7 @@ export const renderValue = (value?: string | string[], options: RenderValueOptio
                 );
             }
             return (
-                <span className="text-secondary-500 dark:text-secondary-400">
+                <span className="text-ember-600 dark:text-ember-400 tabular">
                     {value}
                 </span>
             );
@@ -77,7 +77,7 @@ export const renderValue = (value?: string | string[], options: RenderValueOptio
 export const renderLinkedText = (item: DetailEntry, className?: string) => {
     const link = item.link?.trim();
     const linkClasses =
-        'text-secondary-600 dark:text-secondary-400 underline hover:text-secondary-700 dark:hover:text-secondary-300 transition-colors';
+        'text-primary-950 dark:text-primary-50 underline decoration-ember-500/60 hover:decoration-ember-500 transition-colors';
 
     if (link) {
         const combinedClasses = `${className ? `${className} ` : ''}${linkClasses}`;

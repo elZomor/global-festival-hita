@@ -8,22 +8,27 @@ type ShowTabsNavigationProps = {
 };
 
 export const ShowTabsNavigation = ({tabs, activeTab, getHref}: ShowTabsNavigationProps) => (
-    <div className="border-b border-primary-300 dark:border-primary-700">
-        <div className="flex gap-2 overflow-x-auto">
-            {tabs.map(tab => (
-                <Link
-                    key={tab.key}
-                    href={getHref(tab.key)}
-                    scroll={false}
-                    className={`px-6 py-3 font-medium transition-all duration-300 border-b-2 whitespace-nowrap ${
-                        activeTab === tab.key
-                            ? 'border-secondary-500 text-accent-600 dark:text-secondary-500'
-                            : 'border-transparent text-primary-600 dark:text-primary-400 hover:text-accent-600 dark:hover:text-secondary-500'
-                    }`}
-                >
-                    {tab.label}
-                </Link>
-            ))}
+    <nav className="border-b border-primary-300 dark:border-primary-800">
+        <div className="flex gap-1 overflow-x-auto">
+            {tabs.map(tab => {
+                const active = activeTab === tab.key;
+                return (
+                    <Link
+                        key={tab.key}
+                        href={getHref(tab.key)}
+                        scroll={false}
+                        aria-current={active ? 'page' : undefined}
+                        className={`relative min-h-12 px-5 py-3 whitespace-nowrap font-medium transition-colors ${
+                            active
+                                ? 'text-primary-950 dark:text-primary-50'
+                                : 'text-primary-500 hover:text-primary-950 dark:text-primary-400 dark:hover:text-primary-50'
+                        }`}
+                    >
+                        {tab.label}
+                        {active && <span className="ember-swipe swipe-cool absolute inset-x-3 -bottom-[3px] h-1.5" aria-hidden="true"/>}
+                    </Link>
+                );
+            })}
         </div>
-    </div>
+    </nav>
 );

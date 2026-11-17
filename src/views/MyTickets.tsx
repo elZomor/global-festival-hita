@@ -7,13 +7,14 @@ import { useT } from '../i18n/useT';
 import { useAuth } from '../contexts/AuthContext';
 import { useMyReservations } from '../api/hooks';
 import type { MyReservation } from '../types';
+import { Armchair, CalendarDays, MapPin, Ticket } from 'lucide-react';
 
 type StatusFilter = 'ALL' | 'CONFIRMED' | 'WAITING_LIST';
 
 const statusBadgeClass: Record<string, string> = {
-  CONFIRMED: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
-  WAITING_LIST: 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200',
-  CLOSED: 'bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400',
+  CONFIRMED: 'bg-ember-500 text-primary-950',
+  WAITING_LIST: 'border border-primary-400 text-primary-800 dark:border-primary-500 dark:text-primary-100',
+  CLOSED: 'border border-dashed border-primary-300 text-primary-500 dark:border-primary-700 dark:text-primary-400',
 };
 
 function TicketCard({ reservation }: { reservation: MyReservation }) {
@@ -37,18 +38,18 @@ function TicketCard({ reservation }: { reservation: MyReservation }) {
   const statusLabel = t(`myTickets.status.${reservation.status}`);
 
   return (
-    <div className="rounded-xl border border-primary-200 dark:border-primary-700 bg-primary-50 dark:bg-primary-900 shadow-sm overflow-hidden flex flex-col">
+    <div className="rounded-[3px] border border-primary-200 dark:border-primary-700 bg-primary-50 dark:bg-primary-900 overflow-hidden flex flex-col">
       <div className="flex gap-4 p-4">
         <div className="shrink-0">
           {reservation.showPoster ? (
             <img
               src={reservation.showPoster}
               alt={reservation.showName}
-              className="w-20 h-20 rounded-lg object-cover"
+              className="w-20 h-20 rounded-[3px] object-cover"
             />
           ) : (
-            <div className="w-20 h-20 rounded-lg bg-accent-100 dark:bg-accent-900 flex items-center justify-center text-3xl">
-              🎭
+            <div className="glaze w-20 h-20 rounded-[3px] flex items-center justify-center text-primary-400">
+              <Ticket size={28} strokeWidth={1.25} aria-hidden="true" />
             </div>
           )}
         </div>
@@ -65,30 +66,30 @@ function TicketCard({ reservation }: { reservation: MyReservation }) {
       <div className="border-t border-primary-200 dark:border-primary-700 px-4 py-3 space-y-1.5 text-sm text-primary-700 dark:text-primary-300">
         {formattedDate && (
           <div className="flex items-center gap-2">
-            <span>📅</span>
+            <CalendarDays size={16} strokeWidth={1.5} className="text-primary-400 shrink-0" aria-hidden="true" />
             <span>{formattedDate}{formattedTime ? ` · ${formattedTime}` : ''}</span>
           </div>
         )}
         {reservation.venueName && (
           <div className="flex items-center gap-2">
-            <span>📍</span>
+            <MapPin size={16} strokeWidth={1.5} className="text-primary-400 shrink-0" aria-hidden="true" />
             <span className="truncate">{reservation.venueName}</span>
           </div>
         )}
         {reservation.seatNumber && (
           <div className="flex items-center gap-2">
-            <span>💺</span>
+            <Armchair size={16} strokeWidth={1.5} className="text-primary-400 shrink-0" aria-hidden="true" />
             <span className="font-medium">{t('myTickets.seatNumber', { seat: reservation.seatNumber })}</span>
           </div>
         )}
         <div className="flex items-center justify-between pt-1">
           <div className="flex items-center gap-2">
-            <span>🎟</span>
+            <Ticket size={16} strokeWidth={1.5} className="text-primary-400 shrink-0" aria-hidden="true" />
             <span className="font-medium">
               {t('myTickets.reservationNumber', { number: reservation.reservationNumber })}
             </span>
           </div>
-          <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${badgeClass}`}>
+          <span className={`text-xs font-semibold px-2 py-0.5 rounded-[2px] ${badgeClass}`}>
             {statusLabel}
           </span>
         </div>
@@ -99,9 +100,9 @@ function TicketCard({ reservation }: { reservation: MyReservation }) {
 
 function SkeletonCard() {
   return (
-    <div className="rounded-xl border border-primary-200 dark:border-primary-700 bg-primary-50 dark:bg-primary-900 shadow-sm overflow-hidden animate-pulse">
+    <div className="rounded-[3px] border border-primary-200 dark:border-primary-700 bg-primary-50 dark:bg-primary-900 shadow-sm overflow-hidden animate-pulse">
       <div className="flex gap-4 p-4">
-        <div className="w-20 h-20 rounded-lg bg-primary-200 dark:bg-primary-700 shrink-0" />
+        <div className="w-20 h-20 rounded-[3px] bg-primary-200 dark:bg-primary-700 shrink-0" />
         <div className="flex-1 space-y-2 pt-1">
           <div className="h-4 bg-primary-200 dark:bg-primary-700 rounded w-3/4" />
           <div className="h-3 bg-primary-200 dark:bg-primary-700 rounded w-1/2" />
@@ -152,12 +153,12 @@ export const MyTickets = () => {
           )}
         </div>
 
-        <div className="flex gap-1 bg-primary-100 dark:bg-primary-800 rounded-lg p-1">
+        <div className="flex gap-1 bg-primary-100 dark:bg-primary-800 rounded-[3px] p-1">
           {tabs.map(tab => (
             <button
               key={tab.key}
               onClick={() => setFilter(tab.key)}
-              className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+              className={`px-3 py-1.5 rounded-[3px] text-sm font-medium transition-colors ${
                 filter === tab.key
                   ? 'bg-primary-50 dark:bg-primary-900 text-primary-900 dark:text-primary-50 shadow-sm'
                   : 'text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-50'
@@ -175,15 +176,15 @@ export const MyTickets = () => {
         </div>
       ) : filtered.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 text-center gap-4">
-          <span className="text-6xl">🎭</span>
+          <Ticket size={56} strokeWidth={1.25} className="text-primary-400" aria-hidden="true" />
           <p className="text-primary-600 dark:text-primary-400 text-lg">
             {t('myTickets.noTickets')}
           </p>
           <Link
             href="/festival"
-            className="px-5 py-2 rounded-lg bg-accent-600 text-white hover:bg-accent-700 transition-colors font-medium"
+            className="inline-flex items-center min-h-11 px-6 rounded-[3px] bg-ember-500 text-primary-950 hover:bg-ember-400 transition-colors font-semibold"
           >
-            {t('myTickets.browseShows')} →
+            {t('myTickets.browseShows')}
           </Link>
         </div>
       ) : (

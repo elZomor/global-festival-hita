@@ -3,7 +3,7 @@ import { ReactNode, useId, useRef } from 'react';
 import { FileText, Plus, Trash2, Upload } from 'lucide-react';
 
 export const inputClass = (hasError: boolean, disabled = false) =>
-  `w-full px-4 py-3 rounded-lg border bg-primary-50 dark:bg-primary-800 text-primary-900 dark:text-primary-50 placeholder:text-primary-400 dark:placeholder:text-primary-500 focus:outline-none focus:ring-2 focus:ring-secondary-500 dark:focus:ring-secondary-400 transition-colors ${
+  `w-full px-4 py-3 rounded-[3px] border bg-primary-50 dark:bg-primary-950 text-primary-900 dark:text-primary-50 placeholder:text-primary-400 dark:placeholder:text-primary-500 focus:outline-none focus:ring-2 focus:ring-secondary-500 dark:focus:ring-secondary-400 transition-colors ${
     hasError ? 'border-red-500 dark:border-red-400' : 'border-primary-300 dark:border-primary-700'
   } ${disabled ? 'opacity-60 cursor-not-allowed' : ''}`;
 
@@ -27,7 +27,7 @@ export const FieldShell = ({ id, name, label, required, badge, hint, error, chil
         {required && <span className="text-red-600 dark:text-red-400 ms-1" aria-hidden="true">*</span>}
       </span>
       {badge && (
-        <span className="text-xs px-2 py-0.5 rounded-full bg-secondary-100 text-secondary-800 dark:bg-secondary-900/40 dark:text-secondary-300">
+        <span className="text-xs px-2 py-0.5 rounded-[2px] border border-primary-300 text-primary-500 dark:border-primary-700 dark:text-primary-400">
           {badge}
         </span>
       )}
@@ -140,12 +140,12 @@ export const RadioGroupField = ({ value, onChange, options, ...shell }: RadioGro
           return (
             <label
               key={option.value}
-              className={`flex items-center gap-2 px-4 py-3 rounded-lg border cursor-pointer transition-colors ${
+              className={`flex items-center gap-2 px-4 py-3 rounded-[3px] border cursor-pointer transition-colors ${
                 checked
-                  ? 'border-secondary-500 bg-secondary-50 dark:bg-secondary-900/30'
+                  ? 'border-ember-500 glaze'
                   : shell.error
                     ? 'border-red-500 dark:border-red-400'
-                    : 'border-primary-300 dark:border-primary-700 hover:border-secondary-400'
+                    : 'border-primary-300 dark:border-primary-700 hover:border-ember-500/60'
               }`}
             >
               <input
@@ -154,7 +154,7 @@ export const RadioGroupField = ({ value, onChange, options, ...shell }: RadioGro
                 value={option.value}
                 checked={checked}
                 onChange={() => onChange(option.value)}
-                className="accent-secondary-500"
+                className="accent-ember-500 w-4 h-4"
               />
               <span>{option.label}</span>
             </label>
@@ -191,19 +191,19 @@ export const FileField = ({ file, accept, onChange, chooseLabel, changeLabel, ..
       <button
         type="button"
         onClick={() => inputRef.current?.click()}
-        className={`w-full flex items-center gap-3 px-4 py-4 rounded-lg border-2 border-dashed text-start transition-colors hover:border-secondary-500 ${
+        className={`w-full flex items-center gap-3 px-4 py-4 rounded-[3px] border-2 border-dashed text-start transition-colors hover:border-ember-500 ${
           shell.error ? 'border-red-500 dark:border-red-400' : 'border-primary-300 dark:border-primary-700'
         }`}
       >
         {file ? (
-          <FileText className="w-5 h-5 shrink-0 text-secondary-600 dark:text-secondary-400" />
+          <FileText className="w-5 h-5 shrink-0 text-ember-600 dark:text-ember-400" strokeWidth={1.5} />
         ) : (
           <Upload className="w-5 h-5 shrink-0 text-primary-500" />
         )}
         <span className="flex-1 min-w-0 truncate" dir="auto">
           {file ? file.name : chooseLabel}
         </span>
-        {file && <span className="text-sm text-secondary-600 dark:text-secondary-400 shrink-0">{changeLabel}</span>}
+        {file && <span className="text-sm text-primary-600 dark:text-primary-300 underline decoration-ember-500/60 shrink-0">{changeLabel}</span>}
       </button>
     </FieldShell>
   );
@@ -253,7 +253,7 @@ export const ListField = ({
               onClick={() => remove(index)}
               aria-label={removeLabel}
               title={removeLabel}
-              className="shrink-0 px-3 rounded-lg border border-primary-300 dark:border-primary-700 text-primary-500 hover:text-red-600 hover:border-red-500 transition-colors"
+              className="shrink-0 px-3 rounded-[3px] border border-primary-300 dark:border-primary-700 text-primary-500 hover:text-red-600 hover:border-red-500 transition-colors"
             >
               <Trash2 className="w-4 h-4" />
             </button>
@@ -263,7 +263,7 @@ export const ListField = ({
           <button
             type="button"
             onClick={() => onChange([...values, ''])}
-            className="flex items-center gap-2 text-sm font-medium text-secondary-600 dark:text-secondary-400 hover:underline"
+            className="flex items-center gap-2 min-h-11 text-sm font-medium text-primary-800 dark:text-primary-200 underline decoration-ember-500/60 hover:decoration-ember-500"
           >
             <Plus className="w-4 h-4" />
             {addLabel}

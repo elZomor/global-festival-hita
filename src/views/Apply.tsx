@@ -2,10 +2,11 @@
 import { FormEvent, ReactNode, useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useLocale } from 'next-intl';
-import { AlertTriangle, CheckCircle2 } from 'lucide-react';
+import { AlertTriangle, CheckCircle2, ClipboardCheck } from 'lucide-react';
 import { useT } from '../i18n/useT';
 import { useAuth } from '../contexts/AuthContext';
 import { useApplicationStatus, useSubmitApplication } from '../api/hooks';
+import { getLongFormattedDate } from '../utils/dateUtils';
 import type { ApiError } from '../api/reactQueryClient';
 import { festivalConfig } from '../config/festival';
 import { Button, Card, LoadingState, Snackbar } from '../components/common';
@@ -30,7 +31,7 @@ const SERVER_MESSAGE_CODES = ['APPLICATIONS_CLOSED', 'ALREADY_APPLIED', 'VALIDAT
 
 const Section = ({ title, children }: { title: string; children: ReactNode }) => (
   <fieldset className="space-y-5">
-    <legend className="text-lg font-bold text-accent-600 dark:text-secondary-500 mb-4">{title}</legend>
+    <legend className="w-full font-display text-2xl text-primary-950 dark:text-primary-50 mb-5 pb-3 border-b border-primary-300 dark:border-primary-700">{title}</legend>
     {children}
   </fieldset>
 );
@@ -39,7 +40,7 @@ export const Apply = () => {
   const t = useT();
   const locale = useLocale();
   const { user } = useAuth();
-  const { data: status, isLoading: statusLoading, isError: statusError } = useApplicationStatus();
+  const { data: status, isLoading: statusLoading, isError: statusError } = useApplicationStatus(user?.email);
   const submitMutation = useSubmitApplication();
 
   const [values, setValues] = useState<ApplicationFormValues>(initialValues);
@@ -121,9 +122,10 @@ export const Apply = () => {
   if (statusLoading) return <LoadingState />;
 
   const header = (
-    <div className="mb-8">
-      <h1 className="text-3xl md:text-4xl font-bold text-accent-600 dark:text-secondary-500 mb-2">{t('apply.title')}</h1>
-      <p className="text-primary-600 dark:text-primary-300">
+    <div className="mb-10">
+      <h1 className="brush fired-text fired-live animate-fire text-[clamp(2.5rem,7vw,4.5rem)]">{t('apply.title')}</h1>
+      <span className="ember-swipe w-40 mt-3 mb-5" aria-hidden="true" />
+      <p className="text-lg text-primary-600 dark:text-primary-300">
         {t('apply.subtitle', {
           festival: status?.festivalName || (locale === 'ar' ? festivalConfig.titleAr : festivalConfig.titleEn),
         })}
@@ -142,16 +144,38 @@ export const Apply = () => {
     );
   }
 
+  const myApplication = status.myApplication;
+  if (myApplication && !submitted) {
+    return (
+      <div className="container mx-auto px-4 py-8 max-w-3xl">
+        {header}
+        <Card hover={false} className="text-center space-y-4 py-10">
+          <ClipboardCheck className="w-16 h-16 mx-auto text-primary-500 dark:text-primary-400" strokeWidth={1.25} />
+          <h2 className="text-2xl font-bold">{t('apply.alreadyApplied.title')}</h2>
+          <p className="text-primary-600 dark:text-primary-300">{t('apply.alreadyApplied.message')}</p>
+          <dl className="inline-grid grid-cols-[auto_auto] gap-x-6 gap-y-2 text-start pt-2">
+            <dt className="text-primary-500 dark:text-primary-400">{t('apply.fields.showName')}</dt>
+            <dd className="font-medium">{myApplication.showName}</dd>
+            <dt className="text-primary-500 dark:text-primary-400">{t('apply.alreadyApplied.submittedOn')}</dt>
+            <dd className="font-medium">{getLongFormattedDate(locale, new Date(myApplication.createdAt))}</dd>
+            <dt className="text-primary-500 dark:text-primary-400">{t('apply.alreadyApplied.status')}</dt>
+            <dd className="font-medium">{t(`apply.alreadyApplied.statuses.${myApplication.status}`)}</dd>
+          </dl>
+        </Card>
+      </div>
+    );
+  }
+
   if (submitted) {
     return (
       <div className="container mx-auto px-4 py-8 max-w-3xl">
         <Card hover={false} className="text-center space-y-4 py-10">
-          <CheckCircle2 className="w-16 h-16 mx-auto text-green-600 dark:text-green-400" />
-          <h1 className="text-2xl font-bold">{t('apply.success.title')}</h1>
+          <CheckCircle2 className="w-16 h-16 mx-auto text-ember-500" strokeWidth={1.25} />
+          <h1 className="brush text-4xl text-primary-950 dark:text-primary-50">{t('apply.success.title')}</h1>
           <p className="text-primary-600 dark:text-primary-300">{t('apply.success.message')}</p>
           <Link
             href="/"
-            className="inline-block px-6 py-3 rounded-lg font-medium bg-secondary-500 hover:bg-secondary-400 text-primary-950 shadow-lg transition-colors"
+            className="inline-flex items-center min-h-12 px-7 rounded-[3px] font-semibold bg-ember-500 hover:bg-ember-400 text-primary-950 transition-colors"
           >
             {t('apply.success.backHome')}
           </Link>
@@ -168,9 +192,9 @@ export const Apply = () => {
 
       <div
         role="note"
-        className="flex items-start gap-3 p-4 mb-8 rounded-lg border border-amber-500 bg-amber-50 text-amber-900 dark:bg-amber-900/20 dark:text-amber-200"
+        className="flex items-start gap-3 p-4 mb-8 rounded-[3px] border border-ember-500 bg-ember-500/[0.07] text-primary-950 dark:text-primary-50"
       >
-        <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5" />
+        <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5 text-ember-600 dark:text-ember-400" strokeWidth={1.5} />
         <p className="font-medium">{t('apply.arabicNotice')}</p>
       </div>
 
@@ -209,7 +233,7 @@ export const Apply = () => {
                   type="checkbox"
                   checked={values.whatsappSameAsMobile}
                   onChange={e => setField('whatsappSameAsMobile', e.target.checked)}
-                  className="w-4 h-4 accent-secondary-500"
+                  className="w-4 h-4 accent-ember-500"
                 />
                 {t('apply.fields.whatsappSameAsMobile')}
               </label>
@@ -361,7 +385,7 @@ export const Apply = () => {
 
           <Button
             type="submit"
-            variant={submitMutation.isPending ? 'disabled' : 'secondary'}
+            variant={submitMutation.isPending ? 'disabled' : 'primary'}
             disabled={submitMutation.isPending}
             className="w-full justify-center"
           >

@@ -5,24 +5,32 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
 }
 
+// Raku buttons: ember = live action, glaze = secondary, hairline = quiet.
+// No scale-on-hover; heat is shown by colour and the glow under the surface.
 export const Button = ({ variant = 'primary', children, className = '', ...props }: ButtonProps) => {
-  const baseStyles = 'px-6 py-3 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary-500 dark:focus-visible:ring-secondary-400';
+  const base =
+    'inline-flex items-center justify-center gap-2 min-h-11 px-6 py-3 rounded-[3px] text-sm font-semibold uppercase tracking-label rtl:tracking-normal rtl:normal-case rtl:text-base transition-[background-color,color,box-shadow,border-color] duration-200 ease-out disabled:cursor-not-allowed';
+
+  const ember =
+    'bg-ember-500 text-primary-950 hover:bg-ember-400 hover:shadow-[0_10px_30px_-10px] hover:shadow-ember-500/70 active:bg-ember-600';
 
   const variants = {
-    primary: 'bg-accent-500 hover:bg-accent-600 text-primary-50 dark:bg-accent-600 dark:hover:bg-accent-700 dark:text-primary-50 shadow-lg hover:shadow-xl',
-    secondary: 'bg-secondary-500 hover:bg-secondary-400 text-primary-950 dark:text-primary-950 shadow-lg hover:shadow-xl',
-    reservation: 'bg-reservation-500 hover:bg-reservation-600 text-primary-50 dark:bg-reservation-500 dark:hover:bg-reservation-600 shadow-lg hover:shadow-xl',
-    waiting: 'bg-waiting-500 hover:bg-waiting-600 text-primary-50 dark:text-primary-50 shadow-lg hover:shadow-xl',
-    complete: 'bg-primary-200 text-primary-500 dark:bg-primary-700 dark:text-primary-300 cursor-not-allowed opacity-70 shadow-none',
-    ghost: 'bg-transparent border-2 border-secondary-500 text-secondary-600 hover:bg-secondary-500 hover:text-primary-950 dark:border-secondary-400 dark:text-secondary-400 dark:hover:bg-secondary-400 dark:hover:text-theatre-black-950',
-    disabled: 'bg-primary-200 text-primary-500 dark:bg-primary-700 dark:text-primary-300 cursor-not-allowed opacity-70 shadow-none',
+    primary: ember,
+    reservation: ember,
+    secondary:
+      'glaze text-primary-950 dark:text-primary-50 border border-primary-300 dark:border-primary-600 hover:border-ember-500 dark:hover:border-ember-500',
+    ghost:
+      'bg-transparent border border-primary-400 text-primary-900 hover:border-ember-500 hover:text-ember-600 dark:border-primary-500 dark:text-primary-100 dark:hover:text-ember-400',
+    waiting:
+      'bg-primary-700 text-primary-50 hover:bg-primary-600 dark:bg-primary-200 dark:text-primary-950 dark:hover:bg-primary-100',
+    complete:
+      'bg-transparent border border-dashed border-primary-400 text-primary-500 dark:border-primary-600 dark:text-primary-400 cursor-not-allowed',
+    disabled:
+      'bg-transparent border border-dashed border-primary-400 text-primary-500 dark:border-primary-600 dark:text-primary-400 cursor-not-allowed',
   };
 
   return (
-    <button
-      className={`${baseStyles} ${variants[variant]} ${className}`}
-      {...props}
-    >
+    <button className={`${base} ${variants[variant]} ${className}`} {...props}>
       {children}
     </button>
   );

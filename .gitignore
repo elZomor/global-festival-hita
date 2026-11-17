@@ -43,3 +43,9 @@ next-env.d.ts
 
 # OpenNext build output
 .open-next/
+
+# Impeccable local review artifacts
+.impeccable/review/
+.impeccable/ref/
+.impeccable/mocks/
+.impeccable/questions/

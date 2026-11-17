@@ -71,7 +71,7 @@ export const ShowCommentsTab = ({showId, openForComments}: ShowCommentsTabProps)
                                 onChange={(e) => setComment(e.target.value)}
                                 placeholder={t('show.comments.placeholder')}
                                 rows={3}
-                                className="w-full px-4 py-3 rounded-lg border border-primary-300 dark:border-primary-700 bg-primary-50 dark:bg-primary-800 text-primary-900 dark:text-primary-50 focus:ring-2 focus:ring-secondary-500 dark:focus:ring-secondary-400 resize-none"
+                                className="w-full px-4 py-3 rounded-[3px] border border-primary-300 dark:border-primary-700 bg-primary-50 dark:bg-primary-800 text-primary-900 dark:text-primary-50 focus:ring-2 focus:ring-secondary-500 dark:focus:ring-secondary-400 resize-none"
                             />
                         </div>
                         <div className="flex items-start w-full md:w-auto">
@@ -88,14 +88,14 @@ export const ShowCommentsTab = ({showId, openForComments}: ShowCommentsTabProps)
 
 
                     {showSuccess &&
-                        <div className="p-4 bg-green-100 dark:bg-green-900/30 border border-green-500 rounded-lg">
+                        <div className="p-4 bg-green-100 dark:bg-green-900/30 border border-green-500 rounded-[3px]">
                             <p className="text-green-800 dark:text-green-200">
                                 {t('show.comments.success')}
                             </p>
                         </div>}
 
                     {errorMessage && (
-                        <div className="p-4 bg-red-100 dark:bg-red-900/30 border border-red-500 rounded-lg">
+                        <div className="p-4 bg-red-100 dark:bg-red-900/30 border border-red-500 rounded-[3px]">
                             <p className="text-red-800 dark:text-red-200">
                                 {errorMessage}
                             </p>
@@ -106,7 +106,7 @@ export const ShowCommentsTab = ({showId, openForComments}: ShowCommentsTabProps)
             }
             {/* Comments List */}
             <div className="space-y-4">
-                <h3 className="text-xl font-bold text-accent-600 dark:text-secondary-500 flex items-center gap-2">
+                <h3 className="text-xl font-bold text-primary-950 dark:text-primary-50 flex items-center gap-2">
                     <MessageCircle size={24}/>
                     {
                         t('show.comments.title')
@@ -138,7 +138,7 @@ export const ShowCommentsTab = ({showId, openForComments}: ShowCommentsTabProps)
                 {
                     !isError && comments.length > 0 && (
                         <div
-                            className="space-y-0 border border-primary-200 dark:border-primary-700 rounded-lg overflow-hidden">
+                            className="space-y-0 border border-primary-200 dark:border-primary-700 rounded-[3px] overflow-hidden">
                             {comments.map((commentItem, index) => {
                                 const createdAt = commentItem.createdAt ? new Date(commentItem.createdAt) : null;
                                 const formattedDate = createdAt

@@ -1,0 +1,501 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-17T21:00:00Z",
+  "title": "Design System: HITA Festivals",
+  "extensions": {
+    "colorMeta": {
+      "ember-300": {
+        "role": "primary",
+        "displayName": "Banked Ember (light)",
+        "tonalRamp": [
+          "#521808",
+          "#7f240c",
+          "#a92f0e",
+          "#cf3c12",
+          "#f04e1f",
+          "#ff6a3d",
+          "#ffb59c",
+          "#fff1ec"
+        ]
+      },
+      "ember-400": {
+        "role": "primary",
+        "displayName": "Banked Ember",
+        "tonalRamp": [
+          "#521808",
+          "#7f240c",
+          "#a92f0e",
+          "#cf3c12",
+          "#f04e1f",
+          "#ff6a3d",
+          "#ffb59c",
+          "#fff1ec"
+        ]
+      },
+      "ember-500": {
+        "role": "primary",
+        "displayName": "Raku Ember",
+        "tonalRamp": [
+          "#521808",
+          "#7f240c",
+          "#a92f0e",
+          "#cf3c12",
+          "#f04e1f",
+          "#ff6a3d",
+          "#ffb59c",
+          "#fff1ec"
+        ],
+        "festivalVariants": {
+          "arabic": "#f04e1f",
+          "global": "#10a684",
+          "alt_spaces": "#ef2d5e"
+        }
+      },
+      "ember-600": {
+        "role": "primary",
+        "displayName": "Banked Ember (deep)",
+        "tonalRamp": [
+          "#521808",
+          "#7f240c",
+          "#a92f0e",
+          "#cf3c12",
+          "#f04e1f",
+          "#ff6a3d",
+          "#ffb59c",
+          "#fff1ec"
+        ]
+      },
+      "ember-700": {
+        "role": "primary",
+        "displayName": "Cooling Ember",
+        "tonalRamp": [
+          "#521808",
+          "#7f240c",
+          "#a92f0e",
+          "#cf3c12",
+          "#f04e1f",
+          "#ff6a3d",
+          "#ffb59c",
+          "#fff1ec"
+        ]
+      },
+      "clay-50": {
+        "role": "neutral",
+        "displayName": "Ash Ground",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#1d1c1b",
+          "#2f2d2b",
+          "#45423e",
+          "#625e58",
+          "#85817a",
+          "#d1cec8",
+          "#f2f1ee"
+        ]
+      },
+      "clay-100": {
+        "role": "neutral",
+        "displayName": "Ash Ground (glaze)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#1d1c1b",
+          "#2f2d2b",
+          "#45423e",
+          "#625e58",
+          "#85817a",
+          "#d1cec8",
+          "#f2f1ee"
+        ]
+      },
+      "clay-200": {
+        "role": "neutral",
+        "displayName": "Pale Clay",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#1d1c1b",
+          "#2f2d2b",
+          "#45423e",
+          "#625e58",
+          "#85817a",
+          "#d1cec8",
+          "#f2f1ee"
+        ]
+      },
+      "clay-300": {
+        "role": "neutral",
+        "displayName": "Pale Clay (frame)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#1d1c1b",
+          "#2f2d2b",
+          "#45423e",
+          "#625e58",
+          "#85817a",
+          "#d1cec8",
+          "#f2f1ee"
+        ]
+      },
+      "clay-400": {
+        "role": "neutral",
+        "displayName": "Ash Grey",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#1d1c1b",
+          "#2f2d2b",
+          "#45423e",
+          "#625e58",
+          "#85817a",
+          "#d1cec8",
+          "#f2f1ee"
+        ]
+      },
+      "clay-500": {
+        "role": "neutral",
+        "displayName": "Ash Grey (label)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#1d1c1b",
+          "#2f2d2b",
+          "#45423e",
+          "#625e58",
+          "#85817a",
+          "#d1cec8",
+          "#f2f1ee"
+        ]
+      },
+      "clay-600": {
+        "role": "neutral",
+        "displayName": "Smoke (light)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#1d1c1b",
+          "#2f2d2b",
+          "#45423e",
+          "#625e58",
+          "#85817a",
+          "#d1cec8",
+          "#f2f1ee"
+        ]
+      },
+      "clay-700": {
+        "role": "neutral",
+        "displayName": "Smoke",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#1d1c1b",
+          "#2f2d2b",
+          "#45423e",
+          "#625e58",
+          "#85817a",
+          "#d1cec8",
+          "#f2f1ee"
+        ]
+      },
+      "clay-800": {
+        "role": "neutral",
+        "displayName": "Smoke (frame)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#1d1c1b",
+          "#2f2d2b",
+          "#45423e",
+          "#625e58",
+          "#85817a",
+          "#d1cec8",
+          "#f2f1ee"
+        ]
+      },
+      "clay-900": {
+        "role": "neutral",
+        "displayName": "Kiln Soot",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#1d1c1b",
+          "#2f2d2b",
+          "#45423e",
+          "#625e58",
+          "#85817a",
+          "#d1cec8",
+          "#f2f1ee"
+        ]
+      },
+      "clay-950": {
+        "role": "neutral",
+        "displayName": "Carbon",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#1d1c1b",
+          "#2f2d2b",
+          "#45423e",
+          "#625e58",
+          "#85817a",
+          "#d1cec8",
+          "#f2f1ee"
+        ]
+      },
+      "error": {
+        "role": "error",
+        "displayName": "Error Red",
+        "tonalRamp": [
+          "#450a0a",
+          "#7f1d1d",
+          "#991b1b",
+          "#b91c1c",
+          "#dc2626",
+          "#ef4444",
+          "#fca5a5",
+          "#fef2f2"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Brushed Display",
+        "purpose": "Page titles only; Lalezar through the #brush filter with crackle fill. Live edition adds the ember fire-and-cool entrance."
+      },
+      "headline": {
+        "displayName": "Brushed Headline",
+        "purpose": "Section titles followed by a cooled brush swipe."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Card and list item names."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Prose and lead paragraphs; Arabic reading comfort first."
+      },
+      "label": {
+        "displayName": "Engraved Label",
+        "purpose": "dt terms, frame field names, buttons, badges. Latin tracked caps; RTL untracked, no case, 0.8125rem."
+      }
+    },
+    "shadows": [
+      {
+        "name": "kiln",
+        "value": "0 1px 0 rgba(255,255,255,0.04) inset, 0 24px 48px -24px rgba(0,0,0,0.7)",
+        "purpose": "Hover on interactive cards; resting on hero posters."
+      },
+      {
+        "name": "glow-dark",
+        "value": "0 18px 40px -12px rgba(0,0,0,0.65)",
+        "purpose": "Floating menus, dropdowns, snackbar."
+      },
+      {
+        "name": "ember-glow",
+        "value": "0 10px 30px -10px rgb(240 78 31 / 0.7)",
+        "purpose": "Hover on ember buttons only."
+      },
+      {
+        "name": "live-pip",
+        "value": "0 0 12px #f04e1f",
+        "purpose": "Glowing status dot for running edition / live stage."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-fired",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Fire, cool, smoke and kiln-bar animations."
+      },
+      {
+        "name": "fire",
+        "value": "2.4s ease-fired both",
+        "purpose": "Live hero title arrives ember-hot and cools to crackle glaze."
+      },
+      {
+        "name": "smoke",
+        "value": "0.9s ease-fired both",
+        "purpose": "Snackbar entrance: blur-to-sharp fade."
+      },
+      {
+        "name": "kiln",
+        "value": "1.4s ease-fired infinite",
+        "purpose": "Loading bar sweep (reversed in RTL)."
+      },
+      {
+        "name": "state",
+        "value": "200–300ms ease-out",
+        "purpose": "Colour, border and shadow transitions; never transform."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "0.01ms",
+        "purpose": "All animation and transition collapse under prefers-reduced-motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      },
+      {
+        "name": "xl",
+        "value": "1280px"
+      }
+    ],
+    "textures": [
+      {
+        "name": "glaze-dark",
+        "value": "/textures/glaze-dark.webp",
+        "purpose": "Dark crackled-glaze panel raster, 480px tile; provenance in .json sidecar."
+      },
+      {
+        "name": "glaze-light",
+        "value": "/textures/glaze-light.webp",
+        "purpose": "Light crackled-glaze raster."
+      },
+      {
+        "name": "crackle",
+        "value": "/textures/crackle-light.svg, crackle-ink.svg",
+        "purpose": "Crackle fill clipped into display lettering."
+      },
+      {
+        "name": "brush-stroke",
+        "value": "/textures/brush-stroke.svg",
+        "purpose": "Mask for ember / cooled swipes."
+      },
+      {
+        "name": "soot-grain",
+        "value": "inline feTurbulence SVG on body::before",
+        "purpose": "Fixed ground grain, 5% light / 9% dark."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Ember Button",
+      "kind": "button",
+      "refersTo": "button-ember",
+      "description": "The live action only (book, apply).",
+      "html": "<button class=\"ds-btn-ember\">Book a seat</button>",
+      "css": ":host{--ember-400:#ff6a3d;--ember-500:#f04e1f;--ember-600:#cf3c12;--clay-50:#f2f1ee;--clay-100:#e7e5e1;--clay-300:#aeaaa3;--clay-400:#85817a;--clay-500:#625e58;--clay-700:#2f2d2b;--clay-800:#1d1c1b;--clay-900:#131312;--clay-950:#0b0b0b;} .ds-btn-ember{font-family:'Readex Pro',system-ui,sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:12px 24px;border:0;border-radius:3px;background:var(--ember-500);color:var(--clay-950);font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:.14em;cursor:pointer;transition:background-color .2s ease-out,box-shadow .2s ease-out}.ds-btn-ember:hover{background:var(--ember-400);box-shadow:0 10px 30px -10px rgba(240,78,31,.7)}.ds-btn-ember:active{background:var(--ember-600)}.ds-btn-ember:focus-visible{outline:1.5px solid var(--ember-500);outline-offset:3px}"
+    },
+    {
+      "name": "Glaze Button",
+      "kind": "button",
+      "refersTo": "button-glaze",
+      "description": "Secondary action on crackled glaze; frame warms on hover.",
+      "html": "<button class=\"ds-btn-glaze\">Read more</button>",
+      "css": ":host{--ember-400:#ff6a3d;--ember-500:#f04e1f;--ember-600:#cf3c12;--clay-50:#f2f1ee;--clay-100:#e7e5e1;--clay-300:#aeaaa3;--clay-400:#85817a;--clay-500:#625e58;--clay-700:#2f2d2b;--clay-800:#1d1c1b;--clay-900:#131312;--clay-950:#0b0b0b;} .ds-btn-glaze{font-family:'Readex Pro',system-ui,sans-serif;display:inline-flex;align-items:center;min-height:44px;padding:12px 24px;border-radius:3px;background:var(--clay-900) url('/textures/glaze-dark.webp');background-size:480px;color:var(--clay-50);border:1px solid #45423e;font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:.14em;cursor:pointer;transition:border-color .2s ease-out}.ds-btn-glaze:hover{border-color:var(--ember-500)}.ds-btn-glaze:focus-visible{outline:1.5px solid var(--ember-500);outline-offset:3px}"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Quiet hairline action.",
+      "html": "<button class=\"ds-btn-ghost\">All editions</button>",
+      "css": ":host{--ember-400:#ff6a3d;--ember-500:#f04e1f;--ember-600:#cf3c12;--clay-50:#f2f1ee;--clay-100:#e7e5e1;--clay-300:#aeaaa3;--clay-400:#85817a;--clay-500:#625e58;--clay-700:#2f2d2b;--clay-800:#1d1c1b;--clay-900:#131312;--clay-950:#0b0b0b;} .ds-btn-ghost{font-family:'Readex Pro',system-ui,sans-serif;display:inline-flex;align-items:center;min-height:44px;padding:12px 24px;border-radius:3px;background:transparent;color:var(--clay-100);border:1px solid var(--clay-500);font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:.14em;cursor:pointer;transition:border-color .2s,color .2s}.ds-btn-ghost:hover{border-color:var(--ember-500);color:var(--ember-400)}.ds-btn-ghost:focus-visible{outline:1.5px solid var(--ember-500);outline-offset:3px}"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Hairline field with ember caret and focus ring.",
+      "html": "<label class=\"ds-field\"><span>Show title</span><input class=\"ds-input\" placeholder=\"...\"></label>",
+      "css": ":host{--ember-400:#ff6a3d;--ember-500:#f04e1f;--ember-600:#cf3c12;--clay-50:#f2f1ee;--clay-100:#e7e5e1;--clay-300:#aeaaa3;--clay-400:#85817a;--clay-500:#625e58;--clay-700:#2f2d2b;--clay-800:#1d1c1b;--clay-900:#131312;--clay-950:#0b0b0b;} .ds-field{font-family:'Readex Pro',system-ui,sans-serif;display:grid;gap:8px;color:var(--clay-50);font-weight:500}.ds-input{font-family:'Readex Pro',system-ui,sans-serif;width:100%;padding:12px 16px;border-radius:3px;border:1px solid var(--clay-700);background:var(--clay-950);color:var(--clay-50);caret-color:var(--ember-500);transition:border-color .2s}.ds-input::placeholder{color:var(--clay-500)}.ds-input:focus{outline:none;box-shadow:0 0 0 2px var(--ember-500)}"
+    },
+    {
+      "name": "Live Badge",
+      "kind": "chip",
+      "refersTo": "badge-live",
+      "description": "Ember tag for today / live; soot variant for everything else.",
+      "html": "<span class=\"ds-badge ds-badge-live\"><i></i>Tonight</span> <span class=\"ds-badge ds-badge-soot\">Finished</span>",
+      "css": ":host{--ember-400:#ff6a3d;--ember-500:#f04e1f;--ember-600:#cf3c12;--clay-50:#f2f1ee;--clay-100:#e7e5e1;--clay-300:#aeaaa3;--clay-400:#85817a;--clay-500:#625e58;--clay-700:#2f2d2b;--clay-800:#1d1c1b;--clay-900:#131312;--clay-950:#0b0b0b;} .ds-badge{font-family:'Readex Pro',system-ui,sans-serif;display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:2px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.14em}.ds-badge-live{background:var(--ember-500);color:var(--clay-950)}.ds-badge-live i{width:6px;height:6px;border-radius:50%;background:var(--clay-950)}.ds-badge-soot{border:1px solid var(--clay-700);color:var(--clay-300)}"
+    },
+    {
+      "name": "Fired Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Hairline kiln frame; warms to ember with kiln shadow on hover, no lift.",
+      "html": "<a class=\"ds-card\" href=\"#\"><h3>Show name</h3><p>Director · Venue</p></a>",
+      "css": ":host{--ember-400:#ff6a3d;--ember-500:#f04e1f;--ember-600:#cf3c12;--clay-50:#f2f1ee;--clay-100:#e7e5e1;--clay-300:#aeaaa3;--clay-400:#85817a;--clay-500:#625e58;--clay-700:#2f2d2b;--clay-800:#1d1c1b;--clay-900:#131312;--clay-950:#0b0b0b;} .ds-card{font-family:'Readex Pro',system-ui,sans-serif;display:block;padding:24px;border-radius:3px;background:var(--clay-900);color:var(--clay-100);border:1px solid var(--clay-800);text-decoration:none;transition:border-color .3s,box-shadow .3s}.ds-card h3{margin:0 0 8px;font-size:20px;font-weight:600;color:var(--clay-50)}.ds-card p{margin:0;font-size:14px;color:var(--clay-400)}.ds-card:hover{border-color:rgba(240,78,31,.7);box-shadow:0 1px 0 rgba(255,255,255,.04) inset,0 24px 48px -24px rgba(0,0,0,.7)}.ds-card:focus-visible{outline:1.5px solid var(--ember-500);outline-offset:3px}"
+    },
+    {
+      "name": "Header Nav",
+      "kind": "nav",
+      "refersTo": "nav",
+      "description": "Links with a brush swipe under the active item.",
+      "html": "<nav class=\"ds-nav\"><a class=\"is-active\" href=\"#\">Home</a><a href=\"#\">Editions</a><a href=\"#\">Articles</a></nav>",
+      "css": ":host{--ember-400:#ff6a3d;--ember-500:#f04e1f;--ember-600:#cf3c12;--clay-50:#f2f1ee;--clay-100:#e7e5e1;--clay-300:#aeaaa3;--clay-400:#85817a;--clay-500:#625e58;--clay-700:#2f2d2b;--clay-800:#1d1c1b;--clay-900:#131312;--clay-950:#0b0b0b;} .ds-nav{font-family:'Readex Pro',system-ui,sans-serif;display:flex;gap:28px;padding:12px 16px;background:rgba(11,11,11,.85);border-bottom:1px solid var(--clay-800)}.ds-nav a{position:relative;padding:8px 0;font-size:15px;font-weight:500;color:#d1cec8;text-decoration:none;transition:color .2s}.ds-nav a:hover,.ds-nav a.is-active{color:var(--clay-50)}.ds-nav a::after{content:'';position:absolute;inset-inline:0;bottom:-4px;height:6px;background:#45423e;-webkit-mask:url('/textures/brush-stroke.svg') center/100% 100% no-repeat;mask:url('/textures/brush-stroke.svg') center/100% 100% no-repeat;transform:scaleX(0);transform-origin:left;transition:transform .3s ease-out}.ds-nav a:hover::after{transform:scaleX(1);opacity:.6}.ds-nav a.is-active::after{transform:scaleX(1);opacity:1}.ds-nav a:focus-visible{outline:1.5px solid var(--ember-500);outline-offset:3px}"
+    },
+    {
+      "name": "Kiln Status Frame",
+      "kind": "custom",
+      "description": "Hairline status dl beside the home hero: glowing ember pip when live, tabular Lalezar counts.",
+      "html": "<dl class=\"ds-kiln\"><dd class=\"ds-kiln-state\"><i></i>Running now</dd><div><dt>Shows</dt><dd class=\"ds-num\">12</dd></div><div><dt>Articles</dt><dd class=\"ds-num\">8</dd></div></dl>",
+      "css": ":host{--ember-400:#ff6a3d;--ember-500:#f04e1f;--ember-600:#cf3c12;--clay-50:#f2f1ee;--clay-100:#e7e5e1;--clay-300:#aeaaa3;--clay-400:#85817a;--clay-500:#625e58;--clay-700:#2f2d2b;--clay-800:#1d1c1b;--clay-900:#131312;--clay-950:#0b0b0b;} .ds-kiln{font-family:'Readex Pro',system-ui,sans-serif;display:grid;grid-template-columns:1fr 1fr;gap:16px 24px;margin:0;padding:20px;border:1px solid var(--clay-700);background:rgba(11,11,11,.9);color:var(--clay-50)}.ds-kiln dd{margin:0}.ds-kiln-state{grid-column:span 2;display:flex;align-items:center;gap:8px;font-weight:600}.ds-kiln-state i{width:10px;height:10px;border-radius:50%;background:var(--ember-500);box-shadow:0 0 12px var(--ember-500)}.ds-kiln dt{font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--clay-400)}.ds-num{font-family:Lalezar,'Readex Pro',sans-serif;font-size:30px;font-variant-numeric:tabular-nums lining-nums}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Each Edition Is Fired Once",
+    "overview": "**Creative North Star: \"Each Edition Is Fired Once\"**\n\nThe site is a raku kiln. A carbon ground with fine soot grain holds crackled-glaze panels and hairline kiln frames; the only heat in the room is ember, the festival's raku flash colour, and it is spent exclusively on what is live right now. The current edition's name is brushed huge in Lalezar and arrives ember-hot, then cools into crackled glaze; past editions sit in the archive already cooled, as soot numerals and glazed tiles. Body copy is austere Readex Pro so Arabic reads comfortably beneath the loud brushed display.\n\nDark (carbon) is the default ground, applied before first paint; light (ash) is the alternate. Arabic RTL is the primary reading direction and every rule is written RTL-first. One codebase builds three festivals: the layout, textures and rules never change, only the clay tint and the ember hue are swapped at build time via `FESTIVAL`.\n\nThe world refuses the red-curtain-and-gold theatre site: no velvet, no gilt, no spotlights.",
+    "keyCharacteristics": [
+      "Carbon/ash ground with a fixed soot-grain overlay (5% light, 9% dark).",
+      "Crackled-glaze raster surfaces (`/textures/glaze-*.webp`, procedurally authored, provenance sidecars beside each).",
+      "Hairline 1px kiln frames; 3px corners everywhere.",
+      "Ember is scarce and semantic: live = ember, upcoming = glaze, past = soot.",
+      "Brushed display type (SVG `#brush` displacement filter) over clean sans body.",
+      "Dry-brush stroke swipes under headings: ember when live, cooled clay otherwise."
+    ],
+    "rules": [
+      {
+        "name": "The Live Heat Rule",
+        "body": "Ember fills (backgrounds, glowing dots, ember swipes, fire animation) are reserved for what is live now: the current edition's live action, today's show, a confirmed booking, the running stage. Everything else is clay, glaze or soot. If two unrelated things on one screen are ember-filled, one of them is not live.",
+        "section": "colors"
+      },
+      {
+        "name": "The Warm-On-Touch Rule",
+        "body": "Interactive hairlines may warm to ember on hover or focus (border, underline decoration, icon tint) as a response to the hand. That is heat borrowed for an instant, not a fill; at rest they are clay.",
+        "section": "colors"
+      },
+      {
+        "name": "The Three Kilns Rule",
+        "body": "Never hard-code a festival hex. Use the `ember-*` / `primary-*` scales (`secondary`, `accent` are ember aliases) so all three festivals rebuild correctly.",
+        "section": "colors"
+      },
+      {
+        "name": "The RTL Label Rule",
+        "body": "Tracking and uppercase are Latin devices. Under `dir=rtl` every label, badge and button drops letter-spacing and text-transform and steps up in size. Never track Arabic.",
+        "section": "typography"
+      },
+      {
+        "name": "The Tabular Ledger Rule",
+        "body": "Dates, times, counts and edition numbers use tabular lining numerals (`.tabular`).",
+        "section": "typography"
+      },
+      {
+        "name": "The Heat Not Height Rule",
+        "body": "Nothing scales or translates on hover. Interactive state is shown by colour, frame warmth and the glow under the surface.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do reserve ember fills for what is live now: current edition's live action, today's show, a confirmed booking, the running stage.",
+      "Do cool everything else to clay, glaze or soot; past posters go grayscale.",
+      "Do use 3px corners (2px for tags) and 1px hairline frames.",
+      "Do set page titles in brushed Lalezar with the crackle fill, followed by a brush swipe (ember only if live, `swipe-cool` otherwise).",
+      "Do use lucide icons at strokeWidth 1.25–1.75.",
+      "Do write RTL-first with logical properties, and leave Arabic labels untracked.",
+      "Do use the `ember-*` / `primary-*` scales so all three festivals rebuild.",
+      "Do honour reduced motion: fire, smoke and kiln animations collapse; the live title keeps its static ember residue."
+    ],
+    "donts": [
+      "Don't use ember for decoration, section accents, or anything past or merely upcoming.",
+      "Don't scale or lift on hover; show state with colour, frame warmth and glow.",
+      "Don't put eyebrows or kickers above headings.",
+      "Don't use emoji as icons or logos; the kiln mark replaced them.",
+      "Don't reach for red curtains, gold, or spotlight imagery.",
+      "Don't round corners past 3px or add drop shadows to resting cards.",
+      "Don't letter-space or uppercase Arabic."
+    ]
+  }
+}

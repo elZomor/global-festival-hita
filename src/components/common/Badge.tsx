@@ -8,16 +8,19 @@ interface BadgeProps {
   className?: string;
 }
 
+// Engraved tags. `red`/`gold` = live (ember), `green` = glaze, default = soot.
 export const Badge = ({ children, variant = 'default', className = '' }: BadgeProps) => {
   const variants: Record<BadgeVariant, string> = {
-    default: 'bg-primary-200 dark:bg-primary-700 text-primary-800 dark:text-primary-100',
-    gold: 'bg-theatre-gold-500 text-theatre-black-950 dark:bg-theatre-gold-400 dark:text-theatre-black-900',
-    red: 'bg-accent-600 text-primary-50 dark:bg-accent-500 dark:text-primary-50',
-    green: 'bg-secondary-500 text-theatre-black-950 dark:bg-secondary-400 dark:text-theatre-black-900',
+    default: 'border border-primary-300 text-primary-600 dark:border-primary-700 dark:text-primary-300',
+    gold: 'border border-ember-500 text-ember-700 dark:text-ember-300',
+    red: 'bg-ember-500 text-primary-950',
+    green: 'glaze text-primary-900 dark:text-primary-100 border border-primary-300 dark:border-primary-700',
   };
 
   return (
-    <span className={`inline-block px-3 py-1 rounded-full text-sm font-semibold ${variants[variant]} ${className}`}>
+    <span
+      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[2px] text-xs font-medium uppercase tracking-label rtl:tracking-normal rtl:normal-case rtl:text-[0.8125rem] ${variants[variant]} ${className}`}
+    >
       {children}
     </span>
   );

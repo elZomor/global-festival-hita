@@ -26,7 +26,7 @@ import {DetailList} from './DetailList';
 export const DetailSection = ({section, variant}: DetailSectionProps) => {
     return (
         <Card hover={false} className="h-full">
-            <h3 className="text-xl font-semibold text-accent-600 dark:text-secondary-500 mb-4">
+            <h3 className="text-xl font-semibold text-primary-950 dark:text-primary-50 mb-4">
                 {section.title}
             </h3>
             <DetailList items={section.items} variant={variant}/>
