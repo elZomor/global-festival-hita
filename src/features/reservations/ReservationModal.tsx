@@ -1,4 +1,5 @@
 'use client';
+import { Armchair, Hourglass } from 'lucide-react';
 import { useState } from 'react';
 import { useT } from '../../i18n/useT';
 import { GoogleLoginButton } from '../../components/auth/GoogleLoginButton';
@@ -97,8 +98,8 @@ export const ReservationModal = ({ showId, showName, isOpen, onClose, onSuccess,
                 <div className="relative z-10 w-full max-w-3xl" onClick={(e) => e.stopPropagation()}>
                     <Card className="space-y-4" hover={false}>
                         <div className="space-y-1 text-center">
-                            <p className="text-sm uppercase tracking-[0.2em] text-secondary-500">{t('reservation.label')}</p>
-                            <h2 className="text-2xl font-bold text-accent-600 dark:text-secondary-500">{showName}</h2>
+                            <p className="label">{t('reservation.label')}</p>
+                            <h2 className="text-2xl font-bold text-primary-950 dark:text-primary-50">{showName}</h2>
                         </div>
                         <div className="space-y-4">
                             <p className="text-sm text-center text-primary-600 dark:text-primary-300">
@@ -123,14 +124,14 @@ export const ReservationModal = ({ showId, showName, isOpen, onClose, onSuccess,
             <div className="relative z-10 w-full max-w-3xl max-h-[calc(100svh-2rem)] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
                 <Card className="space-y-4" hover={false}>
                     <div className="space-y-1 text-center">
-                        <p className="text-sm uppercase tracking-[0.2em] text-secondary-500">{t('reservation.label')}</p>
-                        <h2 className="text-2xl font-bold text-accent-600 dark:text-secondary-500">{showName}</h2>
+                        <p className="label">{t('reservation.label')}</p>
+                        <h2 className="text-2xl font-bold text-primary-950 dark:text-primary-50">{showName}</h2>
                     </div>
 
                     {alreadyBooked ? (
                         <div className="space-y-4">
-                            <div className="flex flex-col items-center gap-3 p-4 rounded-lg bg-amber-50 dark:bg-amber-900/20 border border-amber-300 dark:border-amber-700 text-center">
-                                <span className="text-3xl">{existingStatus === 'WAITING_LIST' ? '⏳' : '💺'}</span>
+                            <div className="flex flex-col items-center gap-3 p-4 rounded-[3px] bg-amber-50 dark:bg-amber-900/20 border border-amber-300 dark:border-amber-700 text-center">
+                                {existingStatus === 'WAITING_LIST' ? <Hourglass size={28} strokeWidth={1.25} className="text-primary-500" aria-hidden="true" /> : <Armchair size={28} strokeWidth={1.25} className="text-ember-500" aria-hidden="true" />}
                                 <p className="text-sm font-medium text-amber-800 dark:text-amber-300">
                                     {existingStatus === 'WAITING_LIST'
                                         ? t('reservation.errors.codes.DUPLICATE_WAITING_LIST', { seat: existingSeatNumber })
@@ -163,12 +164,12 @@ export const ReservationModal = ({ showId, showName, isOpen, onClose, onSuccess,
 
                             {selectedSeat && (
                                 <p className="text-sm text-center font-medium text-amber-600 dark:text-amber-400">
-                                    💺 {t('reservation.selectedSeat', { seat: selectedSeat })}
+                                    {t('reservation.selectedSeat', { seat: selectedSeat })}
                                 </p>
                             )}
 
                             {reserveMutation.isError && getErrorMessage() && (
-                                <p className="text-sm text-accent-600 text-center">{getErrorMessage()}</p>
+                                <p className="text-sm text-ember-700 dark:text-ember-300 text-center">{getErrorMessage()}</p>
                             )}
 
                             <div className="flex flex-col gap-3 sm:flex-row sm:justify-between items-center">
@@ -176,7 +177,7 @@ export const ReservationModal = ({ showId, showName, isOpen, onClose, onSuccess,
                                     {user?.picture ? (
                                         <img src={user.picture} alt={user.name} className="w-7 h-7 rounded-full shrink-0" referrerPolicy="no-referrer" />
                                     ) : (
-                                        <div className="w-7 h-7 rounded-full bg-accent-600 flex items-center justify-center text-white font-bold text-xs shrink-0">
+                                        <div className="w-7 h-7 rounded-full bg-ember-500 flex items-center justify-center text-primary-950 font-bold text-xs shrink-0">
                                             {user?.name?.charAt(0).toUpperCase()}
                                         </div>
                                     )}

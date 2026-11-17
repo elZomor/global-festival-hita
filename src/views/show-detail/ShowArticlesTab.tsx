@@ -37,10 +37,10 @@ export const ShowArticlesTab = ({
 
                     return (
                         <Link key={article.id} href={`/${detailPath}/${article.slug}`} className="block h-full">
-                            <Card className="transition-all hover:shadow-2xl h-full">
+                            <Card className="h-full">
                                 <div className="flex flex-col md:flex-row gap-4 h-full">
                                     {attachmentUrl && (
-                                        <div className="w-full md:w-1/3 lg:w-2/5 bg-primary-100 dark:bg-primary-900 rounded-lg flex items-center justify-center overflow-hidden">
+                                        <div className="w-full md:w-1/3 lg:w-2/5 bg-primary-100 dark:bg-primary-900 rounded-[3px] flex items-center justify-center overflow-hidden">
                                             <img
                                                 src={attachmentUrl}
                                                 alt={isRTL ? article.titleAr : article.titleEn}
@@ -58,7 +58,7 @@ export const ShowArticlesTab = ({
                                             </Badge>
                                         </div>
 
-                                        <h2 className="text-2xl md:text-3xl font-bold text-accent-600 dark:text-secondary-500">
+                                        <h2 className="text-2xl md:text-3xl font-bold text-primary-950 dark:text-primary-50">
                                             {isRTL ? article.titleAr : article.titleEn}
                                         </h2>
 
@@ -80,8 +80,8 @@ export const ShowArticlesTab = ({
                                             {preview ? `${preview}...` : ''}
                                         </p>
 
-                                        <p className="text-secondary-500 hover:text-secondary-400 font-medium">
-                                            {readMoreLabel} →
+                                        <p className="text-primary-900 dark:text-primary-50 underline decoration-ember-500/60 hover:decoration-ember-500 font-medium">
+                                            {readMoreLabel}
                                         </p>
                                     </div>
                                 </div>

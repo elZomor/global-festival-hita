@@ -1,6 +1,7 @@
 'use client';
 import type {DetailEntry} from '../../types';
 import {DetailSection, type DetailVariant} from '../../components/detail-display';
+import {useT} from '../../i18n/useT';
 
 export type ShowDetailSection = {
     title: string;
@@ -47,6 +48,7 @@ type ShowInfoTabProps = {
  * ```
  */
 export const ShowInfoTab = ({descriptionSection, actorsSection, crewSection, additionalSection}: ShowInfoTabProps) => {
+    const t = useT();
     const sections = [
         {key: 'actors', section: actorsSection, variant: 'role' as DetailVariant},
         {key: 'crew', section: crewSection, variant: 'role' as DetailVariant},
@@ -59,7 +61,9 @@ export const ShowInfoTab = ({descriptionSection, actorsSection, crewSection, add
     }[];
 
     if (sections.length === 0) {
-        return null;
+        return (
+            <p className="py-10 text-primary-500 dark:text-primary-400">{t('show.noInfo')}</p>
+        );
     }
 
     return (

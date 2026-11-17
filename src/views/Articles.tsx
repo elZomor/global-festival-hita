@@ -53,7 +53,7 @@ export const ArticleListingPage = async ({
         <div className="space-y-6 w-full md:w-[85%] mx-auto">
             <div className="space-y-4">
                 <div className="flex items-center gap-3">
-                    <FileText size={40} className="text-accent-600 dark:text-secondary-500"/>
+                    <FileText size={40} className="text-primary-950 dark:text-primary-50"/>
                     <SectionHeader className="mb-0">{t(`${translationNamespace}.title`)}</SectionHeader>
                 </div>
             </div>
@@ -64,11 +64,11 @@ export const ArticleListingPage = async ({
                     const previewText = getArticlePreviewText(article, isRTL);
                     return (
                         <Link key={article.id} href={`/${detailPath}/${article.slug}`} className="block h-full">
-                            <Card className="transition-all hover:shadow-2xl h-full">
+                            <Card className="h-full">
                                 <div className="flex flex-col md:flex-row gap-4 h-full">
                                     {attachmentUrl && (
                                         <div
-                                            className="w-full md:w-1/3 lg:w-2/5 bg-primary-100 dark:bg-primary-900 rounded-lg flex items-center justify-center overflow-hidden">
+                                            className="w-full md:w-1/3 lg:w-2/5 bg-primary-100 dark:bg-primary-900 rounded-[3px] flex items-center justify-center overflow-hidden">
                                             <img
                                                 src={attachmentUrl}
                                                 alt={isRTL ? article.titleAr : article.titleEn}
@@ -91,7 +91,7 @@ export const ArticleListingPage = async ({
                                             )}
                                         </div>
 
-                                        <h2 className="text-2xl md:text-3xl font-bold text-accent-600 dark:text-secondary-500">
+                                        <h2 className="text-2xl md:text-3xl font-bold text-primary-950 dark:text-primary-50">
                                             {isRTL ? article.titleAr : article.titleEn}
                                         </h2>
 
@@ -113,8 +113,8 @@ export const ArticleListingPage = async ({
                                             {previewText ? `${previewText}...` : ''}
                                         </p>
 
-                                        <p className="text-secondary-500 hover:text-secondary-400 font-medium">
-                                            {t(`${translationNamespace}.readMore`)} →
+                                        <p className="text-primary-900 dark:text-primary-50 underline decoration-ember-500/60 hover:decoration-ember-500 font-medium">
+                                            {t(`${translationNamespace}.readMore`)}
                                         </p>
                                     </div>
                                 </div>

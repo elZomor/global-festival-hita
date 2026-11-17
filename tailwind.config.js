@@ -1,87 +1,53 @@
 /** @type {import('tailwindcss').Config} */
 
+// Raku world: one set of clay neutrals (carbon → smoke) per festival, plus an
+// "ember" scale that marks whatever is live right now. Each festival's ember
+// follows a real raku flash colour: Arab = fire orange, Global = copper-flash
+// turquoise, Alt Spaces = copper-red.
+// `primary` = clay neutrals, `secondary` / `accent` = ember (kept as two names
+// so existing class names keep resolving).
+
 const festival = process.env.FESTIVAL ?? 'arabic';
 
-const palettes = {
+const clay = {
   arabic: {
-    primary: {
-      50: '#f6f3ef', 100: '#e8e1d9', 200: '#cfc4b7', 300: '#b19d86',
-      400: '#856f67', 500: '#584136', 600: '#473d37', 700: '#312924',
-      800: '#211814', 900: '#0b0807', 950: '#050403',
-    },
-    secondary: {
-      50: '#fbf6ee', 100: '#f3e7d3', 200: '#e2cfa8', 300: '#c9b07b',
-      400: '#a47139', 500: '#8f5f2e', 600: '#734b24', 700: '#58391c',
-      800: '#3f2a15', 900: '#2a1c0e', 950: '#160f07',
-    },
-    accent: {
-      50: '#f6eef1', 100: '#e6cfd7', 200: '#cfa0af', 300: '#b16d85',
-      400: '#8f3f5f', 500: '#682745', 600: '#58203a', 700: '#44182d',
-      800: '#311120', 900: '#1f0a14', 950: '#11050b',
-    },
-    theatre: {
-      black:    { 900: '#0b0807', 950: '#050403' },
-      curtain:  { 500: '#682745' },
-      gold:     { 500: '#a47139' },
-      wood:     { 500: '#584136' },
-      parchment:{ 50:  '#f6f3ef' },
-    },
-    reservation: { 500: '#a47139', 600: '#8f5f2e' },
-    waiting:     { 500: '#682745', 600: '#58203a' },
+    50: '#f2f1ee', 100: '#e7e5e1', 200: '#d1cec8', 300: '#aeaaa3',
+    400: '#85817a', 500: '#625e58', 600: '#45423e', 700: '#2f2d2b',
+    800: '#1d1c1b', 900: '#131312', 950: '#0b0b0b',
   },
   global: {
-    primary: {
-      50: '#f5f4f2', 100: '#e8e4df', 200: '#d0c9c0', 300: '#b0a698',
-      400: '#8c7d6e', 500: '#6b5d50', 600: '#4e4238', 700: '#352c24',
-      800: '#221c16', 900: '#14100c', 950: '#0c0906',
-    },
-    secondary: {
-      50: '#ecfdf5', 100: '#d1fae5', 200: '#a7f3d0', 300: '#6ee7b7',
-      400: '#34d399', 500: '#059669', 600: '#047857', 700: '#065f46',
-      800: '#064e3b', 900: '#022c22', 950: '#011a15',
-    },
-    accent: {
-      50: '#f0fdfa', 100: '#ccfbf1', 200: '#99f6e4', 300: '#5eead4',
-      400: '#2dd4bf', 500: '#14b8a6', 600: '#0d9488', 700: '#0f766e',
-      800: '#115e59', 900: '#134e4a', 950: '#042f2e',
-    },
-    theatre: {
-      black:    { 900: '#14100c', 950: '#0c0906' },
-      curtain:  { 500: '#14b8a6' },
-      gold:     { 500: '#059669' },
-      wood:     { 500: '#6b5d50' },
-      parchment:{ 50:  '#f5f4f2' },
-    },
-    reservation: { 500: '#d97706', 600: '#b45309' },
-    waiting:     { 500: '#7c3aed', 600: '#6d28d9' },
+    50: '#f0f2f0', 100: '#e3e7e4', 200: '#ccd2ce', 300: '#a7afaa',
+    400: '#7f8882', 500: '#5c645f', 600: '#414743', 700: '#2c302d',
+    800: '#1b1e1c', 900: '#121413', 950: '#0a0c0b',
   },
   alt_spaces: {
-    primary: {
-      50: '#fafafa', 100: '#f4f4f5', 200: '#e4e4e7', 300: '#d4d4d8',
-      400: '#a1a1aa', 500: '#3f3f46', 600: '#27272a', 700: '#18181b',
-      800: '#0d0d0e', 900: '#09090b', 950: '#050505',
-    },
-    secondary: {
-      50: '#ecfeff', 100: '#cffafe', 200: '#a5f3fc', 300: '#67e8f9',
-      400: '#22d3ee', 500: '#0891b2', 600: '#0e7490', 700: '#155e75',
-      800: '#164e63', 900: '#083344', 950: '#04222e',
-    },
-    accent: {
-      50: '#fff1f2', 100: '#ffe4e6', 200: '#fecdd3', 300: '#fda4af',
-      400: '#fb7185', 500: '#f43f5e', 600: '#e11d48', 700: '#be123c',
-      800: '#9f1239', 900: '#4c0519', 950: '#2d0410',
-    },
-    theatre: {
-      black:    { 900: '#09090b', 950: '#050505' },
-      curtain:  { 500: '#f43f5e' },
-      gold:     { 500: '#0891b2' },
-      wood:     { 500: '#3f3f46' },
-      parchment:{ 50:  '#fafafa' },
-    },
-    reservation: { 500: '#0891b2', 600: '#0e7490' },
-    waiting:     { 500: '#d97706', 600: '#b45309' },
+    50: '#f1f2f4', 100: '#e5e6e9', 200: '#cdcfd4', 300: '#a8abb2',
+    400: '#80838b', 500: '#5d6067', 600: '#424449', 700: '#2c2e32',
+    800: '#1c1d20', 900: '#121315', 950: '#0a0a0c',
   },
 };
+
+const ember = {
+  arabic: {
+    50: '#fff1ec', 100: '#ffdccf', 200: '#ffb59c', 300: '#ff8a66',
+    400: '#ff6a3d', 500: '#f04e1f', 600: '#cf3c12', 700: '#a92f0e',
+    800: '#7f240c', 900: '#521808', 950: '#2e0d04',
+  },
+  global: {
+    50: '#e8fbf6', 100: '#c6f4e8', 200: '#8ee8d2', 300: '#52d7b8',
+    400: '#22c29d', 500: '#10a684', 600: '#0b856b', 700: '#0c6a56',
+    800: '#0d5345', 900: '#0b3a31', 950: '#04201b',
+  },
+  alt_spaces: {
+    50: '#fff0f3', 100: '#ffdbe3', 200: '#ffb3c5', 300: '#ff7f9e',
+    400: '#ff4d78', 500: '#ef2d5e', 600: '#cc1b49', 700: '#a6153c',
+    800: '#7c1230', 900: '#520c20', 950: '#2e0611',
+  },
+};
+
+const key = clay[festival] ? festival : 'arabic';
+const c = clay[key];
+const e = ember[key];
 
 export default {
   content: [
@@ -91,14 +57,47 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
-      colors: palettes[festival] ?? palettes.arabic,
+      colors: {
+        primary: c,
+        secondary: e,
+        accent: e,
+        ember: e,
+        clay: c,
+        theatre: {
+          black: { 900: c[900], 950: c[950] },
+          curtain: { 500: e[600] },
+          gold: { 400: e[400], 500: e[500] },
+          wood: { 500: c[600] },
+          parchment: { 50: c[50] },
+        },
+        reservation: { 500: e[500], 600: e[600] },
+        waiting: { 500: c[500], 600: c[600] },
+      },
       fontFamily: {
-        display: ['var(--font-display)', '"Playfair Display"', 'serif'],
-        sans:    ['var(--font-sans)', 'Roboto', 'sans-serif'],
-        arabic:  ['var(--font-arabic)', 'serif'],
+        display: ['var(--font-display)', 'var(--font-sans)', 'sans-serif'],
+        sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+        arabic: ['var(--font-sans)', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
-        'glow-dark': '0 0 40px rgba(0,0,0,0.65)',
+        'glow-dark': '0 18px 40px -12px rgba(0,0,0,0.65)',
+        kiln: '0 1px 0 rgba(255,255,255,0.04) inset, 0 24px 48px -24px rgba(0,0,0,0.7)',
+      },
+      letterSpacing: {
+        label: '0.14em',
+      },
+      keyframes: {
+        cool: {
+          '0%': { color: e[400], textShadow: `0 0 28px ${e[500]}99` },
+          '100%': {},
+        },
+        smoke: {
+          '0%': { opacity: '0.35', filter: 'blur(10px)' },
+          '100%': { opacity: '1', filter: 'blur(0)' },
+        },
+      },
+      animation: {
+        cool: 'cool 1.8s cubic-bezier(0.16, 1, 0.3, 1) both',
+        smoke: 'smoke 0.9s cubic-bezier(0.16, 1, 0.3, 1) both',
       },
     },
   },

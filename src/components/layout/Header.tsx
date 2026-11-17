@@ -11,6 +11,7 @@ import { isInAppBrowser, openExternalBrowser } from '../auth/GoogleLoginButton';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useAuth } from '../../contexts/AuthContext';
 import { festivalConfig } from '../../config/festival';
+import { KilnMark } from './Wordmark';
 
 export const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -71,52 +72,52 @@ export const Header = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-primary-50 text-primary-900 dark:bg-primary-950 dark:text-primary-50 border-b border-primary-100 dark:border-primary-800 shadow-xl transition-all duration-300">
-      <nav className="container mx-auto px-4 py-4">
+    <header className="sticky top-0 z-50 bg-primary-50/90 text-primary-900 dark:bg-primary-950/85 dark:text-primary-50 border-b border-primary-200 dark:border-primary-800 backdrop-blur-md">
+      <nav className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-12 h-12 bg-accent-600 rounded-full flex items-center justify-center transform group-hover:rotate-12 transition-transform duration-300 text-primary-50">
-              <span className="text-2xl">{festivalConfig.logo}</span>
-            </div>
-            <div className={`hidden md:block ${isRTL ? 'text-right' : 'text-left'}`}>
-              <h1 className="text-xl font-bold text-secondary-600 dark:text-secondary-400">
+          <Link href="/" className="flex items-center gap-3 group text-primary-950 dark:text-primary-50 hover:text-primary-950 dark:hover:text-primary-50">
+            <KilnMark className="w-11 h-11 shrink-0" />
+            <div className="hidden sm:block text-start leading-tight">
+              <p className="font-display text-xl">
                 {isRTL ? festivalConfig.titleAr : festivalConfig.titleEn}
-              </h1>
-              <p className="text-xs text-primary-600 dark:text-primary-300">
+              </p>
+              <p className="text-xs text-primary-500 dark:text-primary-400">
                 {isRTL ? festivalConfig.subtitleAr : festivalConfig.subtitleEn}
               </p>
             </div>
           </Link>
 
-          <div className="hidden md:flex items-center gap-6">
+          <div className="hidden lg:flex items-center gap-7">
             {navLinks.map((link) => {
               const isActive = isActiveLink(link.to);
               return (
                 <Link
                   key={link.to}
                   href={link.to}
+                  aria-current={isActive ? 'page' : undefined}
                   className={`${
                     isActive
-                      ? 'text-secondary-500 dark:text-secondary-400'
-                      : 'text-primary-900 dark:text-primary-100 hover:text-secondary-500 dark:hover:text-secondary-400'
-                  } transition-colors duration-300 font-medium relative group`}
+                      ? 'text-primary-950 dark:text-primary-50'
+                      : 'text-primary-600 dark:text-primary-300 hover:text-primary-950 dark:hover:text-primary-50'
+                  } relative py-2 text-[0.95rem] font-medium transition-colors duration-200 group`}
                 >
                   {link.label}
-                  <span className={`absolute bottom-0 left-0 ${isActive ? 'w-full' : 'w-0'} h-0.5 bg-secondary-500 dark:bg-secondary-400 group-hover:w-full transition-all duration-300`}></span>
+                  <span className={`ember-swipe swipe-cool absolute -bottom-1 inset-x-0 h-1.5 origin-[inline-start] transition-transform duration-300 ease-out ${isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100 opacity-60'}`} aria-hidden="true"></span>
                 </Link>
               );
             })}
             {isAuthenticated && (
               <Link
                 href="/my-tickets"
+                aria-current={isActiveLink('/my-tickets') ? 'page' : undefined}
                 className={`${
                   isActiveLink('/my-tickets')
-                    ? 'text-secondary-500 dark:text-secondary-400'
-                    : 'text-primary-900 dark:text-primary-100 hover:text-secondary-500 dark:hover:text-secondary-400'
-                } transition-colors duration-300 font-medium relative group`}
+                    ? 'text-primary-950 dark:text-primary-50'
+                    : 'text-primary-600 dark:text-primary-300 hover:text-primary-950 dark:hover:text-primary-50'
+                } relative py-2 text-[0.95rem] font-medium transition-colors duration-200 group`}
               >
                 {t('myTickets.title')}
-                <span className={`absolute bottom-0 left-0 ${isActiveLink('/my-tickets') ? 'w-full' : 'w-0'} h-0.5 bg-secondary-500 dark:bg-secondary-400 group-hover:w-full transition-all duration-300`}></span>
+                <span className={`ember-swipe swipe-cool absolute -bottom-1 inset-x-0 h-1.5 transition-transform duration-300 ease-out ${isActiveLink('/my-tickets') ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100 opacity-60'}`} aria-hidden="true"></span>
               </Link>
             )}
           </div>
@@ -124,34 +125,35 @@ export const Header = () => {
           <div className="flex items-center gap-3">
             <button
               onClick={toggleLanguage}
-              className="p-2 rounded-lg bg-primary-100 text-primary-900 hover:bg-accent-600 hover:text-primary-50 dark:bg-primary-800 dark:text-primary-100 dark:hover:bg-accent-600 transition-colors duration-300"
+              className="inline-flex items-center justify-center w-11 h-11 rounded-[3px] border border-primary-300 text-primary-700 hover:border-ember-500 hover:text-ember-600 dark:border-primary-700 dark:text-primary-200 dark:hover:text-ember-400 transition-colors duration-200"
               aria-label="Toggle language"
             >
-              <Languages size={20} />
+              <Languages size={18} strokeWidth={1.5} />
             </button>
 
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-lg bg-primary-100 text-primary-900 hover:bg-accent-600 hover:text-primary-50 dark:bg-primary-800 dark:text-primary-100 dark:hover:bg-accent-600 transition-colors duration-300"
+              className="inline-flex items-center justify-center w-11 h-11 rounded-[3px] border border-primary-300 text-primary-700 hover:border-ember-500 hover:text-ember-600 dark:border-primary-700 dark:text-primary-200 dark:hover:text-ember-400 transition-colors duration-200"
               aria-label="Toggle theme"
             >
-              {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
+              {theme === 'light' ? <Moon size={18} strokeWidth={1.5} /> : <Sun size={18} strokeWidth={1.5} />}
             </button>
 
             {isAuthenticated && user ? (
-              <div ref={userMenuRef} className="relative hidden md:block">
+              <div ref={userMenuRef} className="relative hidden lg:block">
                 <button
                   onClick={() => setUserMenuOpen(prev => !prev)}
-                  className="p-2 transition-colors rounded-lg"
+                  className="inline-flex items-center gap-2 min-h-11 px-3 rounded-[3px] border border-primary-300 dark:border-primary-700 hover:border-ember-500 transition-colors"
                   aria-label="User menu"
+                  aria-expanded={userMenuOpen}
                 >
                   <div className="flex items-center gap-2">
-                    <UserCircle className="w-5 h-5 text-secondary-500 dark:text-secondary-400 hover:text-secondary-400" />
-                    <span className="text-sm font-medium text-primary-900 dark:text-primary-100">{user.name}</span>
+                    <UserCircle className="w-5 h-5 text-ember-500" strokeWidth={1.5} />
+                    <span className="text-sm font-medium text-primary-900 dark:text-primary-100 max-w-[10rem] truncate">{user.name}</span>
                   </div>
                 </button>
                 {userMenuOpen && (
-                  <div className="absolute end-0 mt-2 w-52 rounded-lg bg-primary-50 dark:bg-primary-900 border border-primary-200 dark:border-primary-700 shadow-lg z-50 overflow-hidden">
+                  <div className="absolute end-0 mt-2 w-52 rounded-[3px] bg-primary-50 dark:bg-primary-900 border border-primary-200 dark:border-primary-700 shadow-glow-dark z-50 overflow-hidden">
                     <div className="px-4 py-3 border-b border-primary-200 dark:border-primary-700">
                       <p className="text-sm font-medium text-primary-900 dark:text-primary-50 truncate">{user.name}</p>
                       <p className="text-xs text-primary-500 dark:text-primary-400 truncate">{user.email}</p>
@@ -167,16 +169,16 @@ export const Header = () => {
                 )}
               </div>
             ) : (
-              <div ref={loginDropdownRef} className="relative hidden md:block">
+              <div ref={loginDropdownRef} className="relative hidden lg:block">
                 <button
                   onClick={handleLoginClick}
-                  className="p-2 rounded-lg bg-primary-100 text-primary-900 hover:bg-accent-600 hover:text-primary-50 dark:bg-primary-800 dark:text-primary-100 dark:hover:bg-accent-600 transition-colors duration-300"
+                  className="inline-flex items-center justify-center w-11 h-11 rounded-[3px] border border-primary-300 text-primary-700 hover:border-ember-500 hover:text-ember-600 dark:border-primary-700 dark:text-primary-200 dark:hover:text-ember-400 transition-colors duration-200"
                   aria-label={t('auth.signIn')}
                 >
-                  <LogIn size={20} />
+                  <LogIn size={18} strokeWidth={1.5} />
                 </button>
                 {loginDropdownOpen && (
-                  <div className="absolute end-0 mt-2 p-4 rounded-lg bg-primary-50 dark:bg-primary-900 border border-primary-200 dark:border-primary-700 shadow-lg z-50">
+                  <div className="absolute end-0 mt-2 p-4 rounded-[3px] bg-primary-50 dark:bg-primary-900 border border-primary-200 dark:border-primary-700 shadow-glow-dark z-50">
                     <div style={{ cursor: 'pointer', touchAction: 'manipulation' }}>
                       <GoogleLogin
                         onSuccess={async ({ credential }) => {
@@ -195,16 +197,17 @@ export const Header = () => {
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 rounded-lg bg-primary-100 text-primary-900 hover:bg-accent-600 hover:text-primary-50 dark:bg-primary-800 dark:text-primary-100 dark:hover:bg-accent-600 transition-colors duration-300"
+              className="lg:hidden inline-flex items-center justify-center w-11 h-11 rounded-[3px] border border-primary-300 text-primary-700 hover:border-ember-500 dark:border-primary-700 dark:text-primary-200 transition-colors duration-200"
+              aria-expanded={mobileMenuOpen}
               aria-label="Toggle menu"
             >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              {mobileMenuOpen ? <X size={20} strokeWidth={1.5} /> : <Menu size={20} strokeWidth={1.5} />}
             </button>
           </div>
         </div>
 
         {mobileMenuOpen && (
-          <div className="md:hidden mt-4 pb-4 space-y-2 animate-fadeIn">
+          <div className="lg:hidden mt-3 pb-4 space-y-1 border-t border-primary-200 dark:border-primary-800 pt-3 animate-fadeIn">
             {navLinks.map((link) => {
               const isActive = isActiveLink(link.to);
               return (
@@ -212,10 +215,10 @@ export const Header = () => {
                   key={link.to}
                   href={link.to}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`block py-3 px-4 rounded-lg transition-colors duration-300 ${
+                  className={`block py-3 px-4 rounded-[3px] font-medium transition-colors duration-200 ${
                     isActive
-                      ? 'bg-secondary-500 dark:bg-secondary-600 text-primary-50'
-                      : 'text-primary-900 dark:text-primary-100 hover:bg-accent-600 hover:text-primary-50'
+                      ? 'glaze text-primary-950 dark:text-primary-50 border-s-2 border-ember-500'
+                      : 'text-primary-800 dark:text-primary-200 hover:bg-primary-100 dark:hover:bg-primary-900'
                   }`}
                 >
                   {link.label}
@@ -228,19 +231,19 @@ export const Header = () => {
                   <Link
                     href="/my-tickets"
                     onClick={() => setMobileMenuOpen(false)}
-                    className={`block py-3 px-4 rounded-lg transition-colors duration-300 ${
+                    className={`block py-3 px-4 rounded-[3px] font-medium transition-colors duration-200 ${
                       isActiveLink('/my-tickets')
-                        ? 'bg-secondary-500 dark:bg-secondary-600 text-primary-50'
-                        : 'text-primary-900 dark:text-primary-100 hover:bg-accent-600 hover:text-primary-50'
+                        ? 'glaze text-primary-950 dark:text-primary-50 border-s-2 border-ember-500'
+                        : 'text-primary-800 dark:text-primary-200 hover:bg-primary-100 dark:hover:bg-primary-900'
                     }`}
                   >
-                    🎟 {t('myTickets.title')}
+                    {t('myTickets.title')}
                   </Link>
                   <div className="flex items-center gap-3 px-4 py-2">
                     {user.picture ? (
                       <img src={user.picture} alt={user.name} className="w-8 h-8 rounded-full" referrerPolicy="no-referrer" />
                     ) : (
-                      <div className="w-8 h-8 rounded-full bg-accent-600 flex items-center justify-center text-white font-bold text-xs">
+                      <div className="w-8 h-8 rounded-full bg-ember-500 flex items-center justify-center text-primary-950 font-bold text-xs">
                         {user.name.charAt(0).toUpperCase()}
                       </div>
                     )}
@@ -251,7 +254,7 @@ export const Header = () => {
                   </div>
                   <button
                     onClick={() => { signOut(); setMobileMenuOpen(false); }}
-                    className="w-full flex items-center gap-2 py-3 px-4 rounded-lg text-primary-900 dark:text-primary-100 hover:bg-accent-600 hover:text-primary-50 transition-colors duration-300"
+                    className="w-full flex items-center gap-2 py-3 px-4 rounded-[3px] text-primary-800 dark:text-primary-200 hover:bg-primary-100 dark:hover:bg-primary-900 transition-colors duration-200"
                   >
                     <LogOut size={16} />
                     {t('auth.signOut')}
@@ -262,7 +265,7 @@ export const Header = () => {
                   {isInAppBrowser ? (
                     <button
                       onClick={openExternalBrowser}
-                      className="flex items-center gap-2 py-3 px-4 rounded-lg text-primary-900 dark:text-primary-100 hover:bg-accent-600 hover:text-primary-50 transition-colors duration-300"
+                      className="flex items-center gap-2 py-3 px-4 rounded-[3px] text-primary-800 dark:text-primary-200 hover:bg-primary-100 dark:hover:bg-primary-900 transition-colors duration-200"
                     >
                       <LogIn size={16} />
                       {t('auth.openInBrowser')}

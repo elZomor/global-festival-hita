@@ -88,7 +88,7 @@ export const FestivalInfoTab = ({edition}: FestivalInfoTabProps) => {
         <div className="space-y-6">
             <Card hover={false}>
                 <h3
-                    className="text-2xl font-semibold text-accent-600 dark:text-secondary-500 mb-6"
+                    className="text-2xl font-semibold text-primary-950 dark:text-primary-50 mb-6"
                     id="festival-basic-info"
                 >
                     {t('festival.basicInfo')}
@@ -145,7 +145,7 @@ export const FestivalInfoTab = ({edition}: FestivalInfoTabProps) => {
                             <PosterImage
                                 src={posterUrl}
                                 alt={`${t('festival.poster')}: ${isRTL ? edition.titleAr : edition.titleEn}`}
-                                className="w-full h-auto rounded-lg object-contain"
+                                className="w-full h-auto rounded-[3px] object-contain"
                             />
                         </div>
                     )}

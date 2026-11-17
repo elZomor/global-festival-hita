@@ -1,5 +1,5 @@
 'use client';
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import {ImageOff, Image as ImageIcon} from 'lucide-react';
 
 type PosterImageProps = {
@@ -45,6 +45,16 @@ type PosterImageProps = {
 export const PosterImage = ({src, alt, className = ''}: PosterImageProps) => {
     const [hasError, setHasError] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const imgRef = useRef<HTMLImageElement>(null);
+
+    // The image can finish loading before hydration attaches onLoad; check it directly.
+    useEffect(() => {
+        const img = imgRef.current;
+        if (img?.complete) {
+            if (img.naturalWidth > 0) setIsLoading(false);
+            else { setIsLoading(false); setHasError(true); }
+        }
+    }, [src]);
 
     // Timeout protection: Show error if image takes too long to load
     useEffect(() => {
@@ -61,13 +71,14 @@ export const PosterImage = ({src, alt, className = ''}: PosterImageProps) => {
     if (hasError) {
         return (
             <div
-                className={`flex flex-col items-center justify-center bg-primary-100 dark:bg-primary-800 rounded-lg p-8 ${className}`}
+                className={`glaze flex flex-col items-center justify-center rounded-[3px] p-8 ${className}`}
                 role="img"
                 aria-label={alt}
             >
                 <ImageOff
                     className="text-primary-400 dark:text-primary-600 mb-4"
-                    size={48}
+                    size={40}
+                    strokeWidth={1.25}
                     aria-hidden="true"
                 />
                 <p className="text-sm text-primary-600 dark:text-primary-400 text-center">
@@ -84,14 +95,15 @@ export const PosterImage = ({src, alt, className = ''}: PosterImageProps) => {
         <div className="relative">
             {isLoading && (
                 <div
-                    className={`flex flex-col items-center justify-center bg-primary-100 dark:bg-primary-800 rounded-lg p-8 min-h-[256px] ${className}`}
+                    className={`glaze flex flex-col items-center justify-center rounded-[3px] p-8 min-h-[256px] ${className}`}
                     role="status"
                     aria-label="Loading image"
                 >
-                    <div className="animate-pulse flex flex-col items-center">
+                    <div className="animate-pulse flex flex-col items-center opacity-70">
                         <ImageIcon
                             className="text-primary-300 dark:text-primary-600 mb-3"
-                            size={56}
+                            size={44}
+                            strokeWidth={1.25}
                             aria-hidden="true"
                         />
                         <div className="h-2 w-32 bg-primary-300 dark:bg-primary-600 rounded mb-2" />
@@ -100,6 +112,7 @@ export const PosterImage = ({src, alt, className = ''}: PosterImageProps) => {
                 </div>
             )}
             <img
+                ref={imgRef}
                 src={src}
                 alt={alt}
                 className={`${className} ${isLoading ? 'hidden' : 'block'} transition-opacity duration-300`}

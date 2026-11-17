@@ -106,7 +106,7 @@ export const ArticleDetailPage = async ({
         <div className="max-w-4xl mx-auto space-y-8">
             <Link
                 href={listPath}
-                className="inline-flex items-center gap-2 text-secondary-500 hover:text-secondary-400 transition-colors"
+                className="inline-flex items-center gap-2 text-primary-900 dark:text-primary-50 underline decoration-ember-500/60 hover:decoration-ember-500 transition-colors"
             >
                 <ArrowLeft size={20} className={isRTL ? 'rotate-180' : ''}/>
                 {t('common.backToList')}
@@ -116,9 +116,9 @@ export const ArticleDetailPage = async ({
                 {(relatedShow || relatedFestival) && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {relatedShow && (
-                            <Card className="border border-secondary-300 h-full">
+                            <Card className="h-full">
                                 <div className="space-y-2">
-                                    <p className="text-xs uppercase tracking-wide text-secondary-500">
+                                    <p className="label">
                                         {t(`${translationNamespace}.relatedShow`)}
                                     </p>
                                     <Link href={`/shows/${relatedShow.id}`}>
@@ -133,7 +133,7 @@ export const ArticleDetailPage = async ({
                         {relatedFestival && (
                             <Card className="border border-primary-300 h-full">
                                 <div className="space-y-2">
-                                    <p className="text-xs uppercase tracking-wide text-secondary-500">
+                                    <p className="label">
                                         {t(`${translationNamespace}.relatedFestival`)}
                                     </p>
                                     <Link href={`/festival/${relatedFestival.slug}`}>
@@ -174,7 +174,7 @@ export const ArticleDetailPage = async ({
                         </Badge>
                     </div>
 
-                    <h1 className="text-3xl md:text-5xl font-bold text-accent-600 dark:text-secondary-500 leading-tight">
+                    <h1 className="text-3xl md:text-5xl font-bold text-primary-950 dark:text-primary-50 leading-tight">
                         {localizedTitle}
                     </h1>
 
@@ -202,7 +202,7 @@ export const ArticleDetailPage = async ({
                         <img
                             src={primaryAttachment}
                             alt={localizedTitle}
-                            className="max-h-[360px] w-full max-w-3xl object-contain rounded-2xl bg-primary-50 dark:bg-primary-900"
+                            className="max-h-[360px] w-full max-w-3xl object-contain rounded-[3px] bg-primary-50 dark:bg-primary-900"
                         />
                     </div>
                 )}
@@ -225,7 +225,7 @@ export const ArticleDetailPage = async ({
                                         <img
                                             src={attachmentsBetweenSections[index]}
                                             alt={`${localizedTitle} section attachment ${index + 1}`}
-                                            className="max-h-[360px] w-full max-w-3xl object-contain rounded-2xl bg-primary-50 dark:bg-primary-900"
+                                            className="max-h-[360px] w-full max-w-3xl object-contain rounded-[3px] bg-primary-50 dark:bg-primary-900"
                                         />
                                     </div>
                                 )}
@@ -247,7 +247,7 @@ export const ArticleDetailPage = async ({
                                     <img
                                         src={attachment}
                                         alt={`${localizedTitle} attachment ${attachmentIndex}`}
-                                        className="max-h-[360px] w-full max-w-xl object-contain rounded-2xl bg-primary-50 dark:bg-primary-900"
+                                        className="max-h-[360px] w-full max-w-xl object-contain rounded-[3px] bg-primary-50 dark:bg-primary-900"
                                     />
                                 </div>
                             );
@@ -258,7 +258,7 @@ export const ArticleDetailPage = async ({
 
             {relatedArticles.length > 0 && (
                 <div className="border-t border-primary-300 dark:border-primary-700 pt-8">
-                    <h2 className="text-2xl font-bold text-accent-600 dark:text-secondary-500 mb-6">
+                    <h2 className="text-2xl font-bold text-primary-950 dark:text-primary-50 mb-6">
                         {t(`${translationNamespace}.relatedArticles`)}
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -267,10 +267,10 @@ export const ArticleDetailPage = async ({
                             const previewText = getArticlePreviewText(relatedArticle, isRTL);
                             return (
                                 <Link key={relatedArticle.id} href={`/${detailPath}/${relatedArticle.slug}`} className="block h-full">
-                                    <Card className="transition-all hover:shadow-2xl h-full">
+                                    <Card className="h-full">
                                         <div className="flex flex-col md:flex-row gap-4 h-full">
                                             {attachmentUrl && (
-                                                <div className="w-full md:w-1/3 lg:w-2/5 bg-primary-100 dark:bg-primary-900 rounded-lg flex items-center justify-center overflow-hidden">
+                                                <div className="w-full md:w-1/3 lg:w-2/5 bg-primary-100 dark:bg-primary-900 rounded-[3px] flex items-center justify-center overflow-hidden">
                                                     <img
                                                         src={attachmentUrl}
                                                         alt={isRTL ? relatedArticle.titleAr : relatedArticle.titleEn}
@@ -288,7 +288,7 @@ export const ArticleDetailPage = async ({
                                                     </Badge>
                                                 </div>
 
-                                                <h2 className="text-2xl md:text-3xl font-bold text-accent-600 dark:text-secondary-500">
+                                                <h2 className="text-2xl md:text-3xl font-bold text-primary-950 dark:text-primary-50">
                                                     {isRTL ? relatedArticle.titleAr : relatedArticle.titleEn}
                                                 </h2>
 
@@ -310,8 +310,8 @@ export const ArticleDetailPage = async ({
                                                     {previewText ? `${previewText}...` : ''}
                                                 </p>
 
-                                                <p className="text-secondary-500 hover:text-secondary-400 font-medium">
-                                                    {t(`${translationNamespace}.readMore`)} →
+                                                <p className="text-primary-900 dark:text-primary-50 underline decoration-ember-500/60 hover:decoration-ember-500 font-medium">
+                                                    {t(`${translationNamespace}.readMore`)}
                                                 </p>
                                             </div>
                                         </div>

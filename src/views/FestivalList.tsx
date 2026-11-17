@@ -1,12 +1,12 @@
 import Link from 'next/link';
 import { getLocale } from 'next-intl/server';
-import { Calendar } from 'lucide-react';
-import { Card, SectionHeader } from '../components/common';
+import { SectionHeader } from '../components/common';
 import { getT } from '../i18n/getT';
 import { serverApiFetch, apiPrefix } from '../api/server';
 import { mapFestivalApiResultToEdition, type FestivalApiResponse } from '../api/hooks';
 import { formatLocalizedNumber, localizeDigitsInString } from '../utils/numberUtils';
 
+// The archive as a kiln shelf: newest edition first, each year carved large.
 export const FestivalList = async () => {
   const [t, locale, response] = await Promise.all([
     getT(),
@@ -14,8 +14,9 @@ export const FestivalList = async () => {
     serverApiFetch<FestivalApiResponse>(`${apiPrefix}/festivals`, 3600),
   ]);
   const isRTL = locale === 'ar';
-  const editions = (response?.results ?? []).map(mapFestivalApiResultToEdition);
-  const sortedEditions = [...editions].sort((a, b) => b.year - a.year);
+  const editions = (response?.results ?? [])
+    .map(mapFestivalApiResultToEdition)
+    .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
 
   if (!editions.length) {
     return (
@@ -25,57 +26,51 @@ export const FestivalList = async () => {
     );
   }
 
-  return (
-    <div className="space-y-8">
-      <div className="flex items-center gap-3">
-        <Calendar size={40} className="text-accent-600 dark:text-secondary-500" />
-        <SectionHeader className="mb-0">{t('home.editionsTitle')}</SectionHeader>
-      </div>
+  const dateFmt = (d: string) =>
+    new Date(d).toLocaleDateString(isRTL ? 'ar-EG' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {sortedEditions.map((edition) => {
-          const localizedTitle = localizeDigitsInString(
-            isRTL ? edition.titleAr : edition.titleEn,
-            locale
-          );
-          const localizedDescription = localizeDigitsInString(
-            isRTL ? edition.descriptionAr : edition.descriptionEn,
-            locale
-          );
+  return (
+    <div>
+      <SectionHeader>{t('home.editionsTitle')}</SectionHeader>
+
+      <ol className="border-t border-primary-300 dark:border-primary-800">
+        {editions.map((edition, index) => {
+          const title = localizeDigitsInString(isRTL ? edition.titleAr : edition.titleEn, locale);
+          const description = localizeDigitsInString(isRTL ? edition.descriptionAr : edition.descriptionEn, locale);
+          const newest = index === 0;
 
           return (
-            <Link key={edition.slug} href={`/festival/${edition.slug}`}>
-              <Card className="h-full">
-                <div className="space-y-4">
-                  <div className="flex items-start justify-between">
-                    <h3 className="text-2xl font-bold text-accent-600 dark:text-secondary-500">
-                      {localizedTitle}
-                    </h3>
-                  </div>
-
-                  <p className="text-primary-700 dark:text-primary-300 leading-relaxed">
-                    {localizedDescription}
-                  </p>
-
-                <div className="flex gap-4 text-sm text-primary-600 dark:text-primary-400">
-                  <span className="flex items-center gap-1">
-                    <Calendar size={16} />
-                    {new Date(edition.startDate).toLocaleDateString(isRTL ? 'ar-EG' : 'en-US', {
-                      month: 'short',
-                      day: 'numeric'
-                    })}
+            <li key={edition.slug} className="border-b border-primary-300 dark:border-primary-800">
+              <Link
+                href={`/festival/${edition.slug}`}
+                className="group grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 py-8 md:items-center hover:bg-primary-100/70 dark:hover:bg-primary-900/70 transition-colors px-2"
+              >
+                <span
+                  className={`md:col-span-3 font-display text-6xl md:text-7xl tabular leading-none transition-colors ${
+                    newest
+                      ? 'text-ember-600 dark:text-ember-400'
+                      : 'text-primary-400 group-hover:text-primary-600 dark:text-primary-500 dark:group-hover:text-primary-300'
+                  }`}
+                >
+                  {formatLocalizedNumber(edition.year, locale).replace(/[٬,]/g, '')}
+                </span>
+                <span className="md:col-span-6 space-y-2">
+                  <span className="block text-2xl font-semibold text-primary-950 dark:text-primary-50">{title}</span>
+                  {description && (
+                    <span className="block text-primary-600 dark:text-primary-400 leading-relaxed">{description}</span>
+                  )}
+                </span>
+                <span className="md:col-span-3 text-sm text-primary-600 dark:text-primary-400 space-y-1 md:text-end">
+                  <span className="block">{dateFmt(edition.startDate)}</span>
+                  <span className="block tabular">
+                    {formatLocalizedNumber(edition.totalShows, locale)} {t('festival.numberOfShows')} · {formatLocalizedNumber(edition.totalArticles, locale)} {t('festival.numberOfArticles')}
                   </span>
-                  <span>•</span>
-                  <span>{formatLocalizedNumber(edition.totalShows, locale)} {t('festival.numberOfShows')}</span>
-                  <span>•</span>
-                  <span>{formatLocalizedNumber(edition.totalArticles, locale)} {t('festival.numberOfArticles')}</span>
-                </div>
-              </div>
-              </Card>
-            </Link>
+                </span>
+              </Link>
+            </li>
           );
         })}
-      </div>
+      </ol>
     </div>
   );
 };

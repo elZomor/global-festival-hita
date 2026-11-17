@@ -1,10 +1,7 @@
 'use client';
 import {ReactNode} from 'react';
-import {Button, PosterImage} from '../../components/common';
+import {Button, PosterImage, ShareButton} from '../../components/common';
 import type {Show} from '../../types';
-import {motion} from 'framer-motion';
-import {Share2} from 'lucide-react';
-import {useT} from '../../i18n/useT';
 
 type InfoItem = {
     label: string;
@@ -34,7 +31,7 @@ export const ShowHero = ({
                              show,
                              infoItems,
                              showStatusLabel,
-                             showStatusClassName = 'text-accent-500',
+                             showStatusClassName = 'text-primary-500',
                              isReservationStatus,
                              isReservationComplete,
                              reservationButtonVariant,
@@ -44,87 +41,73 @@ export const ShowHero = ({
                              isAuthenticated,
                              onReservationClick,
                          }: ShowHeroProps) => {
-    const t = useT();
-
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div>
-                {show.poster && (
-                    <PosterImage
-                        src={show.poster}
-                        alt={`${show.name} - مسرحية`}
-                        className="w-full h-auto max-h-[500px] object-contain"
-                    />
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+            <div className="lg:col-span-5">
+                {show.poster ? (
+                    <div className="rounded-[3px] border border-primary-200 dark:border-primary-800 overflow-hidden shadow-kiln">
+                        <PosterImage
+                            src={show.poster}
+                            alt={show.name}
+                            className="w-full h-auto max-h-[640px] object-contain bg-primary-100 dark:bg-primary-950"
+                        />
+                    </div>
+                ) : (
+                    <div className="glaze aspect-[3/4] rounded-[3px] border border-primary-200 dark:border-primary-800 flex items-end p-6">
+                        <span className="brush text-4xl text-primary-500 dark:text-primary-400">{show.name}</span>
+                    </div>
                 )}
             </div>
 
-            <div className="space-y-6">
-                <div>
-                    <div className="flex items-center gap-3 mb-2 justify-center md:justify-start">
-                        <h1 className="text-4xl font-bold text-accent-600 dark:text-secondary-500 mb-2">
+            <div className="lg:col-span-7 space-y-8">
+                <div className="space-y-4">
+                    <p className={`flex items-center gap-2 text-sm font-semibold ${showStatusClassName}`}>
+                        <span className="inline-block w-2 h-2 rounded-full bg-current" aria-hidden="true"/>
+                        {showStatusLabel}
+                    </p>
+                    <div className="flex items-start justify-between gap-4">
+                        <h1 className="brush fired-text text-[clamp(2.5rem,6vw,4.5rem)]">
                             {show.name}
                         </h1>
-                        <motion.button
-                            onClick={() => {
-                                const url = window.location.href;
-                                if (navigator.share) {
-                                    navigator.share({
-                                        title: show.name,
-                                        url,
-                                    });
-                                } else {
-                                    navigator.clipboard.writeText(url);
-                                    alert(t('link_copied'));
-                                }
-                            }}
-                            className="text-sm mx-2 text-accent-500 hover:text-secondary-500 font-medium underline text-center md:text-left"
-                            whileHover={{scale: 1.05}}
-                            whileTap={{scale: 0.95}}
-                        >
-                            <Share2 size={30}/>
-                        </motion.button>
+                        <ShareButton title={show.name} className="shrink-0 inline-flex items-center justify-center w-11 h-11 rounded-[3px] border border-primary-300 dark:border-primary-700 text-primary-700 dark:text-primary-200 hover:border-ember-500 hover:text-ember-600 dark:hover:text-ember-400 transition-colors"/>
                     </div>
-                    {show.castWord && (<h3 className="mb-2 text-primary-500 flex items-center gap-2 italic">
-                        &ldquo;{show.castWord}&rdquo;
-                    </h3>)}
-                    <h3 className={`text-xl font-bold mb-6 flex items-center gap-2 ${showStatusClassName}`}>
-                        {showStatusLabel}
-                    </h3>
+                    <span className="ember-swipe swipe-cool w-32" aria-hidden="true"/>
+                    {show.castWord && (
+                        <blockquote className="max-w-xl text-lg leading-relaxed text-primary-600 dark:text-primary-300">
+                            &ldquo;{show.castWord}&rdquo;
+                        </blockquote>
+                    )}
                 </div>
 
-                <div className="space-y-3 text-lg text-primary-800 dark:text-primary-100">
+                <dl className="border-t border-primary-300 dark:border-primary-800">
                     {infoItems.map(
                         item =>
                             item.value && (
-                                <div key={item.label} className="grid grid-cols-1 sm:grid-cols-9 gap-3 items-center">
-                                <span
-                                    className="font-semibold text-primary-600 dark:text-primary-300 sm:col-span-2">{item.label}:</span>
-                                    <span
-                                        className="inline-flex flex-wrap items-center gap-2 text-primary-900 dark:text-primary-100 sm:col-span-7">
-                                    {item.value}
-                                </span>
+                                <div key={item.label} className="grid grid-cols-1 sm:grid-cols-[10rem_1fr] gap-1 sm:gap-4 py-3 border-b border-primary-200 dark:border-primary-800">
+                                    <dt className="text-sm text-primary-500 dark:text-primary-400">{item.label}</dt>
+                                    <dd className="flex flex-wrap items-center gap-2 text-primary-900 dark:text-primary-100">
+                                        {item.value}
+                                    </dd>
                                 </div>
                             ),
                     )}
-                </div>
+                </dl>
 
-                <div className="space-y-3 flex flex-col items-center">
-                    {isReservationStatus && isAuthenticated && (
-                        <Button
-                            type="button"
-                            variant={reservationButtonVariant}
-                            className="w-[70%]"
-                            onClick={onReservationClick}
-                            disabled={isReservationComplete}
-                        >
-                            {reservationButtonVariant === 'reservation'
-                                ? reserveLabel
-                                : reservationButtonVariant === 'waiting'
-                                    ? waitingListLabel
-                                    : completeLabel}
-                        </Button>
-                    )}
-                </div>
+                {isReservationStatus && isAuthenticated && (
+                    <Button
+                        type="button"
+                        variant={reservationButtonVariant}
+                        className="w-full sm:w-auto sm:min-w-64 min-h-12"
+                        onClick={onReservationClick}
+                        disabled={isReservationComplete}
+                    >
+                        {reservationButtonVariant === 'reservation'
+                            ? reserveLabel
+                            : reservationButtonVariant === 'waiting'
+                                ? waitingListLabel
+                                : completeLabel}
+                    </Button>
+                )}
             </div>
         </div>
     )

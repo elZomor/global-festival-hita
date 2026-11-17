@@ -9,9 +9,15 @@ interface MainLayoutProps {
 
 export const MainLayout = ({ children }: MainLayoutProps) => {
   return (
-    <div className="min-h-screen bg-primary-50 dark:bg-primary-900 transition-colors duration-300">
+    <div className="relative min-h-screen flex flex-col">
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:start-3 focus:z-[60] focus:px-4 focus:py-2 focus:bg-ember-500 focus:text-primary-950 rounded-[3px]"
+      >
+        Skip to content
+      </a>
       <Header />
-      <main className="container mx-auto px-4 py-8">
+      <main id="main" className="relative z-10 flex-1 container mx-auto px-4 py-10">
         {children}
       </main>
       <Footer />
