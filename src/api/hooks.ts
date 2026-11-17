@@ -982,3 +982,30 @@ export const useMyReservations = () =>
         path: `${api}/reservations/my`,
         select: data => data.results ?? [],
     });
+
+export type ApplicationStatusData = {
+    open: boolean;
+    festivalName: string | null;
+};
+
+export const useApplicationStatus = () =>
+    useApiQuery<{data: ApplicationStatusData}, ApplicationStatusData>({
+        queryKey: buildQueryKey('application-status'),
+        path: `${api}/applications/status`,
+        select: response => response.data,
+        enabled: festivalConfig.applicationsEnabled,
+    });
+
+export type SubmitApplicationResponse = {
+    data: {id: number};
+    status: string;
+    message: string;
+};
+
+/** Variables must be a FormData with snake_case keys (sent as multipart, untouched by the client). */
+export const useSubmitApplication = () =>
+    useApiMutation<SubmitApplicationResponse, FormData>({
+        path: `${api}/applications`,
+        method: 'POST',
+        expectedStatus: 201,
+    });

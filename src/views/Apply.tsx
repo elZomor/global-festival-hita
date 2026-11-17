@@ -1,0 +1,382 @@
+'use client';
+import { FormEvent, ReactNode, useCallback, useEffect, useState } from 'react';
+import Link from 'next/link';
+import { useLocale } from 'next-intl';
+import { AlertTriangle, CheckCircle2 } from 'lucide-react';
+import { useT } from '../i18n/useT';
+import { useAuth } from '../contexts/AuthContext';
+import { useApplicationStatus, useSubmitApplication } from '../api/hooks';
+import type { ApiError } from '../api/reactQueryClient';
+import { festivalConfig } from '../config/festival';
+import { Button, Card, LoadingState, Snackbar } from '../components/common';
+import type { ApplicationFormValues, Department, StudyType } from '../types';
+import { FileField, ListField, RadioGroupField, SelectField, TextField } from './apply/fields';
+import {
+  buildFormData,
+  FIELD_ORDER,
+  type FieldName,
+  type FormErrors,
+  initialValues,
+  mapServerErrors,
+  NATIONAL_ID_EXTENSIONS,
+  SCRIPT_EXTENSIONS,
+  validateAll,
+  validateField,
+} from './apply/validation';
+
+const DEPARTMENTS: Department[] = ['ACTING_DIRECTING', 'DRAMA_CRITICISM', 'DECOR'];
+const STUDY_TYPES: StudyType[] = ['CREDIT_HOURS', 'PARALLEL'];
+const SERVER_MESSAGE_CODES = ['APPLICATIONS_CLOSED', 'ALREADY_APPLIED', 'VALIDATION_ERROR'];
+
+const Section = ({ title, children }: { title: string; children: ReactNode }) => (
+  <fieldset className="space-y-5">
+    <legend className="text-lg font-bold text-accent-600 dark:text-secondary-500 mb-4">{title}</legend>
+    {children}
+  </fieldset>
+);
+
+export const Apply = () => {
+  const t = useT();
+  const locale = useLocale();
+  const { user } = useAuth();
+  const { data: status, isLoading: statusLoading, isError: statusError } = useApplicationStatus();
+  const submitMutation = useSubmitApplication();
+
+  const [values, setValues] = useState<ApplicationFormValues>(initialValues);
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [submitted, setSubmitted] = useState(false);
+  const [emailPrefilled, setEmailPrefilled] = useState(false);
+  const [snackbar, setSnackbar] = useState<string | null>(null);
+  const closeSnackbar = useCallback(() => setSnackbar(null), []);
+
+  // Auth user is restored from localStorage after the first render, so prefill when it arrives.
+  useEffect(() => {
+    if (!user?.email) return;
+    if (values.email) return;
+    setValues(prev => ({ ...prev, email: user.email }));
+    setEmailPrefilled(true);
+    // Only react to the login state arriving, not to the user editing the email.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.email]);
+
+  const setField = <K extends keyof ApplicationFormValues>(field: K, value: ApplicationFormValues[K]) => {
+    const next = { ...values, [field]: value };
+    setValues(next);
+    // Re-validate fields that already show an error so the message clears as the user fixes it.
+    const affected: FieldName[] =
+      field === 'mobile' || field === 'whatsappSameAsMobile' ? ['mobile', 'whatsapp'] : [field as FieldName];
+    setErrors(prev => {
+      const updated = { ...prev };
+      affected.forEach(name => {
+        if (updated[name]) updated[name] = validateField(name, next);
+      });
+      return updated;
+    });
+  };
+
+  const touch = (field: FieldName) => () =>
+    setErrors(prev => ({ ...prev, [field]: validateField(field, values) }));
+
+  const errorText = (field: FieldName) => {
+    const key = errors[field];
+    return key ? t(`apply.errors.${key}`) : undefined;
+  };
+
+  const scrollToFirstError = (formErrors: FormErrors) => {
+    const first = FIELD_ORDER.find(field => formErrors[field]);
+    if (!first) return;
+    const element = document.querySelector<HTMLElement>(`[data-field="${first}"]`);
+    element?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    element?.querySelector<HTMLElement>('input, select, textarea, button')?.focus({ preventScroll: true });
+  };
+
+  const handleSubmit = async (event: FormEvent) => {
+    event.preventDefault();
+    const formErrors = validateAll(values);
+    setErrors(formErrors);
+    if (Object.values(formErrors).some(Boolean)) {
+      setSnackbar(t('apply.errors.fixErrors'));
+      scrollToFirstError(formErrors);
+      return;
+    }
+
+    try {
+      await submitMutation.mutateAsync(buildFormData(values));
+      setSubmitted(true);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (err) {
+      const apiError = err as ApiError;
+      const serverErrors = mapServerErrors(apiError.details);
+      if (apiError.message === 'ALREADY_APPLIED') serverErrors.email = 'alreadyApplied';
+      setErrors(serverErrors);
+      scrollToFirstError(serverErrors);
+      setSnackbar(
+        SERVER_MESSAGE_CODES.includes(apiError.message)
+          ? t(`apply.errors.codes.${apiError.message}`)
+          : t('apply.errors.generic'),
+      );
+    }
+  };
+
+  if (statusLoading) return <LoadingState />;
+
+  const header = (
+    <div className="mb-8">
+      <h1 className="text-3xl md:text-4xl font-bold text-accent-600 dark:text-secondary-500 mb-2">{t('apply.title')}</h1>
+      <p className="text-primary-600 dark:text-primary-300">
+        {t('apply.subtitle', { festival: locale === 'ar' ? festivalConfig.titleAr : festivalConfig.titleEn })}
+      </p>
+    </div>
+  );
+
+  if (statusError || !status?.open) {
+    return (
+      <div className="container mx-auto px-4 py-8 max-w-3xl">
+        {header}
+        <Card hover={false} className="text-center">
+          <p className="text-lg">{statusError ? t('apply.errors.generic') : t('apply.closed')}</p>
+        </Card>
+      </div>
+    );
+  }
+
+  if (submitted) {
+    return (
+      <div className="container mx-auto px-4 py-8 max-w-3xl">
+        <Card hover={false} className="text-center space-y-4 py-10">
+          <CheckCircle2 className="w-16 h-16 mx-auto text-green-600 dark:text-green-400" />
+          <h1 className="text-2xl font-bold">{t('apply.success.title')}</h1>
+          <p className="text-primary-600 dark:text-primary-300">{t('apply.success.message')}</p>
+          <Link
+            href="/"
+            className="inline-block px-6 py-3 rounded-lg font-medium bg-secondary-500 hover:bg-secondary-400 text-primary-950 shadow-lg transition-colors"
+          >
+            {t('apply.success.backHome')}
+          </Link>
+        </Card>
+      </div>
+    );
+  }
+
+  const arabicBadge = t('apply.arabicHint');
+  const whatsappValue = values.whatsappSameAsMobile ? values.mobile : values.whatsapp;
+
+  return (
+    <div className="container mx-auto px-4 py-8 max-w-3xl">
+      {header}
+
+      <div
+        role="note"
+        className="flex items-start gap-3 p-4 mb-8 rounded-lg border border-amber-500 bg-amber-50 text-amber-900 dark:bg-amber-900/20 dark:text-amber-200"
+      >
+        <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5" />
+        <p className="font-medium">{t('apply.arabicNotice')}</p>
+      </div>
+
+      <form onSubmit={handleSubmit} noValidate>
+        <Card hover={false} className="space-y-10">
+          <Section title={t('apply.sections.contact')}>
+            <TextField
+              name="email"
+              type="email"
+              dir="ltr"
+              autoComplete="email"
+              label={t('apply.fields.email')}
+              required
+              value={values.email}
+              onChange={v => setField('email', v)}
+              onBlur={touch('email')}
+              hint={emailPrefilled ? t('apply.loggedInPrefill') : undefined}
+              error={errorText('email')}
+            />
+            <TextField
+              name="mobile"
+              type="tel"
+              dir="ltr"
+              autoComplete="tel"
+              label={t('apply.fields.mobile')}
+              required
+              placeholder={t('apply.fields.mobilePlaceholder')}
+              value={values.mobile}
+              onChange={v => setField('mobile', v)}
+              onBlur={touch('mobile')}
+              error={errorText('mobile')}
+            />
+            <div className="space-y-3">
+              <TextField
+                name="whatsapp"
+                type="tel"
+                dir="ltr"
+                label={t('apply.fields.whatsapp')}
+                required
+                placeholder={t('apply.fields.whatsappPlaceholder')}
+                hint={t('apply.fields.whatsappHint')}
+                value={whatsappValue}
+                disabled={values.whatsappSameAsMobile}
+                onChange={v => setField('whatsapp', v)}
+                onBlur={touch('whatsapp')}
+                error={errorText('whatsapp')}
+              />
+              <label className="flex items-center gap-2 cursor-pointer select-none text-primary-700 dark:text-primary-200">
+                <input
+                  type="checkbox"
+                  checked={values.whatsappSameAsMobile}
+                  onChange={e => setField('whatsappSameAsMobile', e.target.checked)}
+                  className="w-4 h-4 accent-secondary-500"
+                />
+                {t('apply.fields.whatsappSameAsMobile')}
+              </label>
+            </div>
+          </Section>
+
+          <Section title={t('apply.sections.show')}>
+            <TextField
+              name="showName"
+              dir="rtl"
+              label={t('apply.fields.showName')}
+              badge={arabicBadge}
+              required
+              value={values.showName}
+              onChange={v => setField('showName', v)}
+              onBlur={touch('showName')}
+              error={errorText('showName')}
+            />
+            <SelectField
+              name="department"
+              label={t('apply.fields.department')}
+              required
+              placeholder={t('apply.fields.departmentPlaceholder')}
+              value={values.department}
+              options={DEPARTMENTS.map(d => ({ value: d, label: t(`apply.departments.${d}`) }))}
+              onChange={v => setField('department', v as Department)}
+              onBlur={touch('department')}
+              error={errorText('department')}
+            />
+            <RadioGroupField
+              name="studyType"
+              label={t('apply.fields.studyType')}
+              required
+              value={values.studyType}
+              options={STUDY_TYPES.map(s => ({ value: s, label: t(`apply.studyTypes.${s}`) }))}
+              onChange={v => setField('studyType', v as StudyType)}
+              error={errorText('studyType')}
+            />
+          </Section>
+
+          <Section title={t('apply.sections.team')}>
+            <TextField
+              name="directorName"
+              dir="rtl"
+              label={t('apply.fields.directorName')}
+              badge={arabicBadge}
+              required
+              value={values.directorName}
+              onChange={v => setField('directorName', v)}
+              onBlur={touch('directorName')}
+              error={errorText('directorName')}
+            />
+            <TextField
+              name="author"
+              dir="rtl"
+              label={t('apply.fields.author')}
+              badge={arabicBadge}
+              required
+              value={values.author}
+              onChange={v => setField('author', v)}
+              onBlur={touch('author')}
+              error={errorText('author')}
+            />
+            <TextField
+              name="dramaturgy"
+              dir="rtl"
+              label={t('apply.fields.dramaturgy')}
+              badge={`${arabicBadge} · ${t('apply.optional')}`}
+              value={values.dramaturgy}
+              onChange={v => setField('dramaturgy', v)}
+              onBlur={touch('dramaturgy')}
+              error={errorText('dramaturgy')}
+            />
+            <ListField
+              name="actors"
+              label={t('apply.fields.actors')}
+              badge={arabicBadge}
+              required
+              values={values.actors}
+              onChange={v => setField('actors', v)}
+              onBlur={touch('actors')}
+              itemPlaceholder={index => t('apply.fields.actorPlaceholder', { number: index + 1 })}
+              addLabel={t('apply.fields.addActor')}
+              removeLabel={t('apply.fields.removeActor')}
+              error={errorText('actors')}
+            />
+          </Section>
+
+          <Section title={t('apply.sections.details')}>
+            <TextField
+              name="directorialVision"
+              dir="rtl"
+              multiline
+              label={t('apply.fields.directorialVision')}
+              badge={arabicBadge}
+              required
+              value={values.directorialVision}
+              onChange={v => setField('directorialVision', v)}
+              onBlur={touch('directorialVision')}
+              error={errorText('directorialVision')}
+            />
+            <TextField
+              name="showSummary"
+              dir="rtl"
+              multiline
+              label={t('apply.fields.showSummary')}
+              badge={arabicBadge}
+              required
+              value={values.showSummary}
+              onChange={v => setField('showSummary', v)}
+              onBlur={touch('showSummary')}
+              error={errorText('showSummary')}
+            />
+          </Section>
+
+          <Section title={t('apply.sections.attachments')}>
+            <FileField
+              name="script"
+              label={t('apply.fields.script')}
+              required
+              hint={t('apply.fields.scriptHint')}
+              accept={SCRIPT_EXTENSIONS.join(',')}
+              file={values.script}
+              onChange={file => setField('script', file)}
+              chooseLabel={t('apply.fields.chooseFile')}
+              changeLabel={t('apply.fields.changeFile')}
+              error={errorText('script')}
+            />
+            <FileField
+              name="nationalId"
+              label={t('apply.fields.nationalId')}
+              required
+              hint={t('apply.fields.nationalIdHint')}
+              accept={NATIONAL_ID_EXTENSIONS.join(',')}
+              file={values.nationalId}
+              onChange={file => setField('nationalId', file)}
+              chooseLabel={t('apply.fields.chooseFile')}
+              changeLabel={t('apply.fields.changeFile')}
+              error={errorText('nationalId')}
+            />
+          </Section>
+
+          <Button
+            type="submit"
+            variant={submitMutation.isPending ? 'disabled' : 'secondary'}
+            disabled={submitMutation.isPending}
+            className="w-full justify-center"
+          >
+            {submitMutation.isPending ? t('apply.submitting') : t('apply.submit')}
+          </Button>
+        </Card>
+      </form>
+
+      <Snackbar message={snackbar ?? ''} isOpen={Boolean(snackbar)} onClose={closeSnackbar} variant="error" />
+    </div>
+  );
+};
