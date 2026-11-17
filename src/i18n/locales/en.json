@@ -26,7 +26,13 @@
     "latestArticles": "Latest Critical Articles",
     "creativityTitle": "Student Creativity",
     "creativityText": "An open space for student creative contributions during the festival including stories, critical essays, and poems",
-    "exploreCreativity": "Explore Creativity"
+    "exploreCreativity": "Explore Creativity",
+    "applyHero": {
+      "badge": "Applications open",
+      "title": "Apply now to take part in {festival}",
+      "subtitle": "Submit your show and join this year's edition.",
+      "cta": "Apply now"
+    }
   },
   "festival": {
     "info": "Info",
@@ -295,7 +301,6 @@
     "title": "Apply to Participate in the Festival",
     "subtitle": "Fill in the form below to submit your show to {festival}.",
     "arabicNotice": "Important: all data must be written in Arabic only (except email and phone numbers).",
-    "arabicHint": "in Arabic",
     "optional": "Optional",
     "required": "Required",
     "closed": "Applications are currently closed. Stay tuned for the next call.",
@@ -318,8 +323,6 @@
       "dramaturgy": "Dramaturgy",
       "mobile": "Mobile",
       "whatsapp": "WhatsApp number",
-      "whatsappPlaceholder": "01xxxxxxxxx or +966xxxxxxxxx",
-      "whatsappHint": "Non-Egyptian numbers are allowed — write them in international format with the country code (e.g. +966...).",
       "whatsappSameAsMobile": "Use the same mobile number",
       "actors": "Actors' names",
       "actorPlaceholder": "Actor {number} name",
@@ -356,7 +359,7 @@
       "arabicOnly": "This field must be written in Arabic only.",
       "email": "Please enter a valid email.",
       "mobile": "Please enter a valid Egyptian mobile number (11 digits starting with 01).",
-      "whatsapp": "Please enter a valid WhatsApp number. For non-Egyptian numbers include the country code (e.g. +966...).",
+      "whatsapp": "Please enter a valid WhatsApp number.",
       "actorsRequired": "Please add at least one actor name.",
       "fileType": "Unsupported file type.",
       "fileSize": "File is larger than allowed.",

@@ -124,7 +124,9 @@ export const Apply = () => {
     <div className="mb-8">
       <h1 className="text-3xl md:text-4xl font-bold text-accent-600 dark:text-secondary-500 mb-2">{t('apply.title')}</h1>
       <p className="text-primary-600 dark:text-primary-300">
-        {t('apply.subtitle', { festival: locale === 'ar' ? festivalConfig.titleAr : festivalConfig.titleEn })}
+        {t('apply.subtitle', {
+          festival: status?.festivalName || (locale === 'ar' ? festivalConfig.titleAr : festivalConfig.titleEn),
+        })}
       </p>
     </div>
   );
@@ -158,7 +160,6 @@ export const Apply = () => {
     );
   }
 
-  const arabicBadge = t('apply.arabicHint');
   const whatsappValue = values.whatsappSameAsMobile ? values.mobile : values.whatsapp;
 
   return (
@@ -203,20 +204,6 @@ export const Apply = () => {
               error={errorText('mobile')}
             />
             <div className="space-y-3">
-              <TextField
-                name="whatsapp"
-                type="tel"
-                dir="ltr"
-                label={t('apply.fields.whatsapp')}
-                required
-                placeholder={t('apply.fields.whatsappPlaceholder')}
-                hint={t('apply.fields.whatsappHint')}
-                value={whatsappValue}
-                disabled={values.whatsappSameAsMobile}
-                onChange={v => setField('whatsapp', v)}
-                onBlur={touch('whatsapp')}
-                error={errorText('whatsapp')}
-              />
               <label className="flex items-center gap-2 cursor-pointer select-none text-primary-700 dark:text-primary-200">
                 <input
                   type="checkbox"
@@ -226,6 +213,19 @@ export const Apply = () => {
                 />
                 {t('apply.fields.whatsappSameAsMobile')}
               </label>
+              <TextField
+                name="whatsapp"
+                type="tel"
+                dir="ltr"
+                label={t('apply.fields.whatsapp')}
+                required
+                placeholder={t('apply.fields.mobilePlaceholder')}
+                value={whatsappValue}
+                disabled={values.whatsappSameAsMobile}
+                onChange={v => setField('whatsapp', v)}
+                onBlur={touch('whatsapp')}
+                error={errorText('whatsapp')}
+              />
             </div>
           </Section>
 
@@ -234,7 +234,6 @@ export const Apply = () => {
               name="showName"
               dir="rtl"
               label={t('apply.fields.showName')}
-              badge={arabicBadge}
               required
               value={values.showName}
               onChange={v => setField('showName', v)}
@@ -268,7 +267,6 @@ export const Apply = () => {
               name="directorName"
               dir="rtl"
               label={t('apply.fields.directorName')}
-              badge={arabicBadge}
               required
               value={values.directorName}
               onChange={v => setField('directorName', v)}
@@ -279,7 +277,6 @@ export const Apply = () => {
               name="author"
               dir="rtl"
               label={t('apply.fields.author')}
-              badge={arabicBadge}
               required
               value={values.author}
               onChange={v => setField('author', v)}
@@ -290,7 +287,7 @@ export const Apply = () => {
               name="dramaturgy"
               dir="rtl"
               label={t('apply.fields.dramaturgy')}
-              badge={`${arabicBadge} · ${t('apply.optional')}`}
+              badge={t('apply.optional')}
               value={values.dramaturgy}
               onChange={v => setField('dramaturgy', v)}
               onBlur={touch('dramaturgy')}
@@ -299,7 +296,6 @@ export const Apply = () => {
             <ListField
               name="actors"
               label={t('apply.fields.actors')}
-              badge={arabicBadge}
               required
               values={values.actors}
               onChange={v => setField('actors', v)}
@@ -317,7 +313,6 @@ export const Apply = () => {
               dir="rtl"
               multiline
               label={t('apply.fields.directorialVision')}
-              badge={arabicBadge}
               required
               value={values.directorialVision}
               onChange={v => setField('directorialVision', v)}
@@ -329,7 +324,6 @@ export const Apply = () => {
               dir="rtl"
               multiline
               label={t('apply.fields.showSummary')}
-              badge={arabicBadge}
               required
               value={values.showSummary}
               onChange={v => setField('showSummary', v)}
