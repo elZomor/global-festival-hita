@@ -55,7 +55,7 @@ export const FestivalList = async () => {
                   {formatLocalizedNumber(edition.year, locale).replace(/[٬,]/g, '')}
                 </span>
                 <span className="md:col-span-6 space-y-2">
-                  <span className="block text-2xl font-semibold text-primary-950 dark:text-primary-50">{title}</span>
+                  <span dir="auto" className="block text-2xl font-semibold text-primary-950 dark:text-primary-50">{title}</span>
                   {description && (
                     <span className="block text-primary-600 dark:text-primary-400 leading-relaxed">{description}</span>
                   )}

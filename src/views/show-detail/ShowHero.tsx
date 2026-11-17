@@ -66,7 +66,7 @@ export const ShowHero = ({
                         {showStatusLabel}
                     </p>
                     <div className="flex items-start justify-between gap-4">
-                        <h1 className="brush fired-text text-[clamp(2.5rem,6vw,4.5rem)]">
+                        <h1 dir="auto" className="brush fired-text text-[clamp(2.5rem,6vw,4.5rem)]">
                             {show.name}
                         </h1>
                         <ShareButton title={show.name} className="shrink-0 inline-flex items-center justify-center w-11 h-11 rounded-[3px] border border-primary-300 dark:border-primary-700 text-primary-700 dark:text-primary-200 hover:border-ember-500 hover:text-ember-600 dark:hover:text-ember-400 transition-colors"/>

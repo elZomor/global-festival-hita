@@ -110,7 +110,7 @@ export const FestivalEdition = async ({ festivalSlug, tab: tabParam }: FestivalE
 
             <header className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end border-b border-primary-300 dark:border-primary-800 pb-10">
                 <div className="lg:col-span-8 space-y-5">
-                    <h1 className="brush fired-text text-[clamp(2.5rem,7vw,5rem)]">
+                    <h1 dir="auto" className="brush fired-text text-[clamp(2.5rem,7vw,5rem)]">
                         {localizedTitle}
                     </h1>
                     <span className="ember-swipe swipe-cool w-40 md:w-56" aria-hidden="true"/>

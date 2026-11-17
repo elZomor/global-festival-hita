@@ -123,7 +123,7 @@ export const Apply = () => {
 
   const header = (
     <div className="mb-10">
-      <h1 className="brush fired-text fired-live animate-fire text-[clamp(2.5rem,7vw,4.5rem)]">{t('apply.title')}</h1>
+      <h1 dir="auto" className="brush fired-text fired-live animate-fire text-[clamp(2.5rem,7vw,4.5rem)]">{t('apply.title')}</h1>
       <span className="ember-swipe w-40 mt-3 mb-5" aria-hidden="true" />
       <p className="text-lg text-primary-600 dark:text-primary-300">
         {t('apply.subtitle', {

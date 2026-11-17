@@ -5,13 +5,14 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useLocale } from 'next-intl';
 import { useT } from '../../i18n/useT';
-import { Menu, X, Sun, Moon, Languages, LogOut, UserCircle, LogIn } from 'lucide-react';
+import { Menu, X, Sun, Moon, LogOut, UserCircle, LogIn } from 'lucide-react';
 import { GoogleLogin } from '@react-oauth/google';
 import { isInAppBrowser, openExternalBrowser } from '../auth/GoogleLoginButton';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useAuth } from '../../contexts/AuthContext';
 import { festivalConfig } from '../../config/festival';
 import { KilnMark } from './Wordmark';
+import { EgyptFlag, UKFlag } from './Flags';
 
 export const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -125,10 +126,13 @@ export const Header = () => {
           <div className="flex items-center gap-3">
             <button
               onClick={toggleLanguage}
-              className="inline-flex items-center justify-center w-11 h-11 rounded-[3px] border border-primary-300 text-primary-700 hover:border-ember-500 hover:text-ember-600 dark:border-primary-700 dark:text-primary-200 dark:hover:text-ember-400 transition-colors duration-200"
-              aria-label="Toggle language"
+              className="inline-flex items-center justify-center gap-2 h-11 px-3 rounded-[3px] border border-primary-300 text-sm font-medium text-primary-700 hover:border-ember-500 hover:text-ember-600 dark:border-primary-700 dark:text-primary-200 dark:hover:text-ember-400 transition-colors duration-200"
+              aria-label={isRTL ? 'Switch to English' : 'التبديل إلى العربية'}
+              title={isRTL ? 'English' : 'العربية'}
+              lang={isRTL ? 'en' : 'ar'}
             >
-              <Languages size={18} strokeWidth={1.5} />
+              {isRTL ? <UKFlag className="w-6 h-4 rounded-[2px] ring-1 ring-primary-950/10" /> : <EgyptFlag className="w-6 h-4 rounded-[2px] ring-1 ring-primary-950/10" />}
+              <span>{isRTL ? 'EN' : 'ع'}</span>
             </button>
 
             <button

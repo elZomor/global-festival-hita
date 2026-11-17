@@ -9,7 +9,7 @@ export const ComingSoon = () => {
   return (
     <div className="min-h-[60vh] flex items-center">
       <div className="max-w-3xl space-y-6">
-        <h1 className="brush fired-text text-[clamp(3rem,9vw,6rem)]">
+        <h1 dir="auto" className="brush fired-text text-[clamp(3rem,9vw,6rem)]">
           {t('common.comingSoon')}
         </h1>
         <span className="ember-swipe swipe-cool w-56" aria-hidden="true" />
