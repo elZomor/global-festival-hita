@@ -31,7 +31,8 @@
       "badge": "Applications open",
       "title": "Apply now to take part in {festival}",
       "subtitle": "Submit your show and join this year's edition.",
-      "cta": "Apply now"
+      "cta": "Apply now",
+      "frameText": "We are now accepting show applications for this edition."
     },
     "viewShows": "This edition's shows",
     "allEditions": "All editions",
@@ -65,7 +66,9 @@
         "text": "Every past edition, kept whole."
       },
       "live": "Open now"
-    }
+    },
+    "previousEdition": "Previous edition",
+    "editionDates": "Edition dates"
   },
   "festival": {
     "info": "Info",

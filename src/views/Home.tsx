@@ -131,14 +131,14 @@ export const Home = async () => {
                 href={`/festival/${current.slug}`}
                 className="inline-flex items-center justify-center gap-2 min-h-12 px-7 rounded-[3px] border border-primary-400 dark:border-primary-600 text-primary-900 dark:text-primary-100 font-medium hover:border-ember-500 transition-colors"
               >
-                {t('home.currentEdition')}
+                {openApplication ? t('home.previousEdition') : t('home.currentEdition')}
               </Link>
             )}
           </div>
         </div>
 
-        <div className="lg:col-span-5 space-y-5">
-          {posters.length > 0 && (
+        <div className={`lg:col-span-5 space-y-5 ${openApplication ? 'lg:self-end' : ''}`}>
+          {!openApplication && posters.length > 0 && (
             <div className="relative h-[22rem] sm:h-[26rem]" aria-hidden="true">
               {posters.map((show, index) => (
                 <div
@@ -164,14 +164,35 @@ export const Home = async () => {
             </div>
           )}
 
-          {current && state && (
+          {openApplication && (
+            <dl className="kiln-frame relative z-40 bg-primary-50/90 dark:bg-primary-950/90 backdrop-blur p-5 space-y-4">
+              <div>
+                <dt className="sr-only">{t('home.status.label')}</dt>
+                <dd className="flex items-center gap-2 font-semibold text-primary-950 dark:text-primary-50">
+                  <span className="inline-block w-2.5 h-2.5 rounded-full bg-ember-500 shadow-[0_0_12px] shadow-ember-500" aria-hidden="true" />
+                  {t('home.applyHero.badge')}
+                </dd>
+                <dd className="mt-2 text-sm leading-relaxed text-primary-600 dark:text-primary-400">{t('home.applyHero.frameText')}</dd>
+              </div>
+              {openApplication.festivalStartDate && openApplication.festivalEndDate && (
+                <div>
+                  <dt className="label">{t('home.editionDates')}</dt>
+                  <dd className="mt-1 text-sm text-primary-900 dark:text-primary-100">
+                    {formatDay(openApplication.festivalStartDate, locale)} – {formatDay(openApplication.festivalEndDate, locale, true)}
+                  </dd>
+                </div>
+              )}
+            </dl>
+          )}
+
+          {!openApplication && current && state && (
             <dl className="kiln-frame relative z-40 bg-primary-50/90 dark:bg-primary-950/90 backdrop-blur p-5 grid grid-cols-2 gap-x-6 gap-y-4">
               <div className="col-span-2 flex items-center justify-between gap-3">
                 <dt className="sr-only">{t('home.status.label')}</dt>
                 <dd className="flex items-center gap-2 font-semibold text-primary-950 dark:text-primary-50">
                   <span
                     className={`inline-block w-2.5 h-2.5 rounded-full ${
-                      openApplication || state === 'running'
+                      state === 'running'
                         ? 'bg-ember-500 shadow-[0_0_12px] shadow-ember-500'
                         : state === 'soon'
                           ? 'bg-ember-700'
@@ -179,7 +200,7 @@ export const Home = async () => {
                     }`}
                     aria-hidden="true"
                   />
-                  {openApplication ? t('home.applyHero.badge') : t(`home.status.${state}`)}
+                  {t(`home.status.${state}`)}
                 </dd>
               </div>
               <div>
