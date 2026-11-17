@@ -13,7 +13,8 @@
     "editions": "Festival Editions",
     "articles": "Critical Articles",
     "creativity": "Student Creativity",
-    "about": "About"
+    "about": "About",
+    "apply": "Apply"
   },
   "home": {
     "title": "Arab Festival",
@@ -287,6 +288,86 @@
         "UNKNOWN_ERROR": "Internet Connection Error",
         "INVALID_SEAT": "Invalid seat selection. Please choose a seat from rows G–L.",
         "SEAT_TAKEN": "This seat was just taken. Please choose another seat."
+      }
+    }
+  },
+  "apply": {
+    "title": "Apply to Participate in the Festival",
+    "subtitle": "Fill in the form below to submit your show to {festival}.",
+    "arabicNotice": "Important: all data must be written in Arabic only (except email and phone numbers).",
+    "arabicHint": "in Arabic",
+    "optional": "Optional",
+    "required": "Required",
+    "closed": "Applications are currently closed. Stay tuned for the next call.",
+    "loggedInPrefill": "Email filled from your account.",
+    "sections": {
+      "contact": "Contact details",
+      "show": "Show details",
+      "team": "Team",
+      "details": "Show description",
+      "attachments": "Attachments"
+    },
+    "fields": {
+      "email": "Email",
+      "showName": "Show name",
+      "directorName": "Director name",
+      "department": "Department",
+      "departmentPlaceholder": "Select department",
+      "studyType": "Study type",
+      "author": "Author",
+      "dramaturgy": "Dramaturgy",
+      "mobile": "Mobile",
+      "whatsapp": "WhatsApp number",
+      "whatsappPlaceholder": "01xxxxxxxxx or +966xxxxxxxxx",
+      "whatsappHint": "Non-Egyptian numbers are allowed — write them in international format with the country code (e.g. +966...).",
+      "whatsappSameAsMobile": "Use the same mobile number",
+      "actors": "Actors' names",
+      "actorPlaceholder": "Actor {number} name",
+      "addActor": "Add actor",
+      "removeActor": "Remove",
+      "script": "Script",
+      "scriptHint": "PDF or Word file, max 20 MB.",
+      "directorialVision": "Directorial vision",
+      "showSummary": "Show summary",
+      "nationalId": "National ID (front and back)",
+      "nationalIdHint": "One file containing both sides of the ID, PDF or image, max 10 MB.",
+      "chooseFile": "Choose file",
+      "changeFile": "Change file",
+      "mobilePlaceholder": "01xxxxxxxxx"
+    },
+    "departments": {
+      "ACTING_DIRECTING": "Acting and Directing",
+      "DRAMA_CRITICISM": "Drama and Criticism",
+      "DECOR": "Decor"
+    },
+    "studyTypes": {
+      "CREDIT_HOURS": "Credit Hours",
+      "PARALLEL": "Parallel"
+    },
+    "submit": "Submit application",
+    "submitting": "Submitting...",
+    "success": {
+      "title": "Your application was received!",
+      "message": "Thank you for applying. We will review your application and contact you by email or phone.",
+      "backHome": "Back to home"
+    },
+    "errors": {
+      "required": "This field is required.",
+      "arabicOnly": "This field must be written in Arabic only.",
+      "email": "Please enter a valid email.",
+      "mobile": "Please enter a valid Egyptian mobile number (11 digits starting with 01).",
+      "whatsapp": "Please enter a valid WhatsApp number. For non-Egyptian numbers include the country code (e.g. +966...).",
+      "actorsRequired": "Please add at least one actor name.",
+      "fileType": "Unsupported file type.",
+      "fileSize": "File is larger than allowed.",
+      "invalid": "Invalid value.",
+      "alreadyApplied": "An application with this email was already submitted for this edition.",
+      "fixErrors": "Please fix the errors highlighted in the form.",
+      "generic": "Could not submit the application. Please try again.",
+      "codes": {
+        "APPLICATIONS_CLOSED": "Applications are currently closed.",
+        "ALREADY_APPLIED": "An application with this email was already submitted for this edition.",
+        "VALIDATION_ERROR": "Please fix the errors highlighted in the form."
       }
     }
   }

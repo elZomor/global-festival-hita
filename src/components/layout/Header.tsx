@@ -52,6 +52,7 @@ export const Header = () => {
     { to: '/articles', label: t('nav.articles') },
     { to: '/creativity', label: t('nav.creativity') },
     { to: '/about', label: t('nav.about') },
+    ...(festivalConfig.applicationsEnabled ? [{ to: '/apply', label: t('nav.apply') }] : []),
   ];
 
   const isActiveLink = (path: string) => {

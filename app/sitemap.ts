@@ -32,6 +32,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${siteUrl}/symposia`, priority: 0.8 },
     { url: `${siteUrl}/creativity`, priority: 0.7 },
     { url: `${siteUrl}/about`, priority: 0.5 },
+    ...(festivalConfig.applicationsEnabled ? [{ url: `${siteUrl}/apply`, priority: 0.6 }] : []),
   ]
 
   const showRoutes: MetadataRoute.Sitemap = showIds.map(id => ({

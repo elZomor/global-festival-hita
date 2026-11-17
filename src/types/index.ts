@@ -142,3 +142,25 @@ export type MyReservation = {
 
 export type Language = 'ar' | 'en';
 export type Theme = 'light' | 'dark';
+
+export type Department = 'ACTING_DIRECTING' | 'DRAMA_CRITICISM' | 'DECOR';
+
+export type StudyType = 'CREDIT_HOURS' | 'PARALLEL';
+
+export type ApplicationFormValues = {
+  email: string;
+  showName: string;
+  directorName: string;
+  department: Department | '';
+  studyType: StudyType | '';
+  author: string;
+  dramaturgy: string;
+  mobile: string;
+  whatsapp: string;
+  whatsappSameAsMobile: boolean;
+  actors: string[];
+  script: File | null;
+  directorialVision: string;
+  showSummary: string;
+  nationalId: File | null;
+};
