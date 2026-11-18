@@ -31,6 +31,7 @@ export const FIELD_ORDER: FieldName[] = [
   'showName',
   'department',
   'studyType',
+  'studyPhase',
   'directorName',
   'author',
   'dramaturgy',
@@ -47,6 +48,7 @@ export const initialValues: ApplicationFormValues = {
   directorName: '',
   department: '',
   studyType: '',
+  studyPhase: '',
   author: '',
   dramaturgy: '',
   mobile: '',
@@ -98,6 +100,7 @@ export const validateField = (
       return values.dramaturgy.trim() && !isArabicText(values.dramaturgy) ? 'arabicOnly' : undefined;
     case 'department':
     case 'studyType':
+    case 'studyPhase':
       return values[field] ? undefined : 'required';
     case 'mobile':
       return mobileError(values.mobile);
@@ -136,6 +139,7 @@ export const buildFormData = (values: ApplicationFormValues): FormData => {
   formData.append('director_name', values.directorName.trim());
   formData.append('department', values.department);
   formData.append('study_type', values.studyType);
+  formData.append('study_phase', values.studyPhase);
   formData.append('author', values.author.trim());
   formData.append('dramaturgy', values.dramaturgy.trim());
   formData.append('mobile', values.mobile.trim());

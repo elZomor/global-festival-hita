@@ -147,12 +147,15 @@ export type Department = 'ACTING_DIRECTING' | 'DRAMA_CRITICISM' | 'DECOR';
 
 export type StudyType = 'CREDIT_HOURS' | 'PARALLEL';
 
+export type StudyPhase = 'POSTGRAD' | 'UNDERGRAD';
+
 export type ApplicationFormValues = {
   email: string;
   showName: string;
   directorName: string;
   department: Department | '';
   studyType: StudyType | '';
+  studyPhase: StudyPhase | '';
   author: string;
   dramaturgy: string;
   mobile: string;

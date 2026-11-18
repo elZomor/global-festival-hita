@@ -355,6 +355,7 @@
       "department": "Department",
       "departmentPlaceholder": "Select department",
       "studyType": "Study type",
+      "studyPhase": "Study phase",
       "author": "Author",
       "dramaturgy": "Dramaturgy",
       "mobile": "Mobile",
@@ -382,6 +383,10 @@
     "studyTypes": {
       "CREDIT_HOURS": "Credit Hours",
       "PARALLEL": "Parallel"
+    },
+    "studyPhases": {
+      "POSTGRAD": "Postgraduate",
+      "UNDERGRAD": "Undergraduate"
     },
     "submit": "Submit application",
     "submitting": "Submitting...",

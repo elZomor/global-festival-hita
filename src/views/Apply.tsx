@@ -10,7 +10,7 @@ import { getLongFormattedDate } from '../utils/dateUtils';
 import type { ApiError } from '../api/reactQueryClient';
 import { festivalConfig } from '../config/festival';
 import { Button, Card, LoadingState, Snackbar } from '../components/common';
-import type { ApplicationFormValues, Department, StudyType } from '../types';
+import type { ApplicationFormValues, Department, StudyPhase, StudyType } from '../types';
 import { FileField, ListField, RadioGroupField, SelectField, TextField } from './apply/fields';
 import {
   buildFormData,
@@ -27,6 +27,7 @@ import {
 
 const DEPARTMENTS: Department[] = ['ACTING_DIRECTING', 'DRAMA_CRITICISM', 'DECOR'];
 const STUDY_TYPES: StudyType[] = ['CREDIT_HOURS', 'PARALLEL'];
+const STUDY_PHASES: StudyPhase[] = ['POSTGRAD', 'UNDERGRAD'];
 const SERVER_MESSAGE_CODES = ['APPLICATIONS_CLOSED', 'ALREADY_APPLIED', 'VALIDATION_ERROR'];
 
 const Section = ({ title, children }: { title: string; children: ReactNode }) => (
@@ -283,6 +284,15 @@ export const Apply = () => {
               options={STUDY_TYPES.map(s => ({ value: s, label: t(`apply.studyTypes.${s}`) }))}
               onChange={v => setField('studyType', v as StudyType)}
               error={errorText('studyType')}
+            />
+            <RadioGroupField
+              name="studyPhase"
+              label={t('apply.fields.studyPhase')}
+              required
+              value={values.studyPhase}
+              options={STUDY_PHASES.map(s => ({ value: s, label: t(`apply.studyPhases.${s}`) }))}
+              onChange={v => setField('studyPhase', v as StudyPhase)}
+              error={errorText('studyPhase')}
             />
           </Section>
 
