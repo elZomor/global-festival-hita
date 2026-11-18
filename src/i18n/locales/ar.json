@@ -356,6 +356,7 @@
       "department": "القسم",
       "departmentPlaceholder": "اختر القسم",
       "studyType": "نظام الدراسة",
+      "studyPhase": "المرحلة الدراسية",
       "author": "المؤلف",
       "dramaturgy": "الدراماتورج",
       "mobile": "رقم الموبايل",
@@ -383,6 +384,10 @@
     "studyTypes": {
       "CREDIT_HOURS": "ساعات معتمدة",
       "PARALLEL": "موازي"
+    },
+    "studyPhases": {
+      "POSTGRAD": "دراسات عليا",
+      "UNDERGRAD": "مرحلة البكالوريوس"
     },
     "submit": "إرسال الطلب",
     "submitting": "جارٍ الإرسال...",
