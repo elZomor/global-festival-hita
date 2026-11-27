@@ -3,7 +3,7 @@ import { FormEvent, ReactNode, useCallback, useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useLocale } from 'next-intl';
-import { AlertTriangle, CheckCircle2, ClipboardCheck, LogIn } from 'lucide-react';
+import { AlertTriangle, CheckCircle2, ClipboardCheck, Info, LogIn } from 'lucide-react';
 import { useT } from '../i18n/useT';
 import { useAuth } from '../contexts/AuthContext';
 import { useFormSchema, useSubmitFormResponse } from '../api/hooks';
@@ -12,6 +12,7 @@ import { getLongFormattedDate } from '../utils/dateUtils';
 import { Button, Card, LoadingState, Snackbar } from '../components/common';
 import type { FormAnswer, FormAnswers, FormSchema } from '../types';
 import { FormFieldInput } from './dynamic-form/FormFieldInput';
+import { pickText } from './dynamic-form/localize';
 import {
   buildFormData,
   type FormErrors,
@@ -33,19 +34,48 @@ const Page = ({ children }: { children: ReactNode }) => (
   <div className="container mx-auto px-4 py-8 max-w-3xl">{children}</div>
 );
 
-const Header = ({ form }: { form: FormSchema }) => (
-  <div className="mb-10">
-    <h1 dir="auto" className="brush fired-text fired-live animate-fire text-[clamp(2.25rem,6vw,4rem)]">
-      {form.title}
-    </h1>
-    <span className="ember-swipe w-40 mt-3 mb-5" aria-hidden="true" />
-    {form.description && (
-      <p dir="auto" className="text-lg text-primary-600 dark:text-primary-300 whitespace-pre-line">
-        {form.description}
+const Header = ({ form }: { form: FormSchema }) => {
+  const locale = useLocale();
+  const description = pickText(locale, form.description, form.descriptionEn);
+  return (
+    <div className="mb-10">
+      <h1 dir="auto" className="brush fired-text fired-live animate-fire text-[clamp(2.25rem,6vw,4rem)]">
+        {pickText(locale, form.title, form.titleEn)}
+      </h1>
+      <span className="ember-swipe w-40 mt-3 mb-5" aria-hidden="true" />
+      {description && (
+        <p dir="auto" className="text-lg text-primary-600 dark:text-primary-300 whitespace-pre-line">
+          {description}
+        </p>
+      )}
+    </div>
+  );
+};
+
+/** `warning` is something the user must act on (ember); `info` is context (neutral). */
+const Note = ({ tone, children }: { tone: 'warning' | 'info'; children: ReactNode }) => {
+  const Icon = tone === 'warning' ? AlertTriangle : Info;
+  return (
+    <div
+      role="note"
+      className={`flex items-start gap-3 p-4 rounded-[3px] border text-primary-950 dark:text-primary-50 ${
+        tone === 'warning'
+          ? 'border-ember-500 bg-ember-500/[0.07]'
+          : 'border-primary-300 dark:border-primary-700 bg-primary-100/60 dark:bg-primary-900/60'
+      }`}
+    >
+      <Icon
+        className={`w-5 h-5 shrink-0 mt-0.5 ${
+          tone === 'warning' ? 'text-ember-600 dark:text-ember-400' : 'text-primary-500 dark:text-primary-400'
+        }`}
+        strokeWidth={1.5}
+      />
+      <p dir="auto" className={tone === 'warning' ? 'font-medium' : ''}>
+        {children}
       </p>
-    )}
-  </div>
-);
+    </div>
+  );
+};
 
 export const DynamicForm = ({ slug }: { slug: string }) => {
   const t = useT();
@@ -141,7 +171,7 @@ export const DynamicForm = ({ slug }: { slug: string }) => {
           <CheckCircle2 className="w-16 h-16 mx-auto text-ember-500" strokeWidth={1.25} />
           <h1 className="brush text-4xl text-primary-950 dark:text-primary-50">{t('forms.success.title')}</h1>
           <p dir="auto" className="text-primary-600 dark:text-primary-300 whitespace-pre-line">
-            {form.successMessage || t('forms.success.message')}
+            {pickText(locale, form.successMessage, form.successMessageEn) || t('forms.success.message')}
           </p>
           <Link
             href="/"
@@ -216,15 +246,10 @@ export const DynamicForm = ({ slug }: { slug: string }) => {
     <Page>
       <Header form={form} />
 
-      {form.notice && (
-        <div
-          role="note"
-          className="flex items-start gap-3 p-4 mb-8 rounded-[3px] border border-ember-500 bg-ember-500/[0.07] text-primary-950 dark:text-primary-50"
-        >
-          <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5 text-ember-600 dark:text-ember-400" strokeWidth={1.5} />
-          <p dir="auto" className="font-medium">
-            {form.notice}
-          </p>
+      {(form.warning || form.notice) && (
+        <div className="space-y-3 mb-8">
+          {form.warning && <Note tone="warning">{pickText(locale, form.warning, form.warningEn)}</Note>}
+          {form.notice && <Note tone="info">{pickText(locale, form.notice, form.noticeEn)}</Note>}
         </div>
       )}
 

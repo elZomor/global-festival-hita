@@ -101,7 +101,14 @@
     "forms": {
       "title": "Registration open",
       "register": "Register",
-      "closesOn": "Registration open until {date}"
+      "closesOn": "Registration open until {date}",
+      "tab": "Workshops",
+      "status": {
+        "OPEN": "Registration open",
+        "NOT_OPEN_YET": "Registration opens soon",
+        "CLOSED": "Registration closed",
+        "FULL": "Fully booked"
+      }
     }
   },
   "show": {
