@@ -61,7 +61,7 @@ export const FestivalList = async () => {
                   )}
                 </span>
                 <span className="md:col-span-3 text-sm text-primary-600 dark:text-primary-400 space-y-1 md:text-end">
-                  <span className="block">{dateFmt(edition.startDate)}</span>
+                  {edition.showDates && <span className="block">{dateFmt(edition.startDate)}</span>}
                   <span className="block tabular">
                     {formatLocalizedNumber(edition.totalShows, locale)} {t('festival.numberOfShows')} · {formatLocalizedNumber(edition.totalArticles, locale)} {t('festival.numberOfArticles')}
                   </span>

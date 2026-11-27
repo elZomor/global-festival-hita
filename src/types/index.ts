@@ -10,6 +10,8 @@ export type FestivalEdition = {
   descriptionEn: string;
   startDate: string;
   endDate: string;
+  /** False while the edition's dates aren't confirmed: hide dates and date-derived status. */
+  showDates: boolean;
   numberOfArticles: number;
   organizer?: string;
   logo?: string;
@@ -221,3 +223,12 @@ export type FormSchema = {
 
 export type FormAnswer = string | string[] | boolean | File[];
 export type FormAnswers = Record<string, FormAnswer>;
+
+/** Open form listed on its festival's page (`<festival prefix>/forms?festival=<id>`). */
+export type FestivalFormSummary = {
+  slug: string;
+  title: string;
+  description: string;
+  opensAt: string | null;
+  closesAt: string | null;
+};

@@ -97,7 +97,12 @@
     "noAdditionalInfo": "No additional information available for this festival edition.",
     "publications": "Publications",
     "publicationFallbackName": "Publication",
-    "download": "Download"
+    "download": "Download",
+    "forms": {
+      "title": "Registration open",
+      "register": "Register",
+      "closesOn": "Registration open until {date}"
+    }
   },
   "show": {
     "reserve_waiting_list": "Reserve on Waiting List",

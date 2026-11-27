@@ -102,6 +102,7 @@ export const CreativityDetail = async ({ slug }: { slug: string }) => {
                                             {isRTL ? relatedFestival.titleAr : relatedFestival.titleEn}
                                         </h3>
                                     </Link>
+                                    {relatedFestival.showDates && (
                                     <p className="text-sm text-primary-700 dark:text-primary-200">
                                         {new Date(relatedFestival.startDate).toLocaleDateString(isRTL ? 'ar-EG' : 'en-US', {
                                             month: 'long',
@@ -114,6 +115,7 @@ export const CreativityDetail = async ({ slug }: { slug: string }) => {
                                             year: 'numeric',
                                         })}
                                     </p>
+                                    )}
                                 </div>
                             </Card>
                         )}
