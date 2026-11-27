@@ -52,7 +52,7 @@ const Header = ({ form }: { form: FormSchema }) => {
   );
 };
 
-/** `warning` is something the user must act on (ember); `info` is context (neutral). */
+/** `warning` is a light heads-up the user should follow (soft ember); `info` is context (neutral). */
 const Note = ({ tone, children }: { tone: 'warning' | 'info'; children: ReactNode }) => {
   const Icon = tone === 'warning' ? AlertTriangle : Info;
   return (
@@ -60,19 +60,17 @@ const Note = ({ tone, children }: { tone: 'warning' | 'info'; children: ReactNod
       role="note"
       className={`flex items-start gap-3 p-4 rounded-[3px] border text-primary-950 dark:text-primary-50 ${
         tone === 'warning'
-          ? 'border-ember-500 bg-ember-500/[0.07]'
+          ? 'border-ember-500/40 bg-ember-500/[0.04]'
           : 'border-primary-300 dark:border-primary-700 bg-primary-100/60 dark:bg-primary-900/60'
       }`}
     >
       <Icon
         className={`w-5 h-5 shrink-0 mt-0.5 ${
-          tone === 'warning' ? 'text-ember-600 dark:text-ember-400' : 'text-primary-500 dark:text-primary-400'
+          tone === 'warning' ? 'text-ember-600/80 dark:text-ember-400/80' : 'text-primary-500 dark:text-primary-400'
         }`}
         strokeWidth={1.5}
       />
-      <p dir="auto" className={tone === 'warning' ? 'font-medium' : ''}>
-        {children}
-      </p>
+      <p dir="auto">{children}</p>
     </div>
   );
 };
