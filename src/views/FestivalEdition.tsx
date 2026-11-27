@@ -18,7 +18,8 @@ import {
 import { formatLocalizedNumber, localizeDigitsInString } from '../utils/numberUtils';
 import { buildMediaUrl } from '../utils/mediaUtils';
 import { getArticlePreviewText } from '../utils/articleContent';
-import { FestivalInfoTab } from './festival-detail';
+import { FestivalForms, FestivalInfoTab } from './festival-detail';
+import type { FestivalFormSummary } from '../types';
 
 type Tab = 'info' | 'shows' | 'articles' | 'symposia' | 'creativity' | 'publications';
 const TABS: Tab[] = ['info', 'shows', 'articles', 'symposia', 'creativity', 'publications'];
@@ -63,10 +64,17 @@ export const FestivalEdition = async ({ festivalSlug, tab: tabParam }: FestivalE
         );
     }
 
-    const showsResponse = await serverApiFetch<PaginatedResponse<ShowApiResult>>(
-        withQueryParams(`${apiPrefix}/shows`, { festival: edition.id, page_size: 50 }),
-        300,
-    );
+    const [showsResponse, formsResponse] = await Promise.all([
+        serverApiFetch<PaginatedResponse<ShowApiResult>>(
+            withQueryParams(`${apiPrefix}/shows`, { festival: edition.id, page_size: 50 }),
+            300,
+        ),
+        serverApiFetch<{ data: FestivalFormSummary[] }>(
+            withQueryParams(`${apiPrefix}/forms`, { festival: edition.id }),
+            60,
+        ),
+    ]);
+    const openForms = formsResponse?.data ?? [];
     const shows = (showsResponse?.results ?? []).map(mapShowApiResultToShow);
     const allArticles = (articlesResponse?.results ?? []).map(mapArticleApiResultToArticle);
     const allSymposia = (symposiaResponse?.results ?? []).map(mapArticleApiResultToArticle);
@@ -122,14 +130,18 @@ export const FestivalEdition = async ({ festivalSlug, tab: tabParam }: FestivalE
                 </div>
                 <dl className="lg:col-span-4 kiln-frame p-5 grid grid-cols-2 gap-4">
                     <div className="col-span-2 flex items-start justify-between gap-3">
-                        <div>
-                            <dt className="label">{t('home.dates')}</dt>
-                            <dd className="mt-1 text-sm text-primary-900 dark:text-primary-100">
-                                {new Date(edition.startDate).toLocaleDateString(isRTL ? 'ar-EG' : 'en-GB', {month: 'long', day: 'numeric'})}
-                                {' – '}
-                                {new Date(edition.endDate).toLocaleDateString(isRTL ? 'ar-EG' : 'en-GB', {month: 'long', day: 'numeric', year: 'numeric'})}
-                            </dd>
-                        </div>
+                        {edition.showDates ? (
+                            <div>
+                                <dt className="label">{t('home.dates')}</dt>
+                                <dd className="mt-1 text-sm text-primary-900 dark:text-primary-100">
+                                    {new Date(edition.startDate).toLocaleDateString(isRTL ? 'ar-EG' : 'en-GB', {month: 'long', day: 'numeric'})}
+                                    {' – '}
+                                    {new Date(edition.endDate).toLocaleDateString(isRTL ? 'ar-EG' : 'en-GB', {month: 'long', day: 'numeric', year: 'numeric'})}
+                                </dd>
+                            </div>
+                        ) : (
+                            <span/>
+                        )}
                         <ShareButton title={isRTL ? edition.titleAr : edition.titleEn}/>
                     </div>
                     <div>
@@ -142,6 +154,16 @@ export const FestivalEdition = async ({ festivalSlug, tab: tabParam }: FestivalE
                     </div>
                 </dl>
             </header>
+
+            <FestivalForms
+                forms={openForms}
+                isRTL={isRTL}
+                labels={{
+                    title: t('festival.forms.title'),
+                    register: t('festival.forms.register'),
+                    closesOn: date => t('festival.forms.closesOn', { date }),
+                }}
+            />
 
             <nav aria-label={localizedTitle} className="border-b border-primary-300 dark:border-primary-800 -mt-4">
                 <div className="flex gap-1 overflow-x-auto">

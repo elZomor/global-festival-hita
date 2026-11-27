@@ -111,34 +111,38 @@ export const FestivalInfoTab = ({edition}: FestivalInfoTabProps) => {
                                 </span>
                             </div>
                         )}
-                        <div className="flex flex-col gap-1" role="listitem">
-                            <span
-                                className="text-sm font-medium text-primary-600 dark:text-primary-400"
-                                id="festival-start-date-label"
-                            >
-                                {t('festival.startDate')}
-                            </span>
-                            <span
-                                className="text-lg text-primary-900 dark:text-primary-50"
-                                aria-labelledby="festival-start-date-label"
-                            >
-                                {formattedStartDate}
-                            </span>
-                        </div>
-                        <div className="flex flex-col gap-1" role="listitem">
-                            <span
-                                className="text-sm font-medium text-primary-600 dark:text-primary-400"
-                                id="festival-end-date-label"
-                            >
-                                {t('festival.endDate')}
-                            </span>
-                            <span
-                                className="text-lg text-primary-900 dark:text-primary-50"
-                                aria-labelledby="festival-end-date-label"
-                            >
-                                {formattedEndDate}
-                            </span>
-                        </div>
+                        {edition.showDates && (
+                            <>
+                            <div className="flex flex-col gap-1" role="listitem">
+                                <span
+                                    className="text-sm font-medium text-primary-600 dark:text-primary-400"
+                                    id="festival-start-date-label"
+                                >
+                                    {t('festival.startDate')}
+                                </span>
+                                <span
+                                    className="text-lg text-primary-900 dark:text-primary-50"
+                                    aria-labelledby="festival-start-date-label"
+                                >
+                                    {formattedStartDate}
+                                </span>
+                            </div>
+                            <div className="flex flex-col gap-1" role="listitem">
+                                <span
+                                    className="text-sm font-medium text-primary-600 dark:text-primary-400"
+                                    id="festival-end-date-label"
+                                >
+                                    {t('festival.endDate')}
+                                </span>
+                                <span
+                                    className="text-lg text-primary-900 dark:text-primary-50"
+                                    aria-labelledby="festival-end-date-label"
+                                >
+                                    {formattedEndDate}
+                                </span>
+                            </div>
+                            </>
+                        )}
                     </div>
                     {posterUrl && (
                         <div className="w-full md:w-64 lg:w-80">

@@ -24,6 +24,7 @@ export type FestivalApiResult = {
     description?: string | null;
     startDate?: string | null;
     endDate?: string | null;
+    showDates?: boolean | null;
     extraDetails?: (string | ShowDetailFieldApi)[] | string | null;
     logo?: string | null;
     totalShows: number;
@@ -255,6 +256,8 @@ export const mapFestivalApiResultToEdition = (festival: FestivalApiResult): Fest
         descriptionEn: festival.description ?? '',
         startDate,
         endDate,
+        // Only Arab festivals have the flag; others always show their dates.
+        showDates: festival.showDates !== false,
         totalShows: festival.totalShows,
         totalArticles: festival.totalArticles,
         numberOfArticles: 0,

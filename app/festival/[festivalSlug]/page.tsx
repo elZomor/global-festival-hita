@@ -72,8 +72,9 @@ export default async function FestivalEditionPage({ params, searchParams }: Prop
         '@type': 'Festival',
         name: festival.name,
         description: festival.description ?? undefined,
-        startDate: festival.start_date ?? undefined,
-        endDate: festival.end_date ?? undefined,
+        // Unconfirmed dates (show_dates off) are left out of the structured data too.
+        startDate: festival.show_dates === false ? undefined : (festival.start_date ?? undefined),
+        endDate: festival.show_dates === false ? undefined : (festival.end_date ?? undefined),
         image: buildOgImageUrl(festival.logo) ?? undefined,
         url: `${siteUrl}/festival/${festivalSlug}`,
         eventStatus: 'https://schema.org/EventScheduled',

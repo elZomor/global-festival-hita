@@ -64,7 +64,8 @@ export const Home = async () => {
     .filter(show => Boolean(show.poster))
     .slice(0, 3);
 
-  const state = current ? editionState(current) : null;
+  // Unconfirmed dates: treat the edition as upcoming instead of deriving it from placeholder dates.
+  const state = current ? (current.showDates ? editionState(current) : 'soon') : null;
   const currentTitle = current
     ? localizeDigitsInString(isRTL ? current.titleAr : current.titleEn, locale)
     : festivalTitle;
@@ -195,12 +196,14 @@ export const Home = async () => {
                   {t(`home.status.${state}`)}
                 </dd>
               </div>
-              <div>
-                <dt className="label">{t('home.dates')}</dt>
-                <dd className="mt-1 text-sm text-primary-900 dark:text-primary-100">
-                  {formatDay(current.startDate, locale)} – {formatDay(current.endDate, locale, true)}
-                </dd>
-              </div>
+              {current.showDates && (
+                <div>
+                  <dt className="label">{t('home.dates')}</dt>
+                  <dd className="mt-1 text-sm text-primary-900 dark:text-primary-100">
+                    {formatDay(current.startDate, locale)} – {formatDay(current.endDate, locale, true)}
+                  </dd>
+                </div>
+              )}
               <div className="flex gap-6">
                 <div>
                   <dt className="label">{t('festival.shows')}</dt>

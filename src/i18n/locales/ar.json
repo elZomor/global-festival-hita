@@ -97,7 +97,12 @@
     "noAdditionalInfo": "لا توجد معلومات إضافية متاحة لهذه الدورة من المهرجان.",
     "publications": "المنشورات",
     "publicationFallbackName": "منشور",
-    "download": "تحميل"
+    "download": "تحميل",
+    "forms": {
+      "title": "التسجيل مفتوح",
+      "register": "سجّل الآن",
+      "closesOn": "التسجيل متاح حتى {date}"
+    }
   },
   "show": {
     "reserve_waiting_list": "حجز في قائمة الانتظار",

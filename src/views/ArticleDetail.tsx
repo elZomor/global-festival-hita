@@ -141,6 +141,7 @@ export const ArticleDetailPage = async ({
                                             {isRTL ? relatedFestival.titleAr : relatedFestival.titleEn}
                                         </h3>
                                     </Link>
+                                    {relatedFestival.showDates && (
                                     <p className="text-sm text-primary-700 dark:text-primary-200">
                                         {new Date(relatedFestival.startDate).toLocaleDateString(
                                             isRTL ? 'ar-EG' : 'en-US',
@@ -159,6 +160,7 @@ export const ArticleDetailPage = async ({
                                             },
                                         )}
                                     </p>
+                                    )}
                                 </div>
                             </Card>
                         )}
