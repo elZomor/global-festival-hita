@@ -1,6 +1,6 @@
 'use client';
 import { ReactNode, useId, useRef } from 'react';
-import { FileText, Plus, Trash2, Upload } from 'lucide-react';
+import { FileText, Plus, Trash2, Upload, X } from 'lucide-react';
 
 export const inputClass = (hasError: boolean, disabled = false) =>
   `w-full px-4 py-3 rounded-[3px] border bg-primary-50 dark:bg-primary-950 text-primary-900 dark:text-primary-50 placeholder:text-primary-400 dark:placeholder:text-primary-500 focus:outline-none focus:ring-2 focus:ring-secondary-500 dark:focus:ring-secondary-400 transition-colors ${
@@ -46,8 +46,9 @@ type TextFieldProps = Omit<FieldShellProps, 'id' | 'children'> & {
   value: string;
   onChange: (value: string) => void;
   onBlur?: () => void;
-  type?: 'text' | 'email' | 'tel';
-  dir?: 'rtl' | 'ltr';
+  type?: 'text' | 'email' | 'tel' | 'date';
+  dir?: 'rtl' | 'ltr' | 'auto';
+  inputMode?: 'text' | 'decimal' | 'numeric' | 'tel' | 'email';
   placeholder?: string;
   disabled?: boolean;
   multiline?: boolean;
@@ -64,6 +65,7 @@ export const TextField = ({
   disabled,
   multiline,
   autoComplete,
+  inputMode,
   ...shell
 }: TextFieldProps) => {
   const id = useId();
@@ -84,7 +86,7 @@ export const TextField = ({
       {multiline ? (
         <textarea {...common} rows={6} onChange={e => onChange(e.target.value)} className={`${common.className} resize-y`} />
       ) : (
-        <input {...common} type={type} autoComplete={autoComplete} onChange={e => onChange(e.target.value)} />
+        <input {...common} type={type} inputMode={inputMode} autoComplete={autoComplete} onChange={e => onChange(e.target.value)} />
       )}
     </FieldShell>
   );
@@ -270,6 +272,185 @@ export const ListField = ({
           </button>
         )}
       </div>
+    </FieldShell>
+  );
+};
+
+type CheckboxGroupProps = Omit<FieldShellProps, 'id' | 'children'> & {
+  values: string[];
+  onChange: (values: string[]) => void;
+  options: { value: string; label: string }[];
+};
+
+export const CheckboxGroupField = ({ values, onChange, options, ...shell }: CheckboxGroupProps) => {
+  const id = useId();
+  const toggle = (value: string) =>
+    onChange(values.includes(value) ? values.filter(v => v !== value) : [...values, value]);
+  return (
+    <FieldShell id={id} {...shell}>
+      <div id={id} role="group" className="flex flex-wrap gap-3">
+        {options.map(option => {
+          const checked = values.includes(option.value);
+          return (
+            <label
+              key={option.value}
+              className={`flex items-center gap-2 px-4 py-3 rounded-[3px] border cursor-pointer transition-colors ${
+                checked
+                  ? 'border-ember-500 glaze'
+                  : shell.error
+                    ? 'border-red-500 dark:border-red-400'
+                    : 'border-primary-300 dark:border-primary-700 hover:border-ember-500/60'
+              }`}
+            >
+              <input
+                type="checkbox"
+                name={shell.name}
+                value={option.value}
+                checked={checked}
+                onChange={() => toggle(option.value)}
+                className="accent-ember-500 w-4 h-4"
+              />
+              <span>{option.label}</span>
+            </label>
+          );
+        })}
+      </div>
+    </FieldShell>
+  );
+};
+
+type ConsentFieldProps = {
+  name: string;
+  /** Statement the user agrees to, shown next to the checkbox. */
+  label: string;
+  /** Optional heading above the checkbox (e.g. the rule being confirmed). */
+  title?: string;
+  required?: boolean;
+  hint?: string;
+  error?: string;
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+};
+
+export const ConsentField = ({ name, label, title, required, hint, error, checked, onChange }: ConsentFieldProps) => {
+  const id = useId();
+  return (
+    <div data-field={name} className="space-y-2">
+      {title && <p className="font-medium text-primary-900 dark:text-primary-50">{title}</p>}
+      <label
+        htmlFor={id}
+        className={`flex items-start gap-3 px-4 py-3 rounded-[3px] border cursor-pointer transition-colors ${
+          checked
+            ? 'border-ember-500 glaze'
+            : error
+              ? 'border-red-500 dark:border-red-400'
+              : 'border-primary-300 dark:border-primary-700 hover:border-ember-500/60'
+        }`}
+      >
+        <input
+          id={id}
+          type="checkbox"
+          name={name}
+          checked={checked}
+          onChange={e => onChange(e.target.checked)}
+          aria-invalid={Boolean(error)}
+          aria-describedby={error ? `${id}-error` : undefined}
+          className="accent-ember-500 w-4 h-4 mt-1 shrink-0"
+        />
+        <span className="font-medium text-primary-900 dark:text-primary-50">
+          {label}
+          {required && <span className="text-red-600 dark:text-red-400 ms-1" aria-hidden="true">*</span>}
+        </span>
+      </label>
+      {hint && !error && <p className="text-sm text-primary-500 dark:text-primary-400">{hint}</p>}
+      {error && (
+        <p id={`${id}-error`} role="alert" className="text-sm text-red-600 dark:text-red-400">
+          {error}
+        </p>
+      )}
+    </div>
+  );
+};
+
+type MultiFileFieldProps = Omit<FieldShellProps, 'id' | 'children'> & {
+  files: File[];
+  accept: string;
+  maxFiles: number;
+  onChange: (files: File[]) => void;
+  chooseLabel: string;
+  addLabel: string;
+  removeLabel: string;
+};
+
+/** File picker that keeps a list (up to `maxFiles`); with `maxFiles` 1 choosing again replaces the file. */
+export const MultiFileField = ({
+  files,
+  accept,
+  maxFiles,
+  onChange,
+  chooseLabel,
+  addLabel,
+  removeLabel,
+  ...shell
+}: MultiFileFieldProps) => {
+  const id = useId();
+  const inputRef = useRef<HTMLInputElement>(null);
+  const pick = (picked: FileList | null) => {
+    if (!picked?.length) return;
+    const next = maxFiles === 1 ? [picked[0]] : [...files, ...Array.from(picked)].slice(0, maxFiles);
+    onChange(next);
+    if (inputRef.current) inputRef.current.value = '';
+  };
+  const canAdd = maxFiles === 1 || files.length < maxFiles;
+  return (
+    <FieldShell id={id} {...shell}>
+      <input
+        ref={inputRef}
+        id={id}
+        name={shell.name}
+        type="file"
+        accept={accept || undefined}
+        multiple={maxFiles > 1}
+        className="sr-only"
+        aria-invalid={Boolean(shell.error)}
+        onChange={e => pick(e.target.files)}
+      />
+      {files.length > 0 && (
+        <ul className="space-y-2">
+          {files.map((file, index) => (
+            <li
+              key={`${file.name}-${index}`}
+              className="flex items-center gap-3 px-4 py-3 rounded-[3px] border border-primary-300 dark:border-primary-700"
+            >
+              <FileText className="w-5 h-5 shrink-0 text-ember-600 dark:text-ember-400" strokeWidth={1.5} />
+              <span className="flex-1 min-w-0 truncate" dir="auto">
+                {file.name}
+              </span>
+              <button
+                type="button"
+                onClick={() => onChange(files.filter((_, i) => i !== index))}
+                aria-label={removeLabel}
+                title={removeLabel}
+                className="shrink-0 p-1 text-primary-500 hover:text-red-600 transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+      {canAdd && (
+        <button
+          type="button"
+          onClick={() => inputRef.current?.click()}
+          className={`w-full flex items-center gap-3 px-4 py-4 rounded-[3px] border-2 border-dashed text-start transition-colors hover:border-ember-500 ${
+            shell.error ? 'border-red-500 dark:border-red-400' : 'border-primary-300 dark:border-primary-700'
+          }`}
+        >
+          <Upload className="w-5 h-5 shrink-0 text-primary-500" />
+          <span className="flex-1 min-w-0 truncate">{files.length ? addLabel : chooseLabel}</span>
+        </button>
+      )}
     </FieldShell>
   );
 };

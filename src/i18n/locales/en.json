@@ -426,5 +426,61 @@
       }
     }
   },
-  "link_copied": "Link copied"
+  "link_copied": "Link copied",
+  "forms": {
+    "optional": "Optional",
+    "choose": "Choose...",
+    "chooseFile": "Choose a file",
+    "changeFile": "Change file",
+    "addFile": "Add a file",
+    "removeFile": "Remove file",
+    "fileTypes": "Allowed types: {types}",
+    "fileMaxSize": "up to {mb} MB",
+    "fileMaxCount": "up to {count} files",
+    "submit": "Submit",
+    "submitting": "Submitting...",
+    "notFound": "This form doesn't exist.",
+    "loginRequired": "Sign in with Google to fill in this form.",
+    "closed": {
+      "CLOSED": "This form is no longer accepting responses.",
+      "NOT_OPEN_YET": "This form isn't open yet.",
+      "NOT_OPEN_YET_ON": "This form opens on {date}.",
+      "FULL": "All places are taken; this form is no longer accepting responses."
+    },
+    "alreadySubmitted": {
+      "title": "You've already responded",
+      "submittedOn": "We received your response on {date}."
+    },
+    "success": {
+      "title": "Your response has been received!",
+      "message": "Thank you, we'll be in touch soon.",
+      "backHome": "Back to home"
+    },
+    "errors": {
+      "required": "This field is required.",
+      "email": "Enter a valid email address.",
+      "mobile": "Enter a valid Egyptian mobile number (11 digits starting with 01).",
+      "arabicOnly": "This field must be written in Arabic only.",
+      "number": "Enter a valid number.",
+      "date": "Enter a valid date.",
+      "pattern": "The value doesn't match the required format.",
+      "tooShort": "The value is too short.",
+      "tooLong": "The value is too long.",
+      "invalidOption": "Choose a value from the list.",
+      "fileType": "This file type isn't supported.",
+      "fileSize": "The file is larger than allowed.",
+      "tooManyFiles": "Too many files.",
+      "invalid": "Invalid value.",
+      "fixErrors": "Please fix the errors shown in the form.",
+      "generic": "Couldn't submit your response. Please try again.",
+      "loadFailed": "Couldn't load the form. Please try again.",
+      "loginFailed": "Couldn't sign in. Please try again.",
+      "codes": {
+        "FORM_CLOSED": "This form is no longer accepting responses.",
+        "ALREADY_SUBMITTED": "A response with these details was already submitted.",
+        "LOGIN_REQUIRED": "Please sign in first.",
+        "VALIDATION_ERROR": "Please fix the errors shown in the form."
+      }
+    }
+  }
 }

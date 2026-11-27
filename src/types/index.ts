@@ -167,3 +167,57 @@ export type ApplicationFormValues = {
   showSummary: string;
   nationalId: File | null;
 };
+
+/* ---------- Configurable forms (backend app `dynamic_forms`) ---------- */
+
+export type FormFieldType =
+  | 'TEXT'
+  | 'TEXTAREA'
+  | 'EMAIL'
+  | 'PHONE'
+  | 'NUMBER'
+  | 'DATE'
+  | 'SELECT'
+  | 'RADIO'
+  | 'CHECKBOXES'
+  | 'CONSENT'
+  | 'FILE';
+
+export type FormFieldPreset = 'NONE' | 'EGYPT_MOBILE' | 'ARABIC_ONLY';
+
+export type FormFieldDef = {
+  key: string;
+  label: string;
+  helpText: string;
+  placeholder: string;
+  type: FormFieldType;
+  required: boolean;
+  preset: FormFieldPreset;
+  pattern: string;
+  minLength: number | null;
+  maxLength: number | null;
+  options?: string[];
+  maxFiles?: number;
+  allowedExtensions?: string[];
+  maxFileMb?: number;
+};
+
+export type FormClosedReason = 'CLOSED' | 'NOT_OPEN_YET' | 'FULL';
+
+export type FormSchema = {
+  slug: string;
+  title: string;
+  description: string;
+  notice: string;
+  successMessage: string;
+  requiresLogin: boolean;
+  opensAt: string | null;
+  closesAt: string | null;
+  open: boolean;
+  closedReason: FormClosedReason | null;
+  fields: FormFieldDef[];
+  myResponse: { id: number; createdAt: string } | null;
+};
+
+export type FormAnswer = string | string[] | boolean | File[];
+export type FormAnswers = Record<string, FormAnswer>;
