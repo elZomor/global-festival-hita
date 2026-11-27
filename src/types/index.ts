@@ -190,8 +190,11 @@ export type FormFieldPreset = 'NONE' | 'EGYPT_MOBILE' | 'ARABIC_ONLY';
 export type FormFieldDef = {
   key: string;
   label: string;
+  labelEn: string;
   helpText: string;
+  helpTextEn: string;
   placeholder: string;
+  placeholderEn: string;
   type: FormFieldType;
   required: boolean;
   preset: FormFieldPreset;
@@ -199,6 +202,8 @@ export type FormFieldDef = {
   minLength: number | null;
   maxLength: number | null;
   options?: string[];
+  /** English display text per option (same order); answers always use `options`. */
+  optionsEn?: string[];
   maxFiles?: number;
   allowedExtensions?: string[];
   maxFileMb?: number;
@@ -209,9 +214,17 @@ export type FormClosedReason = 'CLOSED' | 'NOT_OPEN_YET' | 'FULL';
 export type FormSchema = {
   slug: string;
   title: string;
+  titleEn: string;
   description: string;
+  descriptionEn: string;
+  /** Information note. */
   notice: string;
+  noticeEn: string;
+  /** Important warning (e.g. answers must be in Arabic). */
+  warning: string;
+  warningEn: string;
   successMessage: string;
+  successMessageEn: string;
   requiresLogin: boolean;
   opensAt: string | null;
   closesAt: string | null;
@@ -228,7 +241,10 @@ export type FormAnswers = Record<string, FormAnswer>;
 export type FestivalFormSummary = {
   slug: string;
   title: string;
+  titleEn: string;
   description: string;
+  descriptionEn: string;
   opensAt: string | null;
   closesAt: string | null;
+  status: 'OPEN' | FormClosedReason;
 };

@@ -18,11 +18,11 @@ import {
 import { formatLocalizedNumber, localizeDigitsInString } from '../utils/numberUtils';
 import { buildMediaUrl } from '../utils/mediaUtils';
 import { getArticlePreviewText } from '../utils/articleContent';
-import { FestivalForms, FestivalInfoTab } from './festival-detail';
+import { FestivalFormCards, FestivalForms, FestivalInfoTab } from './festival-detail';
 import type { FestivalFormSummary } from '../types';
 
-type Tab = 'info' | 'shows' | 'articles' | 'symposia' | 'creativity' | 'publications';
-const TABS: Tab[] = ['info', 'shows', 'articles', 'symposia', 'creativity', 'publications'];
+type Tab = 'info' | 'shows' | 'workshops' | 'articles' | 'symposia' | 'creativity' | 'publications';
+const TABS: Tab[] = ['info', 'shows', 'workshops', 'articles', 'symposia', 'creativity', 'publications'];
 
 type FestivalEditionProps = {
     festivalSlug: string;
@@ -70,11 +70,22 @@ export const FestivalEdition = async ({ festivalSlug, tab: tabParam }: FestivalE
             300,
         ),
         serverApiFetch<{ data: FestivalFormSummary[] }>(
-            withQueryParams(`${apiPrefix}/forms`, { festival: edition.id }),
+            withQueryParams(`${apiPrefix}/forms`, { festival: edition.id, all: 1 }),
             60,
         ),
     ]);
-    const openForms = formsResponse?.data ?? [];
+    // Every active workshop/masterclass of the edition; the section above the tabs shows only the open ones.
+    const forms = formsResponse?.data ?? [];
+    const formLabels = {
+        register: t('festival.forms.register'),
+        closesOn: (date: string) => t('festival.forms.closesOn', { date }),
+        status: {
+            OPEN: t('festival.forms.status.OPEN'),
+            NOT_OPEN_YET: t('festival.forms.status.NOT_OPEN_YET'),
+            CLOSED: t('festival.forms.status.CLOSED'),
+            FULL: t('festival.forms.status.FULL'),
+        },
+    };
     const shows = (showsResponse?.results ?? []).map(mapShowApiResultToShow);
     const allArticles = (articlesResponse?.results ?? []).map(mapArticleApiResultToArticle);
     const allSymposia = (symposiaResponse?.results ?? []).map(mapArticleApiResultToArticle);
@@ -89,6 +100,8 @@ export const FestivalEdition = async ({ festivalSlug, tab: tabParam }: FestivalE
     const tabs: { key: Tab; label: string }[] = [
         {key: 'info', label: t('festival.info')},
         {key: 'shows', label: t('festival.shows')},
+        // Only editions with workshops/masterclasses get the tab.
+        ...(forms.length ? [{key: 'workshops' as const, label: t('festival.forms.tab')}] : []),
         {key: 'articles', label: t('festival.articles')},
         {key: 'symposia', label: t('festival.symposia')},
         {key: 'creativity', label: t('festival.creativity')},
@@ -155,18 +168,11 @@ export const FestivalEdition = async ({ festivalSlug, tab: tabParam }: FestivalE
                 </dl>
             </header>
 
-            <FestivalForms
-                forms={openForms}
-                isRTL={isRTL}
-                labels={{
-                    title: t('festival.forms.title'),
-                    register: t('festival.forms.register'),
-                    closesOn: date => t('festival.forms.closesOn', { date }),
-                }}
-            />
+            <FestivalForms forms={forms} locale={locale} title={t('festival.forms.title')} labels={formLabels}/>
 
             <nav aria-label={localizedTitle} className="border-b border-primary-300 dark:border-primary-800 -mt-4">
-                <div className="flex gap-1 overflow-x-auto">
+                {/* pb leaves room for the active tab's swipe so the row doesn't scroll vertically. */}
+                <div className="flex gap-1 overflow-x-auto overflow-y-hidden pb-1">
                     {tabs.map(tabItem => {
                         const active = activeTab === tabItem.key;
                         return (
@@ -191,6 +197,16 @@ export const FestivalEdition = async ({ festivalSlug, tab: tabParam }: FestivalE
 
             {activeTab === 'info' && (
                 <FestivalInfoTab edition={edition}/>
+            )}
+
+            {activeTab === 'workshops' && (
+                forms.length ? (
+                    <FestivalFormCards forms={forms} locale={locale} labels={formLabels}/>
+                ) : (
+                    <div className="text-center py-16">
+                        <p className="text-primary-600 dark:text-primary-400">{t('common.noResults')}</p>
+                    </div>
+                )
             )}
 
             {activeTab === 'shows' && (

@@ -1,4 +1,5 @@
 'use client';
+import { useLocale } from 'next-intl';
 import { useT } from '../../i18n/useT';
 import type { FormAnswer, FormFieldDef } from '../../types';
 import {
@@ -9,6 +10,7 @@ import {
   SelectField,
   TextField,
 } from '../apply/fields';
+import { pickText } from './localize';
 
 type Props = {
   field: FormFieldDef;
@@ -18,10 +20,12 @@ type Props = {
   onBlur: () => void;
 };
 
-const asOptions = (options: string[] = []) => options.map(option => ({ value: option, label: option }));
+/** Values stay the stored (Arabic) option; labels use the English text when shown in English. */
+const asOptions = (locale: string, options: string[] = [], optionsEn: string[] = []) =>
+  options.map((option, index) => ({ value: option, label: pickText(locale, option, optionsEn[index]) }));
 
-const fileHint = (field: FormFieldDef, t: ReturnType<typeof useT>) => {
-  const parts = [field.helpText];
+const fileHint = (field: FormFieldDef, t: ReturnType<typeof useT>, helpText: string) => {
+  const parts = [helpText];
   const extensions = field.allowedExtensions ?? [];
   if (extensions.length) parts.push(t('forms.fileTypes', { types: extensions.map(ext => ext.replace(/^\./, '').toUpperCase()).join('، ') }));
   parts.push(t('forms.fileMaxSize', { mb: field.maxFileMb ?? 10 }));
@@ -32,12 +36,17 @@ const fileHint = (field: FormFieldDef, t: ReturnType<typeof useT>) => {
 /** Renders one configured field with the shared form components from `apply/fields`. */
 export const FormFieldInput = ({ field, value, error, onChange, onBlur }: Props) => {
   const t = useT();
+  const locale = useLocale();
+  const label = pickText(locale, field.label, field.labelEn);
+  const helpText = pickText(locale, field.helpText, field.helpTextEn);
+  const placeholder = pickText(locale, field.placeholder, field.placeholderEn);
+  const options = asOptions(locale, field.options, field.optionsEn);
   const shell = {
     name: field.key,
-    label: field.label,
+    label,
     required: field.required,
     badge: field.required ? undefined : t('forms.optional'),
-    hint: field.helpText || undefined,
+    hint: helpText || undefined,
     error,
   };
 
@@ -46,28 +55,28 @@ export const FormFieldInput = ({ field, value, error, onChange, onBlur }: Props)
       return (
         <SelectField
           {...shell}
-          placeholder={field.placeholder || t('forms.choose')}
+          placeholder={placeholder || t('forms.choose')}
           value={value as string}
-          options={asOptions(field.options)}
+          options={options}
           onChange={onChange}
           onBlur={onBlur}
         />
       );
     case 'RADIO':
-      return <RadioGroupField {...shell} value={value as string} options={asOptions(field.options)} onChange={onChange} />;
+      return <RadioGroupField {...shell} value={value as string} options={options} onChange={onChange} />;
     case 'CHECKBOXES':
       return (
-        <CheckboxGroupField {...shell} values={value as string[]} options={asOptions(field.options)} onChange={onChange} />
+        <CheckboxGroupField {...shell} values={value as string[]} options={options} onChange={onChange} />
       );
     case 'CONSENT':
       // `label` is the rule being confirmed; `placeholder` (when set) is the text beside the checkbox.
       return (
         <ConsentField
           name={field.key}
-          title={field.placeholder ? field.label : undefined}
-          label={field.placeholder || field.label}
+          title={placeholder ? label : undefined}
+          label={placeholder || label}
           required={field.required}
-          hint={field.helpText || undefined}
+          hint={helpText || undefined}
           error={error}
           checked={value === true}
           onChange={onChange}
@@ -78,7 +87,7 @@ export const FormFieldInput = ({ field, value, error, onChange, onBlur }: Props)
       return (
         <MultiFileField
           {...shell}
-          hint={fileHint(field, t)}
+          hint={fileHint(field, t, helpText)}
           files={value as File[]}
           maxFiles={maxFiles}
           accept={(field.allowedExtensions ?? []).join(',')}
@@ -100,7 +109,7 @@ export const FormFieldInput = ({ field, value, error, onChange, onBlur }: Props)
           inputMode={field.type === 'NUMBER' ? 'decimal' : undefined}
           dir={ltr ? 'ltr' : 'auto'}
           multiline={field.type === 'TEXTAREA'}
-          placeholder={field.placeholder || (field.preset === 'EGYPT_MOBILE' ? '01xxxxxxxxx' : undefined)}
+          placeholder={placeholder || (field.preset === 'EGYPT_MOBILE' ? '01xxxxxxxxx' : undefined)}
           autoComplete={field.type === 'EMAIL' ? 'email' : field.type === 'PHONE' ? 'tel' : undefined}
           value={value as string}
           onChange={onChange}
