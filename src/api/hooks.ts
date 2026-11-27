@@ -1,6 +1,6 @@
 import {useMemo} from 'react';
 import {buildQueryKey, useApiMutation, useApiQuery, withQueryParams} from './reactQueryClient';
-import type {Article, Comment, CreativitySubmission, DetailEntry, FestivalEdition, MyReservation, Publication, Show} from '../types';
+import type {Article, Comment, CreativitySubmission, DetailEntry, FestivalEdition, FormSchema, MyReservation, Publication, Show} from '../types';
 import {festivalConfig} from '../config/festival';
 
 const api = festivalConfig.apiPrefix;
@@ -1018,6 +1018,24 @@ export type SubmitApplicationResponse = {
 export const useSubmitApplication = () =>
     useApiMutation<SubmitApplicationResponse, FormData>({
         path: `${api}/applications`,
+        method: 'POST',
+        expectedStatus: 201,
+    });
+
+/* ---------- Configurable forms (each form belongs to one festival, served under its prefix) ---------- */
+
+/** `userKey` (e.g. the logged-in email) refetches the schema so `myResponse` follows the login state. */
+export const useFormSchema = (slug: string, userKey?: string) =>
+    useApiQuery<{data: FormSchema}, FormSchema>({
+        queryKey: buildQueryKey('form-schema', slug, userKey ?? 'anonymous'),
+        path: `${api}/forms/${encodeURIComponent(slug)}`,
+        select: response => response.data,
+    });
+
+/** Variables must be a FormData keyed by the field keys (sent as multipart, untouched by the client). */
+export const useSubmitFormResponse = (slug: string) =>
+    useApiMutation<{data: {id: number}; status: string; message: string}, FormData>({
+        path: `${api}/forms/${encodeURIComponent(slug)}/responses`,
         method: 'POST',
         expectedStatus: 201,
     });
